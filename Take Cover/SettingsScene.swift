@@ -11,15 +11,12 @@ import SpriteKit
 class SettingsScene: SKScene {
     
     let soundSwitch = UIButton()
+    let discoSwitch = UIButton()
     let backButton = UIButton()
     
     override func didMoveToView(view: SKView) {
-        soundSwitch.frame = CGRectMake(self.view!.frame.midX - 20, self.view!.frame.minY + 30, 40, 20)
-        //soundSwitch.setImage(UIImage(named: "switchOn"), forState: .Normal)
-        //changeSoundSwitchImage()
-        setSwitchImage(soundSwitch, value: Cloud.sound)
-        soundSwitch.addTarget(self, action: #selector(SettingsScene.soundSwitchTapped), forControlEvents: .TouchUpInside)
-        self.view!.addSubview(soundSwitch)
+        formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(self.view!.frame.midX - 20, self.view!.frame.minY + 30, 40, 20), value: Cloud.sound)
+        formatSwitchButton(discoSwitch, target: #selector(SettingsScene.discoSwitchPressed), frame: CGRectMake(self.view!.frame.midX - 20, soundSwitch.frame.origin.y + 30, 40, 20), value: Cloud.disco)
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
         backButton.center = CGPoint(x: view.frame.midX + 200, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
@@ -27,6 +24,19 @@ class SettingsScene: SKScene {
         backButton.frame.size.height = 100
         self.view?.addSubview(backButton)
 
+    }
+    
+    func discoSwitchPressed(){
+        Cloud.disco = !Cloud.disco
+        setSwitchImage(discoSwitch, value: Cloud.disco)
+    }
+    
+    func formatSwitchButton(theSwitch: UIButton, target: Selector, frame: CGRect, value: Bool){
+        theSwitch.frame.origin = frame.origin
+        theSwitch.frame.size = frame.size
+        theSwitch.addTarget(self, action: target, forControlEvents: .TouchUpInside)
+        setSwitchImage(theSwitch, value: value)
+        self.view!.addSubview(theSwitch)
     }
     
     func backButtonPressed(){
@@ -41,7 +51,6 @@ class SettingsScene: SKScene {
     
     func soundSwitchTapped() {
         Cloud.sound = !Cloud.sound
-        //changeSoundSwitchImage()
         setSwitchImage(soundSwitch, value: Cloud.sound)
     }
         
@@ -49,7 +58,7 @@ class SettingsScene: SKScene {
         switch value {
         case true:
             theSwitch.setImage(UIImage(named: "switchOn"), forState: .Normal)
-        default:
+        case false:
             theSwitch.setImage(UIImage(named: "switchOff"), forState: .Normal)
         }
     }

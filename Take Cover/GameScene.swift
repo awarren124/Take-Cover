@@ -499,6 +499,9 @@ class GameScene: SKScene {
     }
     
     func moveCovers() {
+        if Cloud.disco {
+            background.color = randColor()
+        }
         var z = 0
         deleteNodes("coverShade")
         for node in circle {
@@ -514,8 +517,9 @@ class GameScene: SKScene {
             let rectangle = CGRectMake(CGFloat(x) - (node!.frame.size.width / 2) + 2, node!.position.y, node!.frame.size.width - 4, self.frame.minY - node!.position.y)
             let recta = SKShapeNode(rect: rectangle)
             recta.zPosition = 2//self.frame.minY - position.y
-            recta.fillColor = UIColor.whiteColor()
+            recta.fillColor = background.color//UIColor.whiteColor()
             recta.name = "coverShade"
+            recta.lineWidth = 0.0
             self.addChild(recta)
             rect[z] = recta
             //let realRect = rect[z]
@@ -543,6 +547,7 @@ class GameScene: SKScene {
             //rect[z]?.runAction(moveCover)
         }
         first = false
+        
     }
     
     func randPoint(min: CGFloat, max: CGFloat) -> Int? {
@@ -587,6 +592,7 @@ class GameScene: SKScene {
         shade.zPosition = 1
         shade.fillTexture = SKTexture(imageNamed: randShadeTex())
         shade.fillColor = UIColor.whiteColor()
+        shade.lineWidth = 0
         return shade
     }
     

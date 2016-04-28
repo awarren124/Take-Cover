@@ -27,6 +27,7 @@ struct Cloud {
     static var shopOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var settOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var buttonSize:CGSize = CGSize(width: 0, height: 0)
+    static var disco = false
 }
 
 class TitleScene: SKScene {
