@@ -86,7 +86,7 @@ class ShopScene: SKScene {
             }
             currencyLabelArray[thisIt].frame = CGRectMake(lFrame.minX, lFrame.maxY + 10, lFrame.width, 30)
             self.view?.addSubview(currencyLabelArray[thisIt])
-            if CGFloat(xPos) <= (self.view?.frame.maxX)! - playerImageViews[0]!.frame.width {
+            if CGFloat(xPos) <= (self.view?.frame.maxX)! - (playerImageViews[0]!.frame.width + 100) {
                 xPos += 130
             }else{
                 xPos = 50

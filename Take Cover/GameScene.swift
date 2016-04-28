@@ -88,7 +88,7 @@ class GameScene: SKScene {
             realRadius = 70
             break
         default:
-            //put the thing for 6+ and 6s+
+            realRadius = 50
             break
         }
         
