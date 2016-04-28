@@ -26,6 +26,7 @@ struct Cloud {
     static var playOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var shopOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var settOrig:CGPoint = CGPoint(x: 0, y: 0)
+    static var buttonSize:CGSize = CGSize(width: 0, height: 0)
 }
 
 class TitleScene: SKScene {
@@ -90,9 +91,11 @@ class TitleScene: SKScene {
         playButton.addTarget(self, action: #selector(TitleScene.play), forControlEvents: .TouchUpInside)
         playButton.frame.size.width = 100
         playButton.frame.size.height = 100
+        
         playButton.center.x = self.view!.center.x //- 50//playButton.frame.size.width / 2
         playButton.center.y = 210
         view.addSubview(playButton)
+        Cloud.buttonSize = playButton.frame.size
 
         //print(view.frame.midX)
         shopButton.setImage(UIImage(named: "ShopButton"), forState: .Normal)

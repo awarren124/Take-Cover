@@ -70,9 +70,26 @@ class GameScene: SKScene {
     let backButton = UIButton()
     let background = SKSpriteNode()
     let settingsButton = TitleScene().settingsButton
-
+    var screenHeight:CGFloat = 0
+    var realRadius:CGFloat = 0
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        screenHeight = self.view!.frame.height
+        print(screenHeight)
+        switch screenHeight {
+        case 375.0:
+            realRadius = CGFloat(M_PI_4) * 100
+            break
+        case 320.0:
+            realRadius = 90
+            break
+        default:
+            //put the thing for 6+ and 6s+
+            break
+        }
+        
+        print(playButton.frame.size.width)
         
         let scene = GameScene(fileNamed: "GameScene")
         scene!.scaleMode = .AspectFill
@@ -431,7 +448,10 @@ class GameScene: SKScene {
     }
     
     func makeCovers(position: CGPoint, color: SKColor) {
-        let cover = SKShapeNode(circleOfRadius: 78)// - CGFloat(two))
+        
+        let cover = SKShapeNode(circleOfRadius: realRadius)      	//25)//78.5)//Cloud.buttonSize.width * 0.78539)//50)//(Cloud.buttWidth * (CGFloat(pi)/4)))/// 2)//78)//playButton.frame.size.width / 2)//78)// - CGFloat(two))
+        //M_PI_4 * 100
+        //let cover = SKShapeNode(ellipseOfSize: CGSize(width: Cloud.buttWidth * 4/3, height: Cloud.buttWidth * 4/3))
         let circleWidth = cover.frame.size.width
         //let circleHeight = circle.frame.size.height
         cover.position = position
