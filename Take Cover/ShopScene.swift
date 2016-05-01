@@ -234,6 +234,7 @@ class ShopScene: SKScene {
         for touch in touches {
             location = touch.locationInView(self.view)
         }
+        /*
         for index in playerImageViews {
             if CGRectContainsPoint(index!.frame, location){
                 for imageName in playerImageStrings {
@@ -278,12 +279,44 @@ class ShopScene: SKScene {
                 }
             }
         }
-
+        */
+        check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers)
+        check(themeImageViews, arrayOfStrings: themeStrings, isLockedArray: &Cloud.lockedForThemes, numArray: currencyLabelNumsForThemes, isPlayer: false, lockImgArray: lockArrayforThemes)
     }
     
+    func check(arrayOfImages: Array<UIImageView?>, arrayOfStrings: Array<String>, inout isLockedArray: Array<Bool>, numArray: Array<Int>, isPlayer: Bool, lockImgArray: Array<UIImageView>) {
+        for index in arrayOfImages {
+            if CGRectContainsPoint(index!.frame, location){
+                for imageName in arrayOfStrings {
+                    if index?.image == UIImage(named: imageName){
+                        if isLockedArray[arrayOfStrings.indexOf(imageName)!] {
+                            if Cloud.currency >= numArray[arrayOfStrings.indexOf(imageName)!] {
+                                if isPlayer {
+                                    Cloud.playerString = imageName
+                                    label.text = "\(imageName) selected"
+                                }else{
+                                    Cloud.themeString = imageName
+                                }
+                                self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
+                                //self.transformImage(imageName)
+                                Cloud.currency -= numArray[arrayOfStrings.indexOf(imageName)!]         //LLLLLLLABEL
+                                isLockedArray[arrayOfStrings.indexOf(imageName)!] = false
+                                currencyLabel.text = String(Cloud.currency)
+                            }
+                        }else{
+                            if isPlayer {
+                                Cloud.playerString = imageName
+                            }
+                            self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
-    
-    func transformImage(imageName: String) {
+    func transformImage(imageName: String, arrayOfImgViews: Array<UIImageView?>, stringArray: Array<String>, lockArray: Array<UIImageView>) {
+        /*
         for index in playerImageViews {
             if index!.image == UIImage(named: imageName){
                 UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
@@ -320,8 +353,46 @@ class ShopScene: SKScene {
                 })
             }
         }
+        */
+        for index in arrayOfImgViews {
+            if index!.image == UIImage(named: imageName){
+                UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
+                    let thisIt = stringArray.indexOf(imageName)!
+                    self.backWhite.alpha = 0.0
+                    lockArray[thisIt].alpha = 0.0
+                    index!.alpha = 1.0
+                    lockArray[thisIt].transform = CGAffineTransformMakeScale(2, 2)
+                    }, completion: { finished in
+                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
+                        self.backWhite.alpha = 0.0
+                        self.view?.insertSubview(self.backWhite, atIndex: 1)
+                        UIView.animateWithDuration(0.3, animations: {
+                            self.backWhite.alpha = 1.0
+                        })
+                })
+            }
+        }
     }
-    
+    func temp(imageName: String, arrayOfImgViews: Array<UIImageView?>, stringArray: Array<String>, lockArray: Array<UIImageView>){
+        for index in arrayOfImgViews {
+            if index!.image == UIImage(named: imageName){
+                UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
+                    let thisIt = stringArray.indexOf(imageName)!
+                    self.backWhite.alpha = 0.0
+                    lockArray[thisIt].alpha = 0.0
+                    index!.alpha = 1.0
+                    lockArray[thisIt].transform = CGAffineTransformMakeScale(2, 2)
+                    }, completion: { finished in
+                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
+                        self.backWhite.alpha = 0.0
+                        self.view?.insertSubview(self.backWhite, atIndex: 1)
+                        UIView.animateWithDuration(0.3, animations: {
+                            self.backWhite.alpha = 1.0
+                        })
+                })
+            }
+        }
+    }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
     }
     

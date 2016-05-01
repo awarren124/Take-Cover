@@ -34,7 +34,7 @@ struct Cloud {
     static var disco = false
     static var onPlayerView = true
     static var onThemeView = false
-
+    static var themeString = "classic"
 }
 
 class TitleScene: SKScene {
