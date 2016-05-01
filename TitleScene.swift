@@ -8,16 +8,20 @@
 
 import SpriteKit
 import AVFoundation
-import Swift
 
 struct Cloud {
     static var playerString = "default"
     static var currency = 1000
-    static var locked = [
+    static var lockedForPlayers = [
         true,
         true,
         true,
         true,
+        true,
+        true,
+        true
+    ]
+    static var lockedForThemes = [
         true,
         true,
         true
@@ -28,6 +32,9 @@ struct Cloud {
     static var settOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var buttonSize:CGSize = CGSize(width: 0, height: 0)
     static var disco = false
+    static var onPlayerView = true
+    static var onThemeView = false
+
 }
 
 class TitleScene: SKScene {
@@ -40,18 +47,9 @@ class TitleScene: SKScene {
     var transitioning = false
     let viewCont = GameViewController()
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
-    //let mySwitch = UISwitch(frame: CGRectMake(500, 60, 0, 0))
-
+    
     override func didMoveToView(view: SKView) {
         
-        //mySwitch.onImage = UIImage(named: "switchOn")
-        //mySwitch.offImage = UIImage(named: "switchOff")
-        //mySwitch.on = true
-        //self.view!.addSubview(mySwitch)
-        
-        
-        
-        //print("REAL", self.view!.frame.)
         let background = SKSpriteNode()
         background.color = UIColor.whiteColor()
         background.size = self.frame.size

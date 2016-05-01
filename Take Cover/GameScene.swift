@@ -148,7 +148,7 @@ class GameScene: SKScene {
         restartButton.setTitle("Restart", forState: .Normal)
         restartButton.backgroundColor = UIColor.blueColor()
         restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
-
+        
         playerStepper.wraps = false
         playerStepper.autorepeat = true
         playerStepper.maximumValue = 20
@@ -382,7 +382,7 @@ class GameScene: SKScene {
                     let shopPoint = self.view!.convertPoint(Cloud.shopOrig, toScene: self)
                     //let settingsPoint = convertPoint(CGPoint(x: settingsButton.frame.origin.x + offset, y: settingsButton.frame.origin.y), toNode: self)
                     let settingsPoint = self.view!.convertPoint(Cloud.settOrig, toScene: self)
-                
+                    
                     //var playPoint = playButton.convertPoint(playButton.frame.origin, toView: self.view!)
                     //playPoint = self.view!.convertPoint(playButton.frame.origin, fromView: playButton)
                     let playPoint = self.view!.convertPoint(Cloud.playOrig, toScene: self)
