@@ -16,7 +16,7 @@ class SettingsScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(self.view!.frame.midX - 20, self.view!.frame.minY + 30, 40, 20), value: Cloud.sound)
-        formatSwitchButton(discoSwitch, target: #selector(SettingsScene.discoSwitchPressed), frame: CGRectMake(self.view!.frame.midX - 20, soundSwitch.frame.origin.y + 30, 40, 20), value: Cloud.disco)
+        //formatSwitchButton(discoSwitch, target: #selector(SettingsScene.discoSwitchPressed), frame: CGRectMake(self.view!.frame.midX - 20, soundSwitch.frame.origin.y + 30, 40, 20), value: Cloud.disco)
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
         backButton.center = CGPoint(x: view.frame.midX + 200, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
@@ -27,8 +27,8 @@ class SettingsScene: SKScene {
     }
     
     func discoSwitchPressed(){
-        Cloud.disco = !Cloud.disco
-        setSwitchImage(discoSwitch, value: Cloud.disco)
+        //Cloud.disco = !Cloud.disco
+        //setSwitchImage(discoSwitch, value: Cloud.disco)
     }
     
     func formatSwitchButton(theSwitch: UIButton, target: Selector, frame: CGRect, value: Bool){

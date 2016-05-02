@@ -75,6 +75,16 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        
+        switch Cloud.themeString {
+        case "dark":
+            background.color = UIColor.lightGrayColor()
+        case "disco":
+            background.color = randColor()
+        default:
+            background.color = UIColor.whiteColor()
+        }
+        
         screenHeight = self.view!.frame.height
         print(screenHeight)
         switch screenHeight {
@@ -173,7 +183,7 @@ class GameScene: SKScene {
             circle.append(nil)
         }
         
-        background.color = UIColor.whiteColor()
+        //background.color = UIColor.whiteColor()
         background.size = self.frame.size
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
@@ -387,12 +397,21 @@ class GameScene: SKScene {
                     //playPoint = self.view!.convertPoint(playButton.frame.origin, fromView: playButton)
                     let playPoint = self.view!.convertPoint(Cloud.playOrig, toScene: self)
                     //makeCovers(CGPoint(x: shopButton.frame.minX + shopButton.frame.width + 4  , y: 350), color: UIColor.lightGrayColor())
+                    var color = UIColor()
+                    switch Cloud.themeString {
+                    case "dark":
+                        color = UIColor.blackColor()
+                    case "disco":
+                        color = randColorThatsNotBackgroundColor()
+                    default:
+                        color = UIColor.lightGrayColor()
+                    }
                     //makeCovers(CGPoint(x: playButton.frame.minX + 10, y: 350), color: UIColor.lightGrayColor())
-                    makeCovers(playPoint, color: UIColor.lightGrayColor())
+                    makeCovers(playPoint, color: color)
                     //makeCovers(CGPoint(x: self.frame.origin.x + (self.frame.size.width / 2), y: 210), color: UIColor.lightGrayColor())
                     //makeCovers(CGPoint(x: (randPoint(self.frame.minX, max: self.frame.maxX))!, y: 350 ), color: UIColor.lightGrayColor())
-                    makeCovers(shopPoint, color: UIColor.lightGrayColor())
-                    makeCovers(settingsPoint, color: UIColor.lightGrayColor())
+                    makeCovers(shopPoint, color: color)
+                    makeCovers(settingsPoint, color: color)
                     //CGPoint(x: playButton.frame.maxX , y: playButton.frame.maxY )
                     //}
                     makeCovers = false
@@ -499,7 +518,7 @@ class GameScene: SKScene {
     }
     
     func moveCovers() {
-        if Cloud.disco {
+        if Cloud.themeString == "disco" {
             background.color = randColor()
         }
         var z = 0
@@ -577,6 +596,46 @@ class GameScene: SKScene {
         }else if color == 5 {
             return SKColor.whiteColor()
         }
+        return SKColor.brownColor()
+    }
+    
+    func randColorThatsNotBackgroundColor() -> SKColor {
+        let color = arc4random_uniform(5)
+        if color == 0 {
+            if SKColor.blackColor() == background.color {
+                return SKColor.redColor()
+            }else{
+                return SKColor.blackColor()
+            }
+        }else if color == 1 {
+            if SKColor.blueColor() == background.color {
+                return SKColor.blueColor()
+            }else{
+                return SKColor.redColor()
+            }
+        }else if color == 2 {
+            if SKColor.blackColor() == background.color {
+                return SKColor.yellowColor()
+            }else{
+                return SKColor.blueColor()
+            }
+            //return SKColor.blueColor()
+        }else if color == 3 {
+            if SKColor.yellowColor() == background.color {
+                return SKColor.greenColor()
+            }else{
+                return SKColor.yellowColor()
+            }
+        }else if color == 4 {
+            if SKColor.greenColor() == background.color {
+                return SKColor.blackColor()
+            }else{
+                return SKColor.greenColor()
+            }
+        }
+        //}else if color == 5 {
+        //    return SKColor.whiteColor()
+        //}
         return SKColor.brownColor()
     }
     

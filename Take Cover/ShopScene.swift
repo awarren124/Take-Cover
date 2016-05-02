@@ -48,15 +48,16 @@ class ShopScene: SKScene {
         200,
         300
     ]
-    let themeStrings = [
-        "switchOff",//"dark",
-        "switchOn",//"rainbow",
-        "restart"//"disco"
+    let themeStrings = [ //REMEMBER (^)
+        "classic",
+        "dark",
+        "disco"
     ]
     var currencyLabelArrayForThemes = [UILabel]()
     
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
     let items = ["Players", "Themes"]
+    let controller = UISegmentedControl()
     
     override func didMoveToView(view: SKView) {
         
@@ -147,7 +148,7 @@ class ShopScene: SKScene {
                 xPosForThemes += 130
             }else{
                 xPosForThemes = 50  - 1000
-                //yPosForThemes += 130
+                yPosForThemes += 130
             }
         }
         
@@ -214,6 +215,15 @@ class ShopScene: SKScene {
             index?.removeFromSuperview()
         }
         for index in lockArrayForPlayers {
+            index.removeFromSuperview()
+        }
+        for index in currencyLabelArrayForThemes{
+            index.removeFromSuperview()
+        }
+        for index in themeImageViews {
+            index!.removeFromSuperview()
+        }
+        for index in lockArrayforThemes {
             index.removeFromSuperview()
         }
         backWhite.removeFromSuperview()
