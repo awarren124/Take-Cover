@@ -57,11 +57,11 @@ class ShopScene: SKScene {
     
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
     let items = ["Players", "Themes"]
-    let controller = UISegmentedControl()
+    //let controller = UISegmentedControl()
+    let controller = UISegmentedControl(items: ["Players", "Themes"])//items)
     
     override func didMoveToView(view: SKView) {
         
-        let controller = UISegmentedControl(items: items)
         controller.selectedSegmentIndex = 0
         //controller.frame = CGRectMake(self.view!.frame.midX, 20, 200, 30)
         controller.frame.size = CGSizeMake(200, 30)
@@ -226,6 +226,7 @@ class ShopScene: SKScene {
         for index in lockArrayforThemes {
             index.removeFromSuperview()
         }
+        controller.removeFromSuperview()
         backWhite.removeFromSuperview()
         backButton.removeFromSuperview()
         label.removeFromSuperview()
