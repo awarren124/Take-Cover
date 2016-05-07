@@ -13,7 +13,7 @@ struct Cloud {
     static var playerString = "default"
     static var currency = 1000
     static var lockedForPlayers = [
-        true,
+        false,
         true,
         true,
         true,
@@ -22,7 +22,7 @@ struct Cloud {
         true
     ]
     static var lockedForThemes = [
-        true,
+        false,
         true,
         true
     ]

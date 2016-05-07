@@ -483,8 +483,14 @@ class GameScene: SKScene {
         cover.zPosition = 3
         cover.name = "cover"
         //circle.physicsBody?.usesPreciseCollisionDetection = true
-        cover.fillColor = color
-        cover.fillTexture = SKTexture(imageNamed: "CircleGradient")
+        
+        switch Cloud.themeString {
+        case "classic":
+            cover.fillColor = UIColor.whiteColor()
+            cover.fillTexture = SKTexture(imageNamed: "CircleGradient")
+        default:
+            cover.fillColor = color
+        }
         //circle.physicsBody = SKPhysicsBody(circleOfRadius: 20)
         //cover.physicsBody = SKPhysicsBody(rectangleOfSize: self.frame.size)
         //cover.physicsBody?.usesPreciseCollisionDetection = true
@@ -658,6 +664,7 @@ class GameScene: SKScene {
     func fall() {
         if !start {
             score += 1
+            Cloud.currency += 5
             print(score)
         }
         //print(score)

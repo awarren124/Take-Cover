@@ -7,12 +7,14 @@
 //
 
 import SpriteKit
+import MessageUI
 
-class SettingsScene: SKScene {
+class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     
     let soundSwitch = UIButton()
     let discoSwitch = UIButton()
     let backButton = UIButton()
+    let mailButton = UIButton()
     
     override func didMoveToView(view: SKView) {
         formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(self.view!.frame.midX - 20, self.view!.frame.minY + 30, 40, 20), value: Cloud.sound)
@@ -23,6 +25,52 @@ class SettingsScene: SKScene {
         backButton.frame.size.width = 100
         backButton.frame.size.height = 100
         self.view?.addSubview(backButton)
+        mailButton.setImage(UIImage(named: "mail"), forState: .Normal)
+        mailButton.frame.size = CGSize(width: 100, height: 100)
+        mailButton.center = self.view!.center
+        mailButton.addTarget(self, action: #selector(SettingsScene.mailTime), forControlEvents: .TouchUpInside)
+        self.view!.addSubview(mailButton)
+    }
+    
+    func mailTime() {
+        print("i")
+        let m = setupMailTime()
+        let currentViewController:UIViewController=UIApplication.sharedApplication().keyWindow!.rootViewController!
+        if MFMailComposeViewController.canSendMail() {
+            currentViewController.presentViewController(m, animated: true, completion: nil)
+        }
+    }
+    
+    func setupMailTime() -> MFMailComposeViewController {
+        let m = MFMailComposeViewController()
+        m.mailComposeDelegate = self
+        m.setToRecipients(["doublebaat@gmail.com"])
+        m.setSubject("FeedBack")
+        return m
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        let currentViewController:UIViewController=UIApplication.sharedApplication().keyWindow!.rootViewController!
+        currentViewController.dismissViewControllerAnimated(true, completion: nil)
+        let newCurrentViewController:UIViewController=UIApplication.sharedApplication().keyWindow!.rootViewController!
+        switch result.rawValue {
+        case MFMailComposeResultSent.rawValue:
+            let alertController = UIAlertController(title: "Message Sent", message:
+                "Thanks For The Feedback!", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+            
+            newCurrentViewController.presentViewController(alertController, animated: true, completion: nil)
+            print("sent")
+        case MFMailComposeResultCancelled.rawValue:
+            let alertController = UIAlertController(title: "Message Cancelled", message:
+                "", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+            
+            newCurrentViewController.presentViewController(alertController, animated: true, completion: nil)
+            print("cancelled")
+        default:
+            break
+        }
 
     }
     
@@ -62,5 +110,4 @@ class SettingsScene: SKScene {
             theSwitch.setImage(UIImage(named: "switchOff"), forState: .Normal)
         }
     }
-    
 }

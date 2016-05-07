@@ -173,10 +173,10 @@ class ShopScene: SKScene {
                 for index in self.themeImageViews {
                     index!.center.x -= 1000
                 }
-                for index in self.lockArrayforThemes {                              //WAT
+                for index in self.lockArrayforThemes {
                     index.center.x -= 1000
                 }
-                self.backWhite.center.x += 1000
+                self.backWhite.center.x -= 1000
             })
             print(themeImageViews[0]!.center)
         case 1:
@@ -196,10 +196,10 @@ class ShopScene: SKScene {
                 for index in self.themeImageViews {
                     index!.center.x += 1000
                 }
-                for index in self.lockArrayforThemes {                              //WAT
+                for index in self.lockArrayforThemes {
                     index.center.x += 1000
                 }
-                self.backWhite.center.x -= 1000
+                self.backWhite.center.x += 1000
             })
             print(themeImageViews[0]!.center)
         default:

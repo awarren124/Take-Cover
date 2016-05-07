@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01001D471CDD785700442AA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01001D461CDD785700442AA2 /* MessageUI.framework */; };
 		0130750E1CB9BF3200A94A34 /* TitleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0130750D1CB9BF3200A94A34 /* TitleScene.swift */; };
 		013075101CB9BF5900A94A34 /* TitleScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0130750F1CB9BF5900A94A34 /* TitleScene.sks */; };
 		013075121CB9D13D00A94A34 /* ShopScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013075111CB9D13D00A94A34 /* ShopScene.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01001D461CDD785700442AA2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0130750D1CB9BF3200A94A34 /* TitleScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TitleScene.swift; path = ../TitleScene.swift; sourceTree = "<group>"; };
 		0130750F1CB9BF5900A94A34 /* TitleScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TitleScene.sks; sourceTree = "<group>"; };
 		013075111CB9D13D00A94A34 /* ShopScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopScene.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01001D471CDD785700442AA2 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +136,7 @@
 		01DD23951CA592ED0075E139 = {
 			isa = PBXGroup;
 			children = (
+				01001D461CDD785700442AA2 /* MessageUI.framework */,
 				01DD23A01CA592EE0075E139 /* Take Cover */,
 				01DD23B91CA592EE0075E139 /* Take CoverTests */,
 				01DD23C41CA592EE0075E139 /* Take CoverUITests */,
