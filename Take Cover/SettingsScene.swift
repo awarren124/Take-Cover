@@ -15,9 +15,12 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     let discoSwitch = UIButton()
     let backButton = UIButton()
     let mailButton = UIButton()
+    let settingsLabel = UILabel()
+    let soundDesc = UILabel()
+    let feedDesc = UILabel()
     
     override func didMoveToView(view: SKView) {
-        formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(self.view!.frame.midX - 20, self.view!.frame.minY + 30, 40, 20), value: Cloud.sound)
+        formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(100, self.view!.frame.minY + 80, 100, 50), value: Cloud.sound)
         //formatSwitchButton(discoSwitch, target: #selector(SettingsScene.discoSwitchPressed), frame: CGRectMake(self.view!.frame.midX - 20, soundSwitch.frame.origin.y + 30, 40, 20), value: Cloud.disco)
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
         backButton.center = CGPoint(x: view.frame.midX + 200, y: 210)//x: 500, y: 350)
@@ -27,9 +30,29 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         self.view?.addSubview(backButton)
         mailButton.setImage(UIImage(named: "mail"), forState: .Normal)
         mailButton.frame.size = CGSize(width: 100, height: 100)
-        mailButton.center = self.view!.center
+        mailButton.center = CGPointMake(soundSwitch.center.x, self.view!.frame.maxY - 100)
         mailButton.addTarget(self, action: #selector(SettingsScene.mailTime), forControlEvents: .TouchUpInside)
         self.view!.addSubview(mailButton)
+        settingsLabel.text = "SETTINGS"
+        //settingsLabel.font = UIFont(name: "Verdana", size: 50)
+        settingsLabel.font = settingsLabel.font.fontWithSize(50)
+        settingsLabel.frame.size = CGSizeMake(500, 100)
+        settingsLabel.center = CGPointMake(self.view!.center.x, 30)
+//        settingsLabel.center = self.view!.center
+        settingsLabel.textAlignment = NSTextAlignment.Center
+        self.view!.addSubview(settingsLabel)
+        soundDesc.text = "Sound"
+        soundDesc.frame.size = CGSizeMake(120, 40)
+        soundDesc.center = CGPointMake(soundSwitch.center.x + 120, soundSwitch.center.y)
+        //soundDescView.backgroundColor = UIColor.clearColor()
+        self.view!.addSubview(soundDesc)
+        
+        feedDesc.text = "Feedback"
+        feedDesc.frame.size = CGSizeMake(120, 40)
+        feedDesc.center = CGPointMake(mailButton.center.x + 120, mailButton.center.y)
+        //soundDescView.backgroundColor = UIColor.clearColor()
+        self.view!.addSubview(feedDesc)
+
     }
     
     func mailTime() {
@@ -38,6 +61,10 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         let currentViewController:UIViewController=UIApplication.sharedApplication().keyWindow!.rootViewController!
         if MFMailComposeViewController.canSendMail() {
             currentViewController.presentViewController(m, animated: true, completion: nil)
+        }else{
+            let alert = UIAlertController(title: "Could Not Load", message: "Please Try Again Later", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+            currentViewController.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
@@ -80,8 +107,8 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     }
     
     func formatSwitchButton(theSwitch: UIButton, target: Selector, frame: CGRect, value: Bool){
-        theSwitch.frame.origin = frame.origin
         theSwitch.frame.size = frame.size
+        theSwitch.frame.origin = frame.origin
         theSwitch.addTarget(self, action: target, forControlEvents: .TouchUpInside)
         setSwitchImage(theSwitch, value: value)
         self.view!.addSubview(theSwitch)
@@ -90,6 +117,10 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     func backButtonPressed(){
         soundSwitch.removeFromSuperview()
         backButton.removeFromSuperview()
+        settingsLabel.removeFromSuperview()
+        mailButton.removeFromSuperview()
+        soundDesc.removeFromSuperview()
+        feedDesc.removeFromSuperview()
         
         let skView = self.view! as SKView
         let scene = TitleScene(fileNamed:"TitleScene")

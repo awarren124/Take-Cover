@@ -58,7 +58,10 @@ class TitleScene: SKScene {
         self.addChild(background)
         //print(self.frame.maxX, self.frame.minY)
         currencyLabel.text = String(Cloud.currency)
-        currencyLabel.center = CGPointMake(self.view!.frame.maxX - 100, self.view!.frame.minY + 10)
+        //currencyLabel.center = CGPointMake(self.view!.frame.maxX - 100, self.view!.frame.minY + 10)
+        currencyLabel.frame.size = CGSize(width: 60, height: 15)
+        currencyLabel.center = CGPointMake(self.view!.frame.maxX - currencyLabel.frame.width, self.view!.frame.minY + 10)
+        currencyLabel.textAlignment = NSTextAlignment.Right
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         self.view!.addSubview(currencyLabel)
         //print(currencyLabel)
@@ -91,8 +94,9 @@ class TitleScene: SKScene {
         playButton.frame.size.width = 100
         playButton.frame.size.height = 100
         
-        playButton.center.x = self.view!.center.x //- 50//playButton.frame.size.width / 2
-        playButton.center.y = 210
+        //playButton.center.x = self.view!.center.x //- 50//playButton.frame.size.width / 2
+        //playButton.center.y = 210
+        playButton.center = self.view!.center
         view.addSubview(playButton)
         Cloud.buttonSize = playButton.frame.size
 
@@ -102,7 +106,7 @@ class TitleScene: SKScene {
         shopButton.frame.size.height = 100
         //shopButton.center = CGPoint(x: self.view!.center.x - 200, y: 210)//x: 500, y: 350)
         shopButton.center.x = self.view!.frame.midX - 200
-        shopButton.center.y = 210
+        shopButton.center.y = self.view!.center.y//210
         shopButton.addTarget(self, action: #selector(TitleScene.shop), forControlEvents: .TouchUpInside)
         view.addSubview(shopButton)
         
@@ -110,7 +114,7 @@ class TitleScene: SKScene {
         //settingsButton.center = CGPoint(x: self.view!.frame.midX + 200, y: 210)
         settingsButton.frame.size = CGSize(width: 100, height: 100)
         settingsButton.center.x = self.view!.frame.midX + 200//.frame.center.x + 200
-        settingsButton.center.y = 210
+        settingsButton.center.y = self.view!.center.y//210
         settingsButton.addTarget(self, action: #selector(TitleScene.settings), forControlEvents: .TouchUpInside)
         self.view!.addSubview(settingsButton)
         

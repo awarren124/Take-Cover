@@ -25,9 +25,9 @@ class ShopScene: SKScene {
     var playerImageViews = [UIImageView?]()
     var themeImageViews = [UIImageView?]()
     var xPosForPlayers = 50
-    var yPosForPlayers = 50
+    var yPosForPlayers = 70
     var xPosForThemes = 50 - 1000
-    var yPosForThemes = 50
+    var yPosForThemes = 70
     let backButton = UIButton()
     let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
     let backWhite = UIImageView(image: UIImage(named: "whiteback"))
@@ -59,13 +59,23 @@ class ShopScene: SKScene {
     let items = ["Players", "Themes"]
     //let controller = UISegmentedControl()
     let controller = UISegmentedControl(items: ["Players", "Themes"])//items)
+    let shopLabel = UILabel()
     
     override func didMoveToView(view: SKView) {
+
+        shopLabel.text = "SHOP"
+        //shopLabel.font = UIFont(name: "Verdana", size: 50)
+        shopLabel.font = shopLabel.font.fontWithSize(50)
+        shopLabel.frame.size = CGSizeMake(500, 100)
+        shopLabel.center = CGPointMake(self.view!.center.x, 30)
+//        shopLabel.center = self.view!.center
+        shopLabel.textAlignment = NSTextAlignment.Center
+        self.view!.addSubview(shopLabel)
         
         controller.selectedSegmentIndex = 0
         //controller.frame = CGRectMake(self.view!.frame.midX, 20, 200, 30)
         controller.frame.size = CGSizeMake(200, 30)
-        controller.center = CGPoint(x: self.view!.frame.midX, y: 27)
+        controller.center = CGPoint(x: self.view!.frame.midX, y: self.view!.frame.maxY - 27)
         controller.backgroundColor = UIColor.blackColor()
         controller.tintColor = UIColor.whiteColor()
         controller.addTarget(self, action: #selector(ShopScene.switchView(_:)), forControlEvents: .ValueChanged)
@@ -73,8 +83,12 @@ class ShopScene: SKScene {
         self.view!.addSubview(controller)
         
         currencyLabel.text = String(Cloud.currency)
-        currencyLabel.center = CGPointMake(self.view!.frame.maxX - 100, self.view!.frame.minY + 10)
+        //currencyLabel.center = CGPointMake(self.view!.frame.maxX - 100, self.view!.frame.minY + 10)
+        //currencyLabel.frame = CGRectMake(self.view!.frame.maxX, <#T##y: CGFloat##CGFloat#>, <#T##width: CGFloat##CGFloat#>, <#T##height: CGFloat##CGFloat#>)
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
+        currencyLabel.frame.size = CGSize(width: 60, height: 15)
+        currencyLabel.center = CGPointMake(self.view!.frame.maxX - currencyLabel.frame.width, self.view!.frame.minY + 10)
+        currencyLabel.textAlignment = NSTextAlignment.Right
         self.view!.addSubview(currencyLabel)
         
         for _ in 1...themeStrings.count {
@@ -95,12 +109,22 @@ class ShopScene: SKScene {
         for num in currencylabelNumsForPlayers {
             currencyLabelArray.append(UILabel())
             currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].text = String(num)
+            if Cloud.lockedForPlayers[currencylabelNumsForPlayers.indexOf(num)!] {
+                currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].text = String(num)
+            }else{
+                currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].text = ""
+            }
+
             currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].textAlignment = NSTextAlignment.Center
         }
         
         for num in currencyLabelNumsForThemes {
             currencyLabelArrayForThemes.append(UILabel())
-            currencyLabelArrayForThemes[currencyLabelNumsForThemes.indexOf(num)!].text = String(num)
+            if Cloud.lockedForThemes[currencyLabelNumsForThemes.indexOf(num)!] {
+                currencyLabelArrayForThemes[currencyLabelNumsForThemes.indexOf(num)!].text = String(num)
+            }else{
+                currencyLabelArrayForThemes[currencyLabelNumsForThemes.indexOf(num)!].text = ""
+            }
             currencyLabelArrayForThemes[currencyLabelNumsForThemes.indexOf(num)!].textAlignment = NSTextAlignment.Center
         }
         
@@ -231,6 +255,7 @@ class ShopScene: SKScene {
         backButton.removeFromSuperview()
         label.removeFromSuperview()
         currencyLabel.removeFromSuperview()
+        shopLabel.removeFromSuperview()
         let skView = self.view! as SKView
         let scene = TitleScene(fileNamed:"TitleScene")
         scene!.scaleMode = .AspectFill
@@ -291,11 +316,11 @@ class ShopScene: SKScene {
             }
         }
         */
-        check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers)
-        check(themeImageViews, arrayOfStrings: themeStrings, isLockedArray: &Cloud.lockedForThemes, numArray: currencyLabelNumsForThemes, isPlayer: false, lockImgArray: lockArrayforThemes)
+        check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers, curlArray: currencyLabelArray)
+        check(themeImageViews, arrayOfStrings: themeStrings, isLockedArray: &Cloud.lockedForThemes, numArray: currencyLabelNumsForThemes, isPlayer: false, lockImgArray: lockArrayforThemes, curlArray: currencyLabelArrayForThemes)
     }
     
-    func check(arrayOfImages: Array<UIImageView?>, arrayOfStrings: Array<String>, inout isLockedArray: Array<Bool>, numArray: Array<Int>, isPlayer: Bool, lockImgArray: Array<UIImageView>) {
+    func check(arrayOfImages: Array<UIImageView?>, arrayOfStrings: Array<String>, inout isLockedArray: Array<Bool>, numArray: Array<Int>, isPlayer: Bool, lockImgArray: Array<UIImageView>, curlArray: Array<UILabel>) {
         for index in arrayOfImages {
             if CGRectContainsPoint(index!.frame, location){
                 for imageName in arrayOfStrings {
@@ -312,6 +337,7 @@ class ShopScene: SKScene {
                                 //self.transformImage(imageName)
                                 Cloud.currency -= numArray[arrayOfStrings.indexOf(imageName)!]         //LLLLLLLABEL
                                 isLockedArray[arrayOfStrings.indexOf(imageName)!] = false
+                                curlArray[arrayOfStrings.indexOf(imageName)!].text = ""
                                 currencyLabel.text = String(Cloud.currency)
                             }
                         }else{
