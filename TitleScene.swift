@@ -65,23 +65,23 @@ class TitleScene: SKScene {
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         self.view!.addSubview(currencyLabel)
         //print(currencyLabel)
-        
-        do {
-            // Preperation
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-        } catch _ {
-        }
-        do {
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch _ {
-        }
-        
-        do {
-            titleMusicPlayer = try AVAudioPlayer(contentsOfURL: titleMusic)
-        } catch _{
-        }
-        
         if Cloud.sound {
+            
+            do {
+                // Preperation
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch _ {
+            }
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch _ {
+            }
+            
+            do {
+                titleMusicPlayer = try AVAudioPlayer(contentsOfURL: titleMusic)
+            } catch _{
+            }
+            
             titleMusicPlayer.prepareToPlay()
             titleMusicPlayer.play()
             titleMusicPlayer.numberOfLoops = -1
