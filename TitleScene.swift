@@ -99,7 +99,7 @@ class TitleScene: SKScene {
         playButton.center = self.view!.center
         view.addSubview(playButton)
         Cloud.buttonSize = playButton.frame.size
-
+        
         //print(view.frame.midX)
         shopButton.setImage(UIImage(named: "ShopButton"), forState: .Normal)
         shopButton.frame.size.width = 100
@@ -132,14 +132,14 @@ class TitleScene: SKScene {
         scene!.scaleMode = .AspectFill
         removeAllFromSuperview()
         skView.presentScene(scene)
-
+        
     }
     
     func play(){
         let skView = self.view! as SKView
         let scene = GameScene(fileNamed:"GameScene")
         scene!.scaleMode = .AspectFill
-            currencyLabel.removeFromSuperview()
+        currencyLabel.removeFromSuperview()
         UIView.animateWithDuration(1.0, animations: {
             self.transitioning = true
             self.playButton.alpha = 0.0

@@ -24,10 +24,10 @@ class ShopScene: SKScene {
     ]
     var playerImageViews = [UIImageView?]()
     var themeImageViews = [UIImageView?]()
-    var xPosForPlayers = 50
-    var yPosForPlayers = 70
-    var xPosForThemes = 50 - 1000
-    var yPosForThemes = 70
+    var xPosForPlayers: CGFloat = 50
+    var yPosForPlayers: CGFloat = 45 //70
+    var xPosForThemes: CGFloat = 50 - 1000
+    var yPosForThemes: CGFloat = 45 //70
     let backButton = UIButton()
     let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
     let backWhite = UIImageView(image: UIImage(named: "whiteback"))
@@ -54,6 +54,7 @@ class ShopScene: SKScene {
         "disco"
     ]
     var currencyLabelArrayForThemes = [UILabel]()
+    var playerSize: CGFloat = 0
     
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
     let items = ["Players", "Themes"]
@@ -62,6 +63,13 @@ class ShopScene: SKScene {
     let shopLabel = UILabel()
     
     override func didMoveToView(view: SKView) {
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        playerSize = screenSize.width / 6.67
+        xPosForThemes = (playerSize / 2) - 1000
+        xPosForPlayers = playerSize / 2
+            
+        print(screenSize)
+        print(self.frame.size)
 
         shopLabel.text = "SHOP"
         //shopLabel.font = UIFont(name: "Verdana", size: 50)
@@ -131,7 +139,7 @@ class ShopScene: SKScene {
         for index in playerImageStrings {
             let thisIt = playerImageStrings.indexOf(index)!
             playerImageViews.append(UIImageView(image: UIImage(named: index)))
-            playerImageViews[thisIt]!.frame = CGRectMake(CGFloat(xPosForPlayers) , CGFloat(yPosForPlayers), 100, 100)
+            playerImageViews[thisIt]!.frame = CGRectMake(CGFloat(xPosForPlayers) , CGFloat(yPosForPlayers), screenSize.width / 6.67, screenSize.height / 3.75)//100, 100)
             self.view!.addSubview(playerImageViews[thisIt]!)
             if Cloud.lockedForPlayers[thisIt] {
                 playerImageViews[thisIt]!.alpha = 0.0
@@ -144,19 +152,19 @@ class ShopScene: SKScene {
             if Cloud.lockedForPlayers[thisIt]{
                 self.view!.addSubview(lockArrayForPlayers[thisIt])
             }
-            currencyLabelArray[thisIt].frame = CGRectMake(lFrame.minX, lFrame.maxY + 10, lFrame.width, 30)
+            currencyLabelArray[thisIt].frame = CGRectMake(lFrame.minX, lFrame.maxY + 5, lFrame.width, 30)
             self.view?.addSubview(currencyLabelArray[thisIt])
             if CGFloat(xPosForPlayers) <= (self.view?.frame.maxX)! - (playerImageViews[0]!.frame.width + 100) {
                 xPosForPlayers += 130
             }else{
-                xPosForPlayers = 50
-                yPosForPlayers += 130
+                xPosForPlayers = playerSize / 2
+                yPosForPlayers += playerSize + (playerSize * 4/10) //play around with this
             }
         }
         for index in themeStrings {
             let thisIt = themeStrings.indexOf(index)
             themeImageViews.append(UIImageView(image: UIImage(named: index)))
-            themeImageViews[thisIt!]?.frame = CGRectMake(CGFloat(xPosForThemes), CGFloat(yPosForThemes), 100, 100)
+            themeImageViews[thisIt!]?.frame = CGRectMake(CGFloat(xPosForThemes), CGFloat(yPosForThemes), screenSize.width / 6.67, screenSize.height / 3.75)//100, 100)
             self.view!.addSubview(themeImageViews[thisIt!]!)
             if Cloud.lockedForThemes[thisIt!] {
                 themeImageViews[thisIt!]?.alpha = 0.0
@@ -166,13 +174,13 @@ class ShopScene: SKScene {
             if Cloud.lockedForThemes[thisIt!] {
                 self.view!.addSubview(lockArrayforThemes[thisIt!])
             }
-            currencyLabelArrayForThemes[thisIt!].frame = CGRectMake(lFrame.minX, lFrame.maxY + 10, lFrame.width, 30)
+            currencyLabelArrayForThemes[thisIt!].frame = CGRectMake(lFrame.minX, lFrame.maxY + 5, lFrame.width, 30)
             self.view!.addSubview(currencyLabelArrayForThemes[thisIt!])
             if CGFloat(xPosForThemes) <= (self.view?.frame.maxX)! - (themeImageViews[0]!.frame.width + 100) {
                 xPosForThemes += 130
             }else{
-                xPosForThemes = 50  - 1000
-                yPosForThemes += 130
+                xPosForThemes = (playerSize / 2)  - 1000
+                yPosForThemes += playerSize + (playerSize * 4/10)
             }
         }
         
@@ -353,44 +361,6 @@ class ShopScene: SKScene {
     }
     
     func transformImage(imageName: String, arrayOfImgViews: Array<UIImageView?>, stringArray: Array<String>, lockArray: Array<UIImageView>) {
-        /*
-        for index in playerImageViews {
-            if index!.image == UIImage(named: imageName){
-                UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
-                    let thisIt = self.playerImageStrings.indexOf(imageName)!
-                    self.backWhite.alpha = 0.0
-                    self.lockArrayForPlayers[thisIt].alpha = 0.0
-                    index!.alpha = 1.0
-                    self.lockArrayForPlayers[thisIt].transform = CGAffineTransformMakeScale(2, 2)
-                    }, completion: { finished in
-                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
-                        self.backWhite.alpha = 0.0
-                        self.view?.insertSubview(self.backWhite, atIndex: 1)
-                        UIView.animateWithDuration(0.3, animations: {
-                            self.backWhite.alpha = 1.0
-                        })
-                })
-            }
-        }
-        for index in themeImageViews {
-            if index!.image == UIImage(named: imageName){
-                UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
-                    let thisIt = self.themeStrings.indexOf(imageName)!
-                    self.backWhite.alpha = 0.0
-                    self.lockArrayforThemes[thisIt].alpha = 0.0
-                    index!.alpha = 1.0
-                    self.lockArrayforThemes[thisIt].transform = CGAffineTransformMakeScale(2, 2)
-                    }, completion: { finished in
-                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
-                        self.backWhite.alpha = 0.0
-                        self.view?.insertSubview(self.backWhite, atIndex: 1)
-                        UIView.animateWithDuration(0.3, animations: {
-                            self.backWhite.alpha = 1.0
-                        })
-                })
-            }
-        }
-        */
         for index in arrayOfImgViews {
             if index!.image == UIImage(named: imageName){
                 UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
@@ -410,26 +380,7 @@ class ShopScene: SKScene {
             }
         }
     }
-    func temp(imageName: String, arrayOfImgViews: Array<UIImageView?>, stringArray: Array<String>, lockArray: Array<UIImageView>){
-        for index in arrayOfImgViews {
-            if index!.image == UIImage(named: imageName){
-                UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
-                    let thisIt = stringArray.indexOf(imageName)!
-                    self.backWhite.alpha = 0.0
-                    lockArray[thisIt].alpha = 0.0
-                    index!.alpha = 1.0
-                    lockArray[thisIt].transform = CGAffineTransformMakeScale(2, 2)
-                    }, completion: { finished in
-                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
-                        self.backWhite.alpha = 0.0
-                        self.view?.insertSubview(self.backWhite, atIndex: 1)
-                        UIView.animateWithDuration(0.3, animations: {
-                            self.backWhite.alpha = 1.0
-                        })
-                })
-            }
-        }
-    }
+
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
     }
     
