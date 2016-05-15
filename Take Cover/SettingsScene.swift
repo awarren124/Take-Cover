@@ -134,6 +134,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         mailButton.removeFromSuperview()
         soundDesc.removeFromSuperview()
         feedDesc.removeFromSuperview()
+        feedHelp.removeFromSuperview()
         
         let skView = self.view! as SKView
         let scene = TitleScene(fileNamed:"TitleScene")
