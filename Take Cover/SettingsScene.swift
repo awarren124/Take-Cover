@@ -18,15 +18,16 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     let settingsLabel = UILabel()
     let soundDesc = UILabel()
     let feedDesc = UILabel()
+    let feedHelp = UIButton()
     
     override func didMoveToView(view: SKView) {
         formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(100, self.view!.frame.minY + 80, 100, 50), value: Cloud.sound)
         //formatSwitchButton(discoSwitch, target: #selector(SettingsScene.discoSwitchPressed), frame: CGRectMake(self.view!.frame.midX - 20, soundSwitch.frame.origin.y + 30, 40, 20), value: Cloud.disco)
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
-        backButton.center = CGPoint(x: view.frame.midX + 200, y: 210)//x: 500, y: 350)
-        backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
         backButton.frame.size.width = 100
         backButton.frame.size.height = 100
+        backButton.center = CGPoint(x: view.frame.midX + 200, y: 210)//x: 500, y: 350)
+        backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
         self.view?.addSubview(backButton)
         mailButton.setImage(UIImage(named: "mail"), forState: .Normal)
         mailButton.frame.size = CGSize(width: 100, height: 100)
@@ -52,7 +53,19 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         feedDesc.center = CGPointMake(mailButton.center.x + 120, mailButton.center.y)
         //soundDescView.backgroundColor = UIColor.clearColor()
         self.view!.addSubview(feedDesc)
+        
+        feedHelp.setImage(UIImage(named: "quues"), forState: .Normal)
+        feedHelp.frame = CGRectMake(mailButton.frame.maxX + 10, mailButton.frame.maxY - 10, 30, 30)
+        feedHelp.addTarget(self, action: #selector(SettingsScene.helpMe), forControlEvents: .TouchUpInside)
+        self.view?.addSubview(feedHelp)
 
+    }
+    
+    func helpMe(){
+        let theAlertVC = UIAlertController(title: "What is this button?", message: "This button is for feedback: \n bugs, feature requests, etc.", preferredStyle: .Alert)
+        theAlertVC.addAction(UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil))
+        let currentViewController:UIViewController=UIApplication.sharedApplication().keyWindow!.rootViewController!
+        currentViewController.presentViewController(theAlertVC, animated: true, completion: nil)
     }
     
     func mailTime() {

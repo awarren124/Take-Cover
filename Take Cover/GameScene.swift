@@ -23,7 +23,7 @@ class GameScene: SKScene {
     var speedSlider = UISlider(frame:CGRectMake(350, 10, 150, 20))
     let labelalso = UILabel(frame: CGRectMake(400, 60, 200, 20))
     var minSpeedSlider = UISlider(frame:CGRectMake(510, 10, 150, 20))
-    var restartButton = UIButton(frame: CGRectMake(300, 300, 100, 30))
+    var restartButton = UIButton()//frame: CGRectMake(300, 300, 100, 30))
     var switchDemo = UISwitch(frame:CGRectMake(200, 60, 0, 0))
     var scoreLabel = UILabel(frame: CGRectMake(20, 20, 30, 120))
     var one = 0
@@ -75,6 +75,8 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        
+        restartButton.frame = CGRectMake(self.view!.frame.midX, self.view!.frame.maxY - 150, 100, 30)
         
         switch Cloud.themeString {
         case "dark":
