@@ -23,7 +23,6 @@ class GameScene: SKScene {
     var speedSlider = UISlider(frame:CGRectMake(350, 10, 150, 20))
     let labelalso = UILabel(frame: CGRectMake(400, 60, 200, 20))
     var minSpeedSlider = UISlider(frame:CGRectMake(510, 10, 150, 20))
-    var restartButton = UIButton()//frame: CGRectMake(300, 300, 100, 30))
     var switchDemo = UISwitch(frame:CGRectMake(200, 60, 0, 0))
     var scoreLabel = UILabel(frame: CGRectMake(20, 20, 30, 120))
     var one = 0
@@ -72,11 +71,12 @@ class GameScene: SKScene {
     let settingsButton = TitleScene().settingsButton
     var screenHeight:CGFloat = 0
     var realRadius:CGFloat = 0
+    var pauseView = UIView()
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
-        restartButton.frame = CGRectMake(self.view!.frame.midX, self.view!.frame.maxY - 150, 100, 30)
+        //restartButton.frame = CGRectMake(self.view!.frame.midX, self.view!.frame.maxY - 150, 100, 30)
         
         switch Cloud.themeString {
         case "dark":
@@ -157,9 +157,6 @@ class GameScene: SKScene {
         
         setupSlider(minSpeedSlider, minVal: 0, maxVal: 2, val: Float(minDur), color: UIColor.yellowColor(), selector: #selector(GameScene.minSpeedSliderValueDidChange(_:)))
         
-        restartButton.setTitle("Restart", forState: .Normal)
-        restartButton.backgroundColor = UIColor.blueColor()
-        restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
         
         playerStepper.wraps = false
         playerStepper.autorepeat = true
@@ -206,7 +203,7 @@ class GameScene: SKScene {
         pauseButton.removeFromSuperview()
         restartButtonInPauseMenu.removeFromSuperview()
         backButton.removeFromSuperview()
-        
+        pauseView.removeFromSuperview()
         let skView = self.view! as SKView
         let scene = TitleScene(fileNamed:"TitleScene")
         scene!.scaleMode = .AspectFill
@@ -278,7 +275,7 @@ class GameScene: SKScene {
             fade.fillColor = UIColor.whiteColor()
             self.addChild(fade)
             fade.alpha = 0.5
-            fade.zPosition = 344
+            fade.zPosition = 5
             //for node in circle {
             //    node!.alpha = 0.5
             //}
@@ -701,13 +698,15 @@ class GameScene: SKScene {
          UIView.animateWithDuration(0.5, animations: {
          self.scoreLabel.center = self.view!.center
          })*/
-        UIView.animateWithDuration(0.5, delay: 0.2, options: .CurveEaseOut, animations: {
-            self.scoreLabel.center = self.view!.center
-            }, completion: { finished in
-                //print("done!")
+        pauseView = makeRestartPanel()
+        pauseView.alpha = 0.0
+        view!.addSubview(pauseView)
+        UIView.animateWithDuration(0.5, animations: {
+            self.pauseView.alpha = 1.0
         })
+        print("its there")
         //scoreLabel.an
-        view?.addSubview(restartButton)
+        //view?.addSubview(restartButton)
         //while scoreLabel.center.x < 300 { //DOESNT WORK
         //  print("in")                   //FIX IT
         //delay(1.0){
@@ -715,6 +714,30 @@ class GameScene: SKScene {
         //self.moveScore()
         //}
         // }
+    }
+    
+    func makeRestartPanel() -> UIView {
+        let panel = UIView()
+        panel.frame.size = CGSizeMake(150, 150)
+        panel.center = self.view!.center
+        let panelSize = panel.frame.size
+        //let background = CGRect(origin: panelOrig, size: panelSize)
+        //background.backgroundColor = UIColor.whiteColor()
+        panel.layer.borderWidth = 15
+        panel.layer.borderColor = UIColor.blackColor().CGColor
+        panel.layer.cornerRadius = 10
+        panel.backgroundColor = UIColor(red:0.53, green:0.87, blue:0.95, alpha:1.0)
+        let scoreLabelText = UILabel(frame: CGRectMake(0, 5, panelSize.width, 100))
+        scoreLabelText.text = "Score: \(score)"
+        scoreLabelText.textAlignment = NSTextAlignment.Center
+        panel.addSubview(scoreLabelText)
+        let restartButton = UIButton()//frame: CGRectMake(300, 300, 100, 30))
+        restartButton.frame = CGRectMake(5, scoreLabelText.frame.maxY, panelSize.width - 10, 15)
+        restartButton.setTitle("Restart", forState: .Normal)
+        restartButton.backgroundColor = UIColor.blackColor()
+        restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
+        panel.addSubview(restartButton)
+        return panel
     }
     
     func moveScore() {
@@ -738,6 +761,11 @@ class GameScene: SKScene {
             })
             restartTapped = false
         }
+        UIView.animateWithDuration(0.5, animations: {
+            self.pauseView.alpha = 0.0
+            }, completion: { finished in
+                self.pauseView.removeFromSuperview()
+        })
         deleteNodes("cover")
         deleteNodes("coverShade")
         deleteNodes("shade")
@@ -746,7 +774,7 @@ class GameScene: SKScene {
         gameOver = false
         doneFalling = true
         makeCovers = true
-        restartButton.removeFromSuperview()
+        //restartButton.removeFromSuperview()
         delayChange = 0.7
         durationChange = 0.3
         minDelay = 0.5
