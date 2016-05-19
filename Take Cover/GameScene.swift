@@ -477,7 +477,7 @@ class GameScene: SKScene {
         //let circleHeight = circle.frame.size.height
         cover.position = position
         //cover.name = "defaultCircle"
-        cover.strokeColor = SKColor.whiteColor()
+        cover.strokeColor = SKColor.lightGrayColor()
         cover.glowWidth = 1
         cover.zPosition = 3
         cover.name = "cover"
@@ -692,17 +692,21 @@ class GameScene: SKScene {
         panel.layer.cornerRadius = 10
         panel.backgroundColor = UIColor(red:0.53, green:0.87, blue:0.95, alpha:1.0)
         panel.alpha = 0.7
-        let scoreLabelText = UILabel(frame: CGRectMake(0, 5, panelSize.width, 40))
+        let panelMax = self.view!.convertPoint(CGPoint(x: panel.frame.maxX, y: panel.frame.maxY), toView: panel)
+        let scoreLabelText = UILabel(frame: CGRectMake(0, /*panel.frame.maxY / 4*/panelMax.y / 4, panelSize.width, 40))
+        scoreLabelText.center.y = panelMax.y / 4
         scoreLabelText.text = "Score: \(score)"
         scoreLabelText.textAlignment = NSTextAlignment.Center
         panel.addSubview(scoreLabelText)
         let restartButton = UIButton()//frame: CGRectMake(300, 300, 100, 30))
-        restartButton.frame = CGRectMake(5, scoreLabelText.frame.maxY, panelSize.width - 10, 25)
+        restartButton.frame = CGRectMake(0, panelMax.y / 2/*scoreLabelText.frame.maxY*/, panelSize.width - 10, 25)
+        restartButton.center.y = panelMax.y / 2
         restartButton.setTitle("Restart", forState: .Normal)
         restartButton.backgroundColor = UIColor.blackColor()
         restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
         panel.addSubview(restartButton)
-        let currencyLabel = UILabel(frame: CGRectMake(0, restartButton.frame.maxY, panelSize.width, 25))
+        let currencyLabel = UILabel(frame: CGRectMake(0, panelMax.y * (3/4), panelSize.width, 25))
+        currencyLabel.center.y = panelMax.y * (3/4)
         currencyLabel.text = "Coins: \(Cloud.currency)"
         currencyLabel.textAlignment = NSTextAlignment.Center
         panel.addSubview(currencyLabel)
