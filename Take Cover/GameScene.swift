@@ -525,53 +525,31 @@ class GameScene: SKScene {
     func moveCovers() {
         if Cloud.themeString == "disco" {
             background.color = randColor()
+            for node in circle {
+                node!.fillColor = randColorThatsNotBackgroundColor()
+            }
         }
         var z = 0
         deleteNodes("coverShade")
         for node in circle {
-            //for _ in 1...3 {
             let x = rand(1020)
             let moveCover = SKAction.moveToX(CGFloat(x), duration: delayTime)
-            //node?.runAction(moveCover)
-            //print("x: ", x)
-            //for node in circle {
-            //node!.position = position
             node!.runAction(moveCover)
-            //let circle = node!
-            let rectangle = CGRectMake(CGFloat(x) - (node!.frame.size.width / 2) + 2, node!.position.y, node!.frame.size.width - 4, self.frame.minY - node!.position.y)
+            let holderSizeNode = node!
+            let action = SKAction.scaleTo(0.8, duration: delayTime)
+            node!.runAction(action)
+            holderSizeNode.setScale(0.8)
+            let rectangle = CGRectMake(CGFloat(x) - (node!.frame.size.width / 2) + 2, node!.position.y, holderSizeNode.frame.size.width - 4, self.frame.minY - node!.position.y)
             let recta = SKShapeNode(rect: rectangle)
-            recta.zPosition = 2//self.frame.minY - position.y
-            recta.fillColor = background.color//UIColor.whiteColor()
+            recta.zPosition = 2
+            recta.fillColor = background.color
             recta.name = "coverShade"
             recta.lineWidth = 0.0
             self.addChild(recta)
             rect[z] = recta
-            //let realRect = rect[z]
-            //rect[z]!.runAction(SKAction.moveToX((CGFloat(x) - realRect!.frame.minX) /* - (realRect!.frame.size.width / 2) */ , duration: 1.0))//.position.x = (node?.position.x)!
-            //realRect?.position.x = (CGFloat(x) - realRect!.frame.minX) - (realRect!.frame.size.width / 2)
-            //if z == 0 && !first {//(node?.fillColor = UIColor.blackColor()) != nil {
-            /*
-             print("nodeX: \(node!.position.x)")
-             print("rectX: \(realRect!.frame.minX)")
-             print("x: \(x)")
-             print(CGFloat(x) - realRect!.frame.minX)
-             */
-            //}
-            //, completion:{
-            //for other in self.rect {
-            //print("in")
-            //print(self.rect.count)
-            //print("z:", z)
-            //self.rect[z]!.position.x = (self.position.x - (self.radius))
-            //}
-            //z += 1
-            //})
-            //}
             z += 1
-            //rect[z]?.runAction(moveCover)
         }
         first = false
-        
     }
     
     func randPoint(min: CGFloat, max: CGFloat) -> Int? {
@@ -694,10 +672,7 @@ class GameScene: SKScene {
         deleteNodes("coverShade")
         deleteNodes("shade")
         gameOver = true
-        /*print("game over")
-         UIView.animateWithDuration(0.5, animations: {
-         self.scoreLabel.center = self.view!.center
-         })*/
+        delayTime = 1
         pauseView = makeRestartPanel()
         pauseView.alpha = 0.0
         view!.addSubview(pauseView)
@@ -705,15 +680,6 @@ class GameScene: SKScene {
             self.pauseView.alpha = 1.0
         })
         print("its there")
-        //scoreLabel.an
-        //view?.addSubview(restartButton)
-        //while scoreLabel.center.x < 300 { //DOESNT WORK
-        //  print("in")                   //FIX IT
-        //delay(1.0){
-        //  print("inin")
-        //self.moveScore()
-        //}
-        // }
     }
     
     func makeRestartPanel() -> UIView {
@@ -721,22 +687,25 @@ class GameScene: SKScene {
         panel.frame.size = CGSizeMake(150, 150)
         panel.center = self.view!.center
         let panelSize = panel.frame.size
-        //let background = CGRect(origin: panelOrig, size: panelSize)
-        //background.backgroundColor = UIColor.whiteColor()
         panel.layer.borderWidth = 15
         panel.layer.borderColor = UIColor.blackColor().CGColor
         panel.layer.cornerRadius = 10
         panel.backgroundColor = UIColor(red:0.53, green:0.87, blue:0.95, alpha:1.0)
-        let scoreLabelText = UILabel(frame: CGRectMake(0, 5, panelSize.width, 100))
+        panel.alpha = 0.7
+        let scoreLabelText = UILabel(frame: CGRectMake(0, 5, panelSize.width, 40))
         scoreLabelText.text = "Score: \(score)"
         scoreLabelText.textAlignment = NSTextAlignment.Center
         panel.addSubview(scoreLabelText)
         let restartButton = UIButton()//frame: CGRectMake(300, 300, 100, 30))
-        restartButton.frame = CGRectMake(5, scoreLabelText.frame.maxY, panelSize.width - 10, 15)
+        restartButton.frame = CGRectMake(5, scoreLabelText.frame.maxY, panelSize.width - 10, 25)
         restartButton.setTitle("Restart", forState: .Normal)
         restartButton.backgroundColor = UIColor.blackColor()
         restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
         panel.addSubview(restartButton)
+        let currencyLabel = UILabel(frame: CGRectMake(0, restartButton.frame.maxY, panelSize.width, 25))
+        currencyLabel.text = "Coins: \(Cloud.currency)"
+        currencyLabel.textAlignment = NSTextAlignment.Center
+        panel.addSubview(currencyLabel)
         return panel
     }
     
