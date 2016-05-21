@@ -173,15 +173,18 @@ class TitleScene: SKScene {
             self.playButton.alpha = 0.0
             self.shopButton.alpha = 0.0
             self.settingsButton.alpha = 0.0
+            for image in self.cornerImages {
+                image.alpha = 0.0
+            }
             skView.presentScene(scene)
             //self.fadeVolumeAndPause()
             }, completion: { finshed in
                 self.playButton.removeFromSuperview()
                 self.shopButton.removeFromSuperview()
+                for image in self.cornerImages {
+                    image.removeFromSuperview()
+                }
         })
-        for image in cornerImages {
-            image.removeFromSuperview()
-        }
 
         //UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
         //   self.playButton.alpha = 0.0
