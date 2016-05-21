@@ -47,6 +47,8 @@ class TitleScene: SKScene {
     var transitioning = false
     let viewCont = GameViewController()
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
+    var cornerImages = [UIImageView]()
+    let cornerImageStrings = ["ul", "ur", "ll", "lr"]
     
     override func didMoveToView(view: SKView) {
         
@@ -55,12 +57,38 @@ class TitleScene: SKScene {
         background.size = self.frame.size
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
+        
+        for imageName in cornerImageStrings {
+            cornerImages.append(UIImageView(image: UIImage(named: imageName)))
+        }
+        
+        for imageView in cornerImages {
+            let thisIt = cornerImages.indexOf(imageView)
+            switch cornerImageStrings[thisIt!] {
+            case "ul":
+                imageView.frame = CGRectMake(0, 0, 100, 100)
+            case "ur":
+                //imageView.frame = CGRectMake((self.view?.frame.maxX)! - imageView.frame.size.width, 0, 100, 100)
+                imageView.frame.size = CGSizeMake(100, 100)
+                imageView.frame.origin = CGPointMake((self.view?.frame.maxX)! - imageView.frame.size.width, 0)
+            case "ll":
+                imageView.frame.size = CGSizeMake(100, 100)
+                imageView.frame.origin = CGPointMake(0, self.view!.frame.maxY - imageView.frame.size.height)
+            case "lr":
+                imageView.frame.size = CGSizeMake(100, 100)
+                imageView.frame.origin = CGPointMake((self.view?.frame.maxX)! - imageView.frame.size.width, self.view!.frame.maxY - imageView.frame.size.height)
+            default:
+                break
+            }
+            self.view?.addSubview(imageView)
+        }
+        
         self.addChild(background)
         //print(self.frame.maxX, self.frame.minY)
         currencyLabel.text = String(Cloud.currency)
         //currencyLabel.center = CGPointMake(self.view!.frame.maxX - 100, self.view!.frame.minY + 10)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
-        currencyLabel.center = CGPointMake(self.view!.frame.maxX - currencyLabel.frame.width, self.view!.frame.minY + 10)
+        currencyLabel.center = CGPointMake(self.view!.center.x + 100, self.view!.frame.minY + 10)
         currencyLabel.textAlignment = NSTextAlignment.Right
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         self.view!.addSubview(currencyLabel)
@@ -151,6 +179,10 @@ class TitleScene: SKScene {
                 self.playButton.removeFromSuperview()
                 self.shopButton.removeFromSuperview()
         })
+        for image in cornerImages {
+            image.removeFromSuperview()
+        }
+
         //UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
         //   self.playButton.alpha = 0.0
         //})
@@ -172,6 +204,9 @@ class TitleScene: SKScene {
         playButton.removeFromSuperview()
         shopButton.removeFromSuperview()
         settingsButton.removeFromSuperview()
+        for image in cornerImages {
+            image.removeFromSuperview()
+        }
     }
     
     func fadeOut(duration duration: NSTimeInterval = 1.0) {

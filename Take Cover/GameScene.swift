@@ -76,6 +76,8 @@ class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
+        
+        
         //restartButton.frame = CGRectMake(self.view!.frame.midX, self.view!.frame.maxY - 150, 100, 30)
         
         switch Cloud.themeString {
