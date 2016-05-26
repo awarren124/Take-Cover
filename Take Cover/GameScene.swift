@@ -32,7 +32,7 @@ class GameScene: SKScene {
     var done = false
     var dropSpeed = 15
     var dropFrames = 100 //the amount of frames that the shade will take
-    var delayTime:Double = 1
+    var delayTime = 1.0
     var delay = true
     var two = 0
     var circleSizeVariable = 2
@@ -72,6 +72,7 @@ class GameScene: SKScene {
     var screenHeight:CGFloat = 0
     var realRadius:CGFloat = 0
     var pauseView = UIView()
+    var scaleFactor:CGFloat = 0.9
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -537,11 +538,17 @@ class GameScene: SKScene {
             let x = rand(1020)
             let moveCover = SKAction.moveToX(CGFloat(x), duration: delayTime)
             node!.runAction(moveCover)
-            let holderSizeNode = node!
-            let action = SKAction.scaleTo(0.8, duration: delayTime)
-            node!.runAction(action)
-            holderSizeNode.setScale(0.8)
-            let rectangle = CGRectMake(CGFloat(x) - (node!.frame.size.width / 2) + 2, node!.position.y, holderSizeNode.frame.size.width - 4, self.frame.minY - node!.position.y)
+            let holderSizeNode = SKShapeNode(circleOfRadius: realRadius)
+            let scaleAction = SKAction.scaleTo(scaleFactor, duration: delayTime)
+            //let scaleActionForHolder = SKAction.scaleTo(scaleFactor, duration: 0)
+            //if !first {
+            node?.runAction(scaleAction)
+            //holderSizeNode.runAction(scaleActionForHolder)
+            //holderSizeNode.xScale = scaleFactor
+            //holderSizeNode.yScale = scaleFactor
+            
+            //}
+            let rectangle = CGRectMake(CGFloat(x) - (node!.frame.size.width / 2) + 10, node!.position.y, ((holderSizeNode.frame.width) * scaleFactor), self.frame.minY - node!.position.y)
             let recta = SKShapeNode(rect: rectangle)
             recta.zPosition = 2
             recta.fillColor = background.color
@@ -550,7 +557,11 @@ class GameScene: SKScene {
             self.addChild(recta)
             rect[z] = recta
             z += 1
+            
+            
+            
         }
+        scaleFactor -= 0.1
         first = false
     }
     
