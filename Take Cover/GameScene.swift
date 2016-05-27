@@ -91,7 +91,6 @@ class GameScene: SKScene {
         }
         
         screenHeight = self.view!.frame.height
-        print(screenHeight)
         switch screenHeight {
         case 375.0:
             realRadius = CGFloat(M_PI_4) * 100
@@ -107,7 +106,6 @@ class GameScene: SKScene {
             break
         }
         
-        print(playButton.frame.size.width)
         
         let scene = GameScene(fileNamed: "GameScene")
         scene!.scaleMode = .AspectFill
@@ -317,7 +315,7 @@ class GameScene: SKScene {
         touching = true
         for touch in touches {
             location = touch.locationInNode(self)
-            print(location)
+//            print(location)
             //print(shade.position.y)
         }
         
@@ -540,14 +538,9 @@ class GameScene: SKScene {
             node!.runAction(moveCover)
             let holderSizeNode = SKShapeNode(circleOfRadius: realRadius)
             let scaleAction = SKAction.scaleTo(scaleFactor, duration: delayTime)
-            //let scaleActionForHolder = SKAction.scaleTo(scaleFactor, duration: 0)
-            //if !first {
-            node?.runAction(scaleAction)
-            //holderSizeNode.runAction(scaleActionForHolder)
-            //holderSizeNode.xScale = scaleFactor
-            //holderSizeNode.yScale = scaleFactor
-            
-            //}
+            if scaleFactor >= 0.5 && score % 3 == 0 {
+                node?.runAction(scaleAction)
+            }
             let rectangle = CGRectMake(CGFloat(x) - ((holderSizeNode.frame.width * scaleFactor) / 2), node!.position.y, ((holderSizeNode.frame.width) * scaleFactor), self.frame.minY - node!.position.y)
             let recta = SKShapeNode(rect: rectangle)
             recta.zPosition = 2
@@ -557,11 +550,11 @@ class GameScene: SKScene {
             self.addChild(recta)
             rect[z] = recta
             z += 1
-            
-            
-            
         }
-        scaleFactor -= 0.1
+        if scaleFactor >= 0.5 && score % 3 == 2 {
+            scaleFactor -= 0.1
+            print("Shrinking...")
+        }
         first = false
     }
     
@@ -655,7 +648,6 @@ class GameScene: SKScene {
         if !start {
             score += 1
             Cloud.currency += 5
-            print(score)
         }
         //print(score)
         let moveToY = SKAction.moveToY(moveHere, duration: duration)
@@ -692,7 +684,6 @@ class GameScene: SKScene {
         UIView.animateWithDuration(0.5, animations: {
             self.pauseView.alpha = 1.0
         })
-        print("its there")
     }
     
     func makeRestartPanel() -> UIView {
