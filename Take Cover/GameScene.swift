@@ -548,7 +548,7 @@ class GameScene: SKScene {
             //holderSizeNode.yScale = scaleFactor
             
             //}
-            let rectangle = CGRectMake(CGFloat(x) - (node!.frame.size.width / 2) + 10, node!.position.y, ((holderSizeNode.frame.width) * scaleFactor), self.frame.minY - node!.position.y)
+            let rectangle = CGRectMake(CGFloat(x) - ((holderSizeNode.frame.width * scaleFactor) / 2), node!.position.y, ((holderSizeNode.frame.width) * scaleFactor), self.frame.minY - node!.position.y)
             let recta = SKShapeNode(rect: rectangle)
             recta.zPosition = 2
             recta.fillColor = background.color
