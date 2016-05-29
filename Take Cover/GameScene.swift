@@ -378,18 +378,6 @@ class GameScene: SKScene {
             }
             if start {
                 if makeCovers {
-                    //for _ in 1...3 {
-                    //makeCovers(CGPoint(x: (randPoint(self.frame.minX, max: self.frame.maxX))!, y: 350 ), color: UIColor.lightGrayColor()) //randColor())
-                    //let point = convertPointToView(playButton.center)
-                    //print(playButton.center)
-                    //print(point)
-                    
-                    //let playPoint = convertPoint(CGPoint(x: playButton.frame.origin.x + offset, y: playButton.frame.origin.y), toNode: self)
-                    //print(playPoint)
-                    //let playPoint = convertPointFromView(playButton.frame.origin)
-                    //print(playPoint)
-                    //let shopPoint = self.convertPoint(CGPoint(x: shopButton.frame.origin.x + offset, y: shopButton.frame.origin.y), toNode: self)
-                    //let shopPoint = convertPoint(Cloud.shopOrig, toScene: self)
                     let shopPoint = self.view!.convertPoint(Cloud.shopOrig, toScene: self)
                     //let settingsPoint = convertPoint(CGPoint(x: settingsButton.frame.origin.x + offset, y: settingsButton.frame.origin.y), toNode: self)
                     let settingsPoint = self.view!.convertPoint(Cloud.settOrig, toScene: self)
@@ -470,8 +458,10 @@ class GameScene: SKScene {
         }
     }
     
-    func makeCovers(position: CGPoint, color: SKColor) {
-        
+    func makeCovers(pointPosition: CGPoint, color: SKColor) {
+        var position = pointPosition
+        position.x = abs(pointPosition.x)
+        position.y = abs(pointPosition.y)
         let cover = SKShapeNode(circleOfRadius: realRadius)      	//25)//78.5)//Cloud.buttonSize.width * 0.78539)//50)//(Cloud.buttWidth * (CGFloat(pi)/4)))/// 2)//78)//playButton.frame.size.width / 2)//78)// - CGFloat(two))
         //M_PI_4 * 100
         //let cover = SKShapeNode(ellipseOfSize: CGSize(width: Cloud.buttWidth * 4/3, height: Cloud.buttWidth * 4/3))
