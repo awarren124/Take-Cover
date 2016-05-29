@@ -13,6 +13,7 @@ class GameScene: SKScene {
     
     let offset:CGFloat = 11
     var restartTapped = false
+    let backButtonInGameOver = UIButton()
     var counter = 0
     var itIsPaused = false
     var pauseButton = UIButton(type: UIButtonType.Custom) as UIButton
@@ -681,8 +682,15 @@ class GameScene: SKScene {
         pauseView = makeRestartPanel()
         pauseView.alpha = 0.0
         view!.addSubview(pauseView)
+        backButtonInGameOver.setImage(UIImage(named: "realback"), forState: .Normal)
+        backButtonInGameOver.frame = pauseButton.frame
+        backButtonInGameOver.alpha = 0.0
+        backButtonInGameOver.addTarget(self, action: #selector(GameScene.backButtonPressed), forControlEvents: .TouchUpInside)
+        self.view!.addSubview(backButtonInGameOver)
         UIView.animateWithDuration(0.5, animations: {
             self.pauseView.alpha = 1.0
+            self.pauseButton.alpha = 0.0
+            self.backButtonInGameOver.alpha = 1.0
         })
     }
     
@@ -737,11 +745,17 @@ class GameScene: SKScene {
                 
             })
             restartTapped = false
+        }else{
+            UIView.animateWithDuration(0.5, animations: {
+                self.pauseButton.alpha = 1.0
+            })
         }
         UIView.animateWithDuration(0.5, animations: {
             self.pauseView.alpha = 0.0
+            self.backButtonInGameOver.alpha = 0.0
             }, completion: { finished in
                 self.pauseView.removeFromSuperview()
+                self.backButtonInGameOver.removeFromSuperview()
         })
         deleteNodes("cover")
         deleteNodes("coverShade")
@@ -751,7 +765,6 @@ class GameScene: SKScene {
         gameOver = false
         doneFalling = true
         makeCovers = true
-        //restartButton.removeFromSuperview()
         delayChange = 0.7
         durationChange = 0.3
         minDelay = 0.5
@@ -761,11 +774,6 @@ class GameScene: SKScene {
         radius = 100
         start = true
         score = 0
-        UIView.animateWithDuration(0.5, delay: 0.2, options: .CurveEaseOut, animations: {
-            self.scoreLabel.center = CGPoint(x: 20, y: 20)
-            }, completion: { finished in
-                //print("done!")
-        })
     }
     
     func delay(delay:Double, closure:()->()) {

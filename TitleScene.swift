@@ -31,16 +31,17 @@ struct Cloud {
     static var shopOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var settOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var buttonSize:CGSize = CGSize(width: 0, height: 0)
-    //static var disco = false
     static var onPlayerView = true
     static var onThemeView = false
     static var themeString = "classic"
+    static var backFromSettings = false
+    static var backFromShop = false
 }
 
 class TitleScene: SKScene {
     
-    var playButton = UIButton()//frame: CGRectMake(500, 350, 100, 100))
-    var shopButton = UIButton()//frame: CGRectMake(200, 350, 100, 100))
+    var playButton = UIButton()
+    var shopButton = UIButton()
     let settingsButton = UIButton()
     var titleMusicPlayer = AVAudioPlayer()
     var titleMusic = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
@@ -66,17 +67,42 @@ class TitleScene: SKScene {
             let thisIt = cornerImages.indexOf(imageView)
             switch cornerImageStrings[thisIt!] {
             case "ul":
-                imageView.frame = CGRectMake(0, 0, 100, 100)
+                if Cloud.backFromSettings {
+                    imageView.frame = CGRectMake(0 - self.view!.frame.maxX, 0, 100, 100)
+                }else if Cloud.backFromShop {
+                    imageView.frame = CGRectMake(0 + self.view!.frame.maxX, 0, 100, 100)
+                }else{
+                    imageView.frame = CGRectMake(0, 0, 100, 100)
+                }
             case "ur":
-                //imageView.frame = CGRectMake((self.view?.frame.maxX)! - imageView.frame.size.width, 0, 100, 100)
                 imageView.frame.size = CGSizeMake(100, 100)
-                imageView.frame.origin = CGPointMake((self.view?.frame.maxX)! - imageView.frame.size.width, 0)
+                if Cloud.backFromSettings {
+                    imageView.frame.origin = CGPointMake(((self.view?.frame.maxX)! - imageView.frame.size.width) - self.view!.frame.maxX, 0)
+                }else if Cloud.backFromShop {
+                    imageView.frame.origin = CGPointMake(((self.view?.frame.maxX)! - imageView.frame.size.width) + self.view!.frame.maxX, 0)
+                }else{
+                    imageView.frame.origin = CGPointMake((self.view?.frame.maxX)! - imageView.frame.size.width, 0)
+                }
             case "ll":
+                //MARK: FIX THIS
                 imageView.frame.size = CGSizeMake(100, 100)
-                imageView.frame.origin = CGPointMake(0, self.view!.frame.maxY - imageView.frame.size.height)
+                if Cloud.backFromSettings {
+                    imageView.frame.origin = CGPointMake(0 - self.view!.frame.maxX, self.view!.frame.maxY - imageView.frame.size.height)
+                }else if Cloud.backFromShop{
+                    imageView.frame.origin = CGPointMake(0 + self.view!.frame.maxX, self.view!.frame.maxY - imageView.frame.size.height)
+                }
+                else{
+                    imageView.frame.origin = CGPointMake(0, self.view!.frame.maxY - imageView.frame.size.height)
+                }
             case "lr":
                 imageView.frame.size = CGSizeMake(100, 100)
-                imageView.frame.origin = CGPointMake((self.view?.frame.maxX)! - imageView.frame.size.width, self.view!.frame.maxY - imageView.frame.size.height)
+                if Cloud.backFromSettings {
+                    imageView.frame.origin = CGPointMake(((self.view?.frame.maxX)! - imageView.frame.size.width) - self.view!.frame.maxX , self.view!.frame.maxY - imageView.frame.size.height)
+                }else if Cloud.backFromShop {
+                    imageView.frame.origin = CGPointMake(((self.view?.frame.maxX)! - imageView.frame.size.width) + self.view!.frame.maxX , self.view!.frame.maxY - imageView.frame.size.height)
+                }else{
+                    imageView.frame.origin = CGPointMake((self.view?.frame.maxX)! - imageView.frame.size.width, self.view!.frame.maxY - imageView.frame.size.height)
+                }
             default:
                 break
             }
@@ -84,15 +110,12 @@ class TitleScene: SKScene {
         }
         
         self.addChild(background)
-        //print(self.frame.maxX, self.frame.minY)
         currencyLabel.text = String(Cloud.currency)
-        //currencyLabel.center = CGPointMake(self.view!.frame.maxX - 100, self.view!.frame.minY + 10)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
         currencyLabel.center = CGPointMake(self.view!.center.x + 100, self.view!.frame.minY + 10)
         currencyLabel.textAlignment = NSTextAlignment.Right
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         self.view!.addSubview(currencyLabel)
-        //print(currencyLabel)
         if Cloud.sound {
             
             do {
@@ -116,49 +139,86 @@ class TitleScene: SKScene {
         }
         
         playButton.setImage(UIImage(named: "playButton"), forState: .Normal)
-        //playButton.center.x = view.center.x//playButton.center = CGPoint(x: background.frame.midX, y: background.frame.midY) //CGPoint(x: self.view!.frame.midX, y: 210)//x: 500, y: 350)
-        //playButton.center.y = 210
         playButton.addTarget(self, action: #selector(TitleScene.play), forControlEvents: .TouchUpInside)
         playButton.frame.size.width = 100
         playButton.frame.size.height = 100
-        
-        //playButton.center.x = self.view!.center.x //- 50//playButton.frame.size.width / 2
-        //playButton.center.y = 210
-        playButton.center = self.view!.center
+        if Cloud.backFromSettings {
+            playButton.center = CGPointMake(self.view!.center.x - self.view!.frame.maxX, (self.view?.center.y)!)
+        }else if Cloud.backFromShop {
+            playButton.center = CGPointMake(self.view!.center.x + self.view!.frame.maxX, (self.view?.center.y)!)
+        }else{
+            playButton.center = self.view!.center
+        }
         view.addSubview(playButton)
         Cloud.buttonSize = playButton.frame.size
         
-        //print(view.frame.midX)
         shopButton.setImage(UIImage(named: "ShopButton"), forState: .Normal)
         shopButton.frame.size.width = 100
         shopButton.frame.size.height = 100
-        //shopButton.center = CGPoint(x: self.view!.center.x - 200, y: 210)//x: 500, y: 350)
-        shopButton.center.x = self.view!.frame.midX - 200
-        shopButton.center.y = self.view!.center.y//210
+        if Cloud.backFromSettings {
+            shopButton.center = CGPointMake(self.view!.frame.midX - 200 - self.view!.frame.maxX, self.view!.center.y)
+        }else if Cloud.backFromShop {
+            shopButton.center = CGPointMake(self.view!.frame.midX - 200 + self.view!.frame.maxX, self.view!.center.y)
+        }else{
+            shopButton.center.x = self.view!.frame.midX - 200
+            shopButton.center.y = self.view!.center.y
+        }
+        
         shopButton.addTarget(self, action: #selector(TitleScene.shop), forControlEvents: .TouchUpInside)
         view.addSubview(shopButton)
         
         settingsButton.setImage(UIImage(named: "ShopButton"), forState: .Normal)
-        //settingsButton.center = CGPoint(x: self.view!.frame.midX + 200, y: 210)
         settingsButton.frame.size = CGSize(width: 100, height: 100)
-        settingsButton.center.x = self.view!.frame.midX + 200//.frame.center.x + 200
-        settingsButton.center.y = self.view!.center.y//210
+        if  Cloud.backFromSettings {
+            settingsButton.center = CGPointMake(self.view!.frame.midX + 200 - self.view!.frame.maxX, self.view!.center.y)
+        }else if Cloud.backFromShop{
+            settingsButton.center = CGPointMake(self.view!.frame.midX + 200 + self.view!.frame.maxX, self.view!.center.y)
+        }else{
+            settingsButton.center.x = self.view!.frame.midX + 200
+            settingsButton.center.y = self.view!.center.y
+        }
         settingsButton.addTarget(self, action: #selector(TitleScene.settings), forControlEvents: .TouchUpInside)
         self.view!.addSubview(settingsButton)
         
-        //Cloud.playOrig = playButton.frame.origin
         Cloud.playOrig = playButton.center
-        //Cloud.settOrig = settingsButton.frame.origin
         Cloud.settOrig = settingsButton.center
-        //Cloud.shopOrig = shopButton.frame.origin
         Cloud.shopOrig = shopButton.center
+        if Cloud.backFromSettings {
+            UIView.animateWithDuration(2, animations: {
+                self.playButton.center.x += self.view!.frame.maxX
+                self.shopButton.center.x += self.view!.frame.maxX
+                self.settingsButton.center.x += self.view!.frame.maxX
+                for corner in self.cornerImages {
+                    corner.frame.origin.x += self.view!.frame.maxX
+                }
+            })
+            Cloud.backFromSettings = false
+        }else if Cloud.backFromShop{
+            UIView.animateWithDuration(2, animations: {
+                self.playButton.center.x -= self.view!.frame.maxX
+                self.shopButton.center.x -= self.view!.frame.maxX
+                self.settingsButton.center.x -= self.view!.frame.maxX
+                for corner in self.cornerImages {
+                    corner.frame.origin.x -= self.view!.frame.maxX
+                }
+            })
+            Cloud.backFromShop = false
+        }
     }
     
     func settings(){
         let skView = self.view! as SKView
         let scene = SettingsScene(fileNamed: "SettingsScene")
         scene!.scaleMode = .AspectFill
-        removeAllFromSuperview()
+        UIView.animateWithDuration(2, animations: {
+            self.currencyLabel.center.x -= self.view!.frame.maxX
+            self.playButton.center.x -= self.view!.frame.maxX
+            self.shopButton.center.x -= self.view!.frame.maxX
+            self.settingsButton.center.x -= self.view!.frame.maxX
+            for image in self.cornerImages {
+                image.frame.origin.x -= self.view!.frame.maxX
+            }
+        })
         skView.presentScene(scene)
         
     }
@@ -177,7 +237,6 @@ class TitleScene: SKScene {
                 image.alpha = 0.0
             }
             skView.presentScene(scene)
-            //self.fadeVolumeAndPause()
             }, completion: { finshed in
                 self.playButton.removeFromSuperview()
                 self.shopButton.removeFromSuperview()
@@ -185,20 +244,21 @@ class TitleScene: SKScene {
                     image.removeFromSuperview()
                 }
         })
-
-        //UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-        //   self.playButton.alpha = 0.0
-        //})
-        //UIView.animateWithDuration(1.0, animations: {
-        //   self.playButton.alpha = 0.0
-        // }, completion: nil)
     }
     
     func shop(){
         let skView = self.view! as SKView
         let scene = ShopScene(fileNamed:"ShopScene")
         scene!.scaleMode = .AspectFill
-        removeAllFromSuperview()
+        //removeAllFromSuperview()
+        UIView.animateWithDuration(2, animations: {
+            self.playButton.center.x += self.view!.frame.maxX
+            self.shopButton.center.x += self.view!.frame.maxX
+            self.settingsButton.center.x += self.view!.frame.maxX
+            for corner in self.cornerImages {
+                corner.frame.origin.x += self.view!.frame.maxX
+            }
+        })
         skView.presentScene(scene)
     }
     
@@ -219,7 +279,6 @@ class TitleScene: SKScene {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        //print(touches.first!.locationInView(self.view))
     }
     
     override func update(currentTime: CFTimeInterval) {

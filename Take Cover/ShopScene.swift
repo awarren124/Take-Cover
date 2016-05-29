@@ -61,6 +61,7 @@ class ShopScene: SKScene {
     //let controller = UISegmentedControl()
     let controller = UISegmentedControl(items: ["Players", "Themes"])//items)
     let shopLabel = UILabel()
+    var segmentedControlNum = 0
     
     override func didMoveToView(view: SKView) {
         let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -75,7 +76,7 @@ class ShopScene: SKScene {
         //shopLabel.font = UIFont(name: "Verdana", size: 50)
         shopLabel.font = shopLabel.font.fontWithSize(50)
         shopLabel.frame.size = CGSizeMake(500, 100)
-        shopLabel.center = CGPointMake(self.view!.center.x, 30)
+        shopLabel.center = CGPointMake(self.view!.center.x - self.view!.frame.maxX, 30)
 //        shopLabel.center = self.view!.center
         shopLabel.textAlignment = NSTextAlignment.Center
         self.view!.addSubview(shopLabel)
@@ -83,7 +84,7 @@ class ShopScene: SKScene {
         controller.selectedSegmentIndex = 0
         //controller.frame = CGRectMake(self.view!.frame.midX, 20, 200, 30)
         controller.frame.size = CGSizeMake(200, 30)
-        controller.center = CGPoint(x: self.view!.frame.midX, y: self.view!.frame.maxY - 27)
+        controller.center = CGPoint(x: self.view!.frame.midX - self.view!.frame.maxX, y: self.view!.frame.maxY - 27)
         controller.backgroundColor = UIColor.blackColor()
         controller.tintColor = UIColor.whiteColor()
         controller.addTarget(self, action: #selector(ShopScene.switchView(_:)), forControlEvents: .ValueChanged)
@@ -95,7 +96,7 @@ class ShopScene: SKScene {
         //currencyLabel.frame = CGRectMake(self.view!.frame.maxX, <#T##y: CGFloat##CGFloat#>, <#T##width: CGFloat##CGFloat#>, <#T##height: CGFloat##CGFloat#>)
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
-        currencyLabel.center = CGPointMake(self.view!.frame.maxX - currencyLabel.frame.width, self.view!.frame.minY + 10)
+        currencyLabel.center = CGPointMake((self.view!.frame.maxX - currencyLabel.frame.width) - self.view!.frame.maxX, self.view!.frame.minY + 10)
         currencyLabel.textAlignment = NSTextAlignment.Right
         self.view!.addSubview(currencyLabel)
         
@@ -108,7 +109,7 @@ class ShopScene: SKScene {
         }
         
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
-        backButton.center = CGPoint(x: view.frame.midX + 200, y: 210)//x: 500, y: 350)
+        backButton.center = CGPoint(x: (view.frame.midX + 200) - self.view!.frame.maxX, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(ShopScene.backButtonPressed), forControlEvents: .TouchUpInside)
         backButton.frame.size.width = 100
         backButton.frame.size.height = 100
@@ -139,7 +140,7 @@ class ShopScene: SKScene {
         for index in playerImageStrings {
             let thisIt = playerImageStrings.indexOf(index)!
             playerImageViews.append(UIImageView(image: UIImage(named: index)))
-            playerImageViews[thisIt]!.frame = CGRectMake(CGFloat(xPosForPlayers) , CGFloat(yPosForPlayers), screenSize.width / 6.67, screenSize.height / 3.75)//100, 100)
+            playerImageViews[thisIt]!.frame = CGRectMake(CGFloat(xPosForPlayers)  - self.view!.frame.maxX , CGFloat(yPosForPlayers), screenSize.width / 6.67, screenSize.height / 3.75)//100, 100)
             self.view!.addSubview(playerImageViews[thisIt]!)
             if Cloud.lockedForPlayers[thisIt] {
                 playerImageViews[thisIt]!.alpha = 0.0
@@ -164,7 +165,7 @@ class ShopScene: SKScene {
         for index in themeStrings {
             let thisIt = themeStrings.indexOf(index)
             themeImageViews.append(UIImageView(image: UIImage(named: index)))
-            themeImageViews[thisIt!]?.frame = CGRectMake(CGFloat(xPosForThemes), CGFloat(yPosForThemes), screenSize.width / 6.67, screenSize.height / 3.75)//100, 100)
+            themeImageViews[thisIt!]?.frame = CGRectMake(CGFloat(xPosForThemes)  - self.view!.frame.maxX, CGFloat(yPosForThemes), screenSize.width / 6.67, screenSize.height / 3.75)//100, 100)
             self.view!.addSubview(themeImageViews[thisIt!]!)
             if Cloud.lockedForThemes[thisIt!] {
                 themeImageViews[thisIt!]?.alpha = 0.0
@@ -183,7 +184,24 @@ class ShopScene: SKScene {
                 yPosForThemes += playerSize + (playerSize * 4/10)
             }
         }
-        
+        UIView.animateWithDuration(2, animations: {
+            for index in self.playerImageStrings {
+                let thisIt = self.playerImageStrings.indexOf(index)
+                self.playerImageViews[thisIt!]!.center.x += self.view!.frame.maxX
+                self.lockArrayForPlayers[thisIt!].center.x += self.view!.frame.maxX
+                self.currencyLabelArray[thisIt!].center.x += self.view!.frame.maxX
+            }
+            for index in self.themeStrings {
+                let thisIt = self.themeStrings.indexOf(index)
+                self.themeImageViews[thisIt!]!.center.x += self.view!.frame.maxX
+                self.lockArrayforThemes[thisIt!].center.x += self.view!.frame.maxX
+                self.currencyLabelArrayForThemes[thisIt!].center.x += self.view!.frame.maxX
+            }
+            self.shopLabel.center.x += self.view!.frame.maxX
+            self.controller.center.x += self.view!.frame.maxX
+            self.currencyLabel.center.x += self.view!.frame.maxX
+            self.backButton.center.x += self.view!.frame.maxX
+        })
     }
     
     func switchView(sender: UISegmentedControl){
@@ -210,7 +228,7 @@ class ShopScene: SKScene {
                 }
                 self.backWhite.center.x -= 1000
             })
-            print(themeImageViews[0]!.center)
+            segmentedControlNum = 0
         case 1:
             UIView.animateWithDuration(0.5, animations: {
                 for index in self.currencyLabelArray {
@@ -233,37 +251,68 @@ class ShopScene: SKScene {
                 }
                 self.backWhite.center.x += 1000
             })
-            print(themeImageViews[0]!.center)
+            segmentedControlNum = 1
         default:
             print("no")
         }
     }
     
     func backButtonPressed(){
-        for index in currencyLabelArray {
-            index.removeFromSuperview()
-        }
-        for index in playerImageViews {
-            index?.removeFromSuperview()
-        }
-        for index in lockArrayForPlayers {
-            index.removeFromSuperview()
-        }
-        for index in currencyLabelArrayForThemes{
-            index.removeFromSuperview()
-        }
-        for index in themeImageViews {
-            index!.removeFromSuperview()
-        }
-        for index in lockArrayforThemes {
-            index.removeFromSuperview()
-        }
-        controller.removeFromSuperview()
-        backWhite.removeFromSuperview()
-        backButton.removeFromSuperview()
-        label.removeFromSuperview()
-        currencyLabel.removeFromSuperview()
-        shopLabel.removeFromSuperview()
+        UIView.animateWithDuration(2, animations: {
+            if self.segmentedControlNum == 0 {
+                for index in self.currencyLabelArray {
+                    //index.removeFromSuperview()
+                    index.center.x -= self.view!.frame.maxX
+                }
+                for index in self.playerImageViews {
+                    //index?.removeFromSuperview()
+                    index!.center.x -= self.view!.frame.maxX
+                }
+                for index in self.lockArrayForPlayers {
+                    //index.removeFromSuperview()
+                    index.center.x -= self.view!.frame.maxX
+                }
+            }else{
+                for index in self.currencyLabelArray {
+                    index.removeFromSuperview()
+                    //index.center.x -= self.view!.frame.maxX
+                }
+                for index in self.playerImageViews {
+                    index?.removeFromSuperview()
+                    //index!.center.x -= self.view!.frame.maxX
+                }
+                for index in self.lockArrayForPlayers {
+                    index.removeFromSuperview()
+                    //index.center.x -= self.view!.frame.maxX
+                }
+
+            }
+            for index in self.currencyLabelArrayForThemes{
+                //index.removeFromSuperview()
+                index.center.x -= self.view!.frame.maxX
+            }
+            for index in self.themeImageViews {
+                //index!.removeFromSuperview()
+                index!.center.x -= self.view!.frame.maxX
+            }
+            for index in self.lockArrayforThemes {
+                //index.removeFromSuperview()
+                index.center.x -= self.view!.frame.maxX
+            }
+            self.controller.center.x -= self.view!.frame.maxX
+            self.backWhite.center.x -= self.view!.frame.maxX
+            self.backButton.center.x -= self.view!.frame.maxX
+            self.label.center.x -= self.view!.frame.maxX
+            self.currencyLabel.center.x -= self.view!.frame.maxX
+            self.shopLabel.center.x -= self.view!.frame.maxX
+        })
+        //controller.removeFromSuperview()
+        //backWhite.removeFromSuperview()
+        //backButton.removeFromSuperview()
+        //label.removeFromSuperview()
+        //currencyLabel.removeFromSuperview()
+        //shopLabel.removeFromSuperview()
+        Cloud.backFromShop = true
         let skView = self.view! as SKView
         let scene = TitleScene(fileNamed:"TitleScene")
         scene!.scaleMode = .AspectFill
