@@ -316,7 +316,7 @@ class GameScene: SKScene {
         touching = true
         for touch in touches {
             location = touch.locationInNode(self)
-//            print(location)
+            //            print(location)
             //print(shade.position.y)
         }
         
@@ -395,14 +395,30 @@ class GameScene: SKScene {
                     default:
                         color = UIColor.lightGrayColor()
                     }
-                    //makeCovers(CGPoint(x: playButton.frame.minX + 10, y: 350), color: UIColor.lightGrayColor())
-                    makeCovers(playPoint, color: color)
-                    //makeCovers(CGPoint(x: self.frame.origin.x + (self.frame.size.width / 2), y: 210), color: UIColor.lightGrayColor())
-                    //makeCovers(CGPoint(x: (randPoint(self.frame.minX, max: self.frame.maxX))!, y: 350 ), color: UIColor.lightGrayColor())
-                    makeCovers(shopPoint, color: color)
-                    makeCovers(settingsPoint, color: color)
-                    //CGPoint(x: playButton.frame.maxX , y: playButton.frame.maxY )
-                    //}
+                    /*
+                     makeCovers(playPoint, color: color)
+                     makeCovers(shopPoint, color: color)
+                     makeCovers(settingsPoint, color: color)
+                     print("PLAY \(playPoint)")
+                     print("SHOP \(shopPoint)")
+                     print("SET \(settingsPoint)")
+                     */
+                    switch Cloud.model {
+                    case "iPhone 6":
+                        makeCovers(CGPointMake(512.0, 384.000061035156), color: color)
+                        makeCovers(CGPointMake(819.04638671875, 384.000061035156), color: color)
+                        makeCovers(CGPointMake(204.953491210938, 384.000061035156), color: color)
+                    case "iPhone 5":
+                        makeCovers(CGPointMake(512.0, 384.0), color: color)
+                        makeCovers(CGPointMake(151.437, 384.0), color: color)
+                        makeCovers(CGPointMake(872.563, 384.0), color: color)
+                    case "iPhone 6+":
+                        makeCovers(CGPointMake(512.0, 384.0), color: color)
+                        makeCovers(CGPointMake(233.739135742188, 384.0), color: color)
+                        makeCovers(CGPointMake(790.260864257812, 384.0), color: color)
+                    default:
+                        break
+                    }
                     makeCovers = false
                 }
                 start = false
@@ -459,6 +475,7 @@ class GameScene: SKScene {
     }
     
     func makeCovers(pointPosition: CGPoint, color: SKColor) {
+        print(pointPosition)
         var position = pointPosition
         position.x = abs(pointPosition.x)
         position.y = abs(pointPosition.y)

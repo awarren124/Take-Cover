@@ -36,6 +36,7 @@ struct Cloud {
     static var themeString = "classic"
     static var backFromSettings = false
     static var backFromShop = false
+    static var model = String()
 }
 
 class TitleScene: SKScene {
@@ -52,7 +53,24 @@ class TitleScene: SKScene {
     let cornerImageStrings = ["ul", "ur", "ll", "lr"]
     
     override func didMoveToView(view: SKView) {
-        
+        let screenHeight = self.view!.frame.height
+        switch screenHeight {
+        case 375.0:
+            //realRadius = CGFloat(M_PI_4) * 100
+            Cloud.model = "iPhone 6"
+            break
+        case 320.0:
+            Cloud.model = "iPhone 5"
+            //realRadius = 90
+            break
+        case 414.0:
+            Cloud.model = "iPhone 6+"
+            //realRadius = 70
+            break
+        default:
+            //realRadius = 50
+            break
+        }
         let background = SKSpriteNode()
         background.color = UIColor.whiteColor()
         background.size = self.frame.size
