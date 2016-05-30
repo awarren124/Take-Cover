@@ -95,7 +95,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         creditsButton.frame.origin = CGPointMake((self.view!.frame.maxX - creditsButton.frame.width) + self.view!.frame.maxX, self.view!.frame.maxY - creditsButton.frame.height)
         creditsButton.addTarget(self, action: #selector(SettingsScene.credits), forControlEvents: .TouchUpInside)
         self.view!.addSubview(creditsButton)
-        UIView.animateWithDuration(2, animations: {
+        UIView.animateWithDuration(1, animations: {
             for thing in self.arrayOfButtons {
                 thing.center.x -= self.view!.frame.maxX
             }
@@ -194,7 +194,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         feedHelp.removeFromSuperview()
         creditsButton.removeFromSuperview()
         */
-        UIView.animateWithDuration(2, animations: {
+        UIView.animateWithDuration(1, animations: {
             for thing in self.arrayOfButtons {
                 thing.center.x += self.view!.frame.maxX
             }

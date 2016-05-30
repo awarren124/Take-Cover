@@ -64,6 +64,13 @@ class ShopScene: SKScene {
     var segmentedControlNum = 0
     
     override func didMoveToView(view: SKView) {
+        
+        let background = SKSpriteNode()
+        background.color = UIColor.whiteColor()
+        background.size = self.frame.size
+        background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
+        background.zPosition = 0
+        self.addChild(background)
         let screenSize: CGRect = UIScreen.mainScreen().bounds
         playerSize = screenSize.width / 6.67
         xPosForThemes = (playerSize / 2) - 1000
@@ -89,6 +96,8 @@ class ShopScene: SKScene {
         controller.tintColor = UIColor.whiteColor()
         controller.addTarget(self, action: #selector(ShopScene.switchView(_:)), forControlEvents: .ValueChanged)
         controller.layer.cornerRadius = 5.0
+        controller.layer.borderWidth = 3
+        controller.layer.borderColor = UIColor.blackColor().CGColor
         self.view!.addSubview(controller)
         
         currencyLabel.text = String(Cloud.currency)
@@ -107,8 +116,9 @@ class ShopScene: SKScene {
         for _ in 1...playerImageStrings.count {
             lockArrayForPlayers.append(UIImageView(image: UIImage(named: "lock")))
         }
+        let backImage = UIImage(named: "back-icon")
         
-        backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
+        backButton.setImage(backImage, forState: .Normal)
         backButton.center = CGPoint(x: (view.frame.midX + 200) - self.view!.frame.maxX, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(ShopScene.backButtonPressed), forControlEvents: .TouchUpInside)
         backButton.frame.size.width = 100
@@ -184,7 +194,7 @@ class ShopScene: SKScene {
                 yPosForThemes += playerSize + (playerSize * 4/10)
             }
         }
-        UIView.animateWithDuration(2, animations: {
+        UIView.animateWithDuration(1, animations: {
             for index in self.playerImageStrings {
                 let thisIt = self.playerImageStrings.indexOf(index)
                 self.playerImageViews[thisIt!]!.center.x += self.view!.frame.maxX
@@ -258,7 +268,7 @@ class ShopScene: SKScene {
     }
     
     func backButtonPressed(){
-        UIView.animateWithDuration(2, animations: {
+        UIView.animateWithDuration(1, animations: {
             if self.segmentedControlNum == 0 {
                 for index in self.currencyLabelArray {
                     //index.removeFromSuperview()

@@ -202,7 +202,7 @@ class TitleScene: SKScene {
         Cloud.settOrig = settingsButton.center
         Cloud.shopOrig = shopButton.center
         if Cloud.backFromSettings {
-            UIView.animateWithDuration(2, animations: {
+            UIView.animateWithDuration(1, animations: {
                 self.playButton.center.x += self.view!.frame.maxX
                 self.shopButton.center.x += self.view!.frame.maxX
                 self.settingsButton.center.x += self.view!.frame.maxX
@@ -212,7 +212,7 @@ class TitleScene: SKScene {
             })
             Cloud.backFromSettings = false
         }else if Cloud.backFromShop{
-            UIView.animateWithDuration(2, animations: {
+            UIView.animateWithDuration(1, animations: {
                 self.playButton.center.x -= self.view!.frame.maxX
                 self.shopButton.center.x -= self.view!.frame.maxX
                 self.settingsButton.center.x -= self.view!.frame.maxX
@@ -228,7 +228,7 @@ class TitleScene: SKScene {
         let skView = self.view! as SKView
         let scene = SettingsScene(fileNamed: "SettingsScene")
         scene!.scaleMode = .AspectFill
-        UIView.animateWithDuration(2, animations: {
+        UIView.animateWithDuration(1, animations: {
             self.currencyLabel.center.x -= self.view!.frame.maxX
             self.playButton.center.x -= self.view!.frame.maxX
             self.shopButton.center.x -= self.view!.frame.maxX
@@ -269,7 +269,7 @@ class TitleScene: SKScene {
         let scene = ShopScene(fileNamed:"ShopScene")
         scene!.scaleMode = .AspectFill
         //removeAllFromSuperview()
-        UIView.animateWithDuration(2, animations: {
+        UIView.animateWithDuration(1, animations: {
             self.playButton.center.x += self.view!.frame.maxX
             self.shopButton.center.x += self.view!.frame.maxX
             self.settingsButton.center.x += self.view!.frame.maxX
