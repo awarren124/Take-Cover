@@ -116,14 +116,15 @@ class ShopScene: SKScene {
         for _ in 1...playerImageStrings.count {
             lockArrayForPlayers.append(UIImageView(image: UIImage(named: "lock")))
         }
-        let backImage = UIImage(named: "back-icon")
-        
+        let backImage = UIImage(named: "back-icon-rev")
         backButton.setImage(backImage, forState: .Normal)
         backButton.center = CGPoint(x: (view.frame.midX + 200) - self.view!.frame.maxX, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(ShopScene.backButtonPressed), forControlEvents: .TouchUpInside)
         backButton.frame.size.width = 100
         backButton.frame.size.height = 100
         self.view?.addSubview(backButton)
+        
+
         
         for num in currencylabelNumsForPlayers {
             currencyLabelArray.append(UILabel())
