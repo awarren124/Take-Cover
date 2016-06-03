@@ -211,15 +211,18 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     }
     
     func credits() {
-        let creditLabel = UILabel(frame: CGRectMake(self.view!.frame.maxX - 600, self.frame.minY - 200,300,300))
+        let creditPanel = UIView(frame: CGRectMake(self.view!.frame.maxX - 300, self.view!.frame.midY,300,100))
+        creditPanel.backgroundColor = UIColor.lightGrayColor()
+        creditPanel.layer.cornerRadius = 10
+        let creditLabel = UILabel(frame: CGRectMake(10,0,200,100))
         creditLabel.text = "Programming: Alexander Warren \n Art: Archie Caride \n Music: Marco Warren"
-        UIView.animateWithDuration(10, animations: {
-            creditLabel.frame.origin.y = self.frame.maxY + 100
-        })
+        //UIView.animateWithDuration(10, animations: {
+          //  /*creditLabel*/creditPanel.frame.origin.y = self.frame.maxY + 100
+        //})
         creditLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
         creditLabel.numberOfLines = 3
-        self.view!.addSubview(creditLabel)
-
+        creditPanel.addSubview(creditLabel)
+        self.view!.addSubview(creditPanel)
     }
     
     func soundSwitchTapped() {

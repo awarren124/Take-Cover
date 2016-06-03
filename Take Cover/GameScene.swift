@@ -144,7 +144,7 @@ class GameScene: SKScene {
         devSwitch.on = devMode
         devSwitch.setOn(devMode, animated: false)
         devSwitch.addTarget(self, action: #selector(GameScene.valueChanged(_:)), forControlEvents: .ValueChanged)
-        self.view!.addSubview(devSwitch)
+        //self.view!.addSubview(devSwitch)
         
         switchDemo.on = die
         switchDemo.setOn(die, animated: false);
@@ -781,6 +781,7 @@ class GameScene: SKScene {
         radius = 100
         start = true
         score = 0
+        scaleFactor = 0.9
     }
     
     func delay(delay:Double, closure:()->()) {

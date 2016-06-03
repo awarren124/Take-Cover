@@ -75,16 +75,16 @@ class ShopScene: SKScene {
         playerSize = screenSize.width / 6.67
         xPosForThemes = (playerSize / 2) - 1000
         xPosForPlayers = playerSize / 2
-            
+        
         print(screenSize)
         print(self.frame.size)
-
+        
         shopLabel.text = "SHOP"
         //shopLabel.font = UIFont(name: "Verdana", size: 50)
         shopLabel.font = shopLabel.font.fontWithSize(50)
         shopLabel.frame.size = CGSizeMake(500, 100)
         shopLabel.center = CGPointMake(self.view!.center.x - self.view!.frame.maxX, 30)
-//        shopLabel.center = self.view!.center
+        //        shopLabel.center = self.view!.center
         shopLabel.textAlignment = NSTextAlignment.Center
         self.view!.addSubview(shopLabel)
         
@@ -92,11 +92,11 @@ class ShopScene: SKScene {
         //controller.frame = CGRectMake(self.view!.frame.midX, 20, 200, 30)
         controller.frame.size = CGSizeMake(200, 30)
         controller.center = CGPoint(x: self.view!.frame.midX - self.view!.frame.maxX, y: self.view!.frame.maxY - 27)
-        controller.backgroundColor = UIColor.blackColor()
-        controller.tintColor = UIColor.whiteColor()
+        controller.backgroundColor = UIColor.whiteColor()
+        controller.tintColor = UIColor.blackColor()
         controller.addTarget(self, action: #selector(ShopScene.switchView(_:)), forControlEvents: .ValueChanged)
         controller.layer.cornerRadius = 5.0
-        controller.layer.borderWidth = 3
+        controller.layer.borderWidth = 2
         controller.layer.borderColor = UIColor.blackColor().CGColor
         self.view!.addSubview(controller)
         
@@ -105,7 +105,9 @@ class ShopScene: SKScene {
         //currencyLabel.frame = CGRectMake(self.view!.frame.maxX, <#T##y: CGFloat##CGFloat#>, <#T##width: CGFloat##CGFloat#>, <#T##height: CGFloat##CGFloat#>)
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
-        currencyLabel.center = CGPointMake((self.view!.frame.maxX - currencyLabel.frame.width) - self.view!.frame.maxX, self.view!.frame.minY + 10)
+        currencyLabel.center = CGPointMake(self.view!.center.x + 100, self.view!.frame.minY + 10)
+        //currencyLabel.center = CGPointMake((self.view!.frame.maxX - currencyLabel.frame.width) - self.view!.frame.maxX, self.view!.frame.minY + 10)
+        
         currencyLabel.textAlignment = NSTextAlignment.Right
         self.view!.addSubview(currencyLabel)
         
@@ -124,7 +126,7 @@ class ShopScene: SKScene {
         backButton.frame.size.height = 100
         self.view?.addSubview(backButton)
         
-
+        
         
         for num in currencylabelNumsForPlayers {
             currencyLabelArray.append(UILabel())
@@ -134,7 +136,7 @@ class ShopScene: SKScene {
             }else{
                 currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].text = ""
             }
-
+            
             currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].textAlignment = NSTextAlignment.Center
         }
         
@@ -210,241 +212,243 @@ class ShopScene: SKScene {
             }
             self.shopLabel.center.x += self.view!.frame.maxX
             self.controller.center.x += self.view!.frame.maxX
-            self.currencyLabel.center.x += self.view!.frame.maxX
+            //self.currencyLabel.center.x += self.view!.frame.maxX
             self.backButton.center.x += self.view!.frame.maxX
+            }, completion: { finished in
+                print("inni")
+                //self.view!.addSubview(self.currencyLabel)
         })
     }
-    
-    func switchView(sender: UISegmentedControl){
-        switch sender.selectedSegmentIndex {
-        case 0:
-            UIView.animateWithDuration(0.5, animations: {
-                for index in self.currencyLabelArray {
-                    index.center.x -= 1000
-                }
-                for index in self.playerImageViews {
-                    index!.center.x -= 1000
-                }
-                for index in self.lockArrayForPlayers {
-                    index.center.x -= 1000
-                }
-                for index in self.currencyLabelArrayForThemes {
-                    index.center.x -= 1000
-                }
-                for index in self.themeImageViews {
-                    index!.center.x -= 1000
-                }
-                for index in self.lockArrayforThemes {
-                    index.center.x -= 1000
-                }
-                self.backWhite.center.x -= 1000
-            })
-            segmentedControlNum = 0
-        case 1:
-            UIView.animateWithDuration(0.5, animations: {
-                for index in self.currencyLabelArray {
-                    index.center.x += 1000
-                }
-                for index in self.playerImageViews {
-                    index!.center.x += 1000
-                }
-                for index in self.lockArrayForPlayers {
-                    index.center.x += 1000
-                }
-                for index in self.currencyLabelArrayForThemes {
-                    index.center.x += 1000
-                }
-                for index in self.themeImageViews {
-                    index!.center.x += 1000
-                }
-                for index in self.lockArrayforThemes {
-                    index.center.x += 1000
-                }
-                self.backWhite.center.x += 1000
-            })
-            segmentedControlNum = 1
-        default:
-            print("no")
+        func switchView(sender: UISegmentedControl){
+            switch sender.selectedSegmentIndex {
+            case 0:
+                UIView.animateWithDuration(0.5, animations: {
+                    for index in self.currencyLabelArray {
+                        index.center.x -= 1000
+                    }
+                    for index in self.playerImageViews {
+                        index!.center.x -= 1000
+                    }
+                    for index in self.lockArrayForPlayers {
+                        index.center.x -= 1000
+                    }
+                    for index in self.currencyLabelArrayForThemes {
+                        index.center.x -= 1000
+                    }
+                    for index in self.themeImageViews {
+                        index!.center.x -= 1000
+                    }
+                    for index in self.lockArrayforThemes {
+                        index.center.x -= 1000
+                    }
+                    self.backWhite.center.x -= 1000
+                })
+                segmentedControlNum = 0
+            case 1:
+                UIView.animateWithDuration(0.5, animations: {
+                    for index in self.currencyLabelArray {
+                        index.center.x += 1000
+                    }
+                    for index in self.playerImageViews {
+                        index!.center.x += 1000
+                    }
+                    for index in self.lockArrayForPlayers {
+                        index.center.x += 1000
+                    }
+                    for index in self.currencyLabelArrayForThemes {
+                        index.center.x += 1000
+                    }
+                    for index in self.themeImageViews {
+                        index!.center.x += 1000
+                    }
+                    for index in self.lockArrayforThemes {
+                        index.center.x += 1000
+                    }
+                    self.backWhite.center.x += 1000
+                })
+                segmentedControlNum = 1
+            default:
+                print("no")
+            }
         }
-    }
-    
-    func backButtonPressed(){
-        UIView.animateWithDuration(1, animations: {
-            if self.segmentedControlNum == 0 {
-                for index in self.currencyLabelArray {
+        
+        func backButtonPressed(){
+            UIView.animateWithDuration(1, animations: {
+                if self.segmentedControlNum == 0 {
+                    for index in self.currencyLabelArray {
+                        //index.removeFromSuperview()
+                        index.center.x -= self.view!.frame.maxX
+                    }
+                    for index in self.playerImageViews {
+                        //index?.removeFromSuperview()
+                        index!.center.x -= self.view!.frame.maxX
+                    }
+                    for index in self.lockArrayForPlayers {
+                        //index.removeFromSuperview()
+                        index.center.x -= self.view!.frame.maxX
+                    }
+                }else{
+                    for index in self.currencyLabelArray {
+                        index.removeFromSuperview()
+                        //index.center.x -= self.view!.frame.maxX
+                    }
+                    for index in self.playerImageViews {
+                        index?.removeFromSuperview()
+                        //index!.center.x -= self.view!.frame.maxX
+                    }
+                    for index in self.lockArrayForPlayers {
+                        index.removeFromSuperview()
+                        //index.center.x -= self.view!.frame.maxX
+                    }
+                    
+                }
+                for index in self.currencyLabelArrayForThemes{
                     //index.removeFromSuperview()
                     index.center.x -= self.view!.frame.maxX
                 }
-                for index in self.playerImageViews {
-                    //index?.removeFromSuperview()
+                for index in self.themeImageViews {
+                    //index!.removeFromSuperview()
                     index!.center.x -= self.view!.frame.maxX
                 }
-                for index in self.lockArrayForPlayers {
+                for index in self.lockArrayforThemes {
                     //index.removeFromSuperview()
                     index.center.x -= self.view!.frame.maxX
                 }
-            }else{
-                for index in self.currencyLabelArray {
-                    index.removeFromSuperview()
-                    //index.center.x -= self.view!.frame.maxX
-                }
-                for index in self.playerImageViews {
-                    index?.removeFromSuperview()
-                    //index!.center.x -= self.view!.frame.maxX
-                }
-                for index in self.lockArrayForPlayers {
-                    index.removeFromSuperview()
-                    //index.center.x -= self.view!.frame.maxX
-                }
-
-            }
-            for index in self.currencyLabelArrayForThemes{
-                //index.removeFromSuperview()
-                index.center.x -= self.view!.frame.maxX
-            }
-            for index in self.themeImageViews {
-                //index!.removeFromSuperview()
-                index!.center.x -= self.view!.frame.maxX
-            }
-            for index in self.lockArrayforThemes {
-                //index.removeFromSuperview()
-                index.center.x -= self.view!.frame.maxX
-            }
-            self.controller.center.x -= self.view!.frame.maxX
-            self.backWhite.center.x -= self.view!.frame.maxX
-            self.backButton.center.x -= self.view!.frame.maxX
-            self.label.center.x -= self.view!.frame.maxX
-            self.currencyLabel.center.x -= self.view!.frame.maxX
-            self.shopLabel.center.x -= self.view!.frame.maxX
-        })
-        //controller.removeFromSuperview()
-        //backWhite.removeFromSuperview()
-        //backButton.removeFromSuperview()
-        //label.removeFromSuperview()
-        //currencyLabel.removeFromSuperview()
-        //shopLabel.removeFromSuperview()
-        Cloud.backFromShop = true
-        let skView = self.view! as SKView
-        let scene = TitleScene(fileNamed:"TitleScene")
-        scene!.scaleMode = .AspectFill
-        skView.presentScene(scene)
-    }
-    
-    func picTapped(index: Int){
-        print("yay")
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        for touch in touches {
-            location = touch.locationInView(self.view)
+                self.controller.center.x -= self.view!.frame.maxX
+                self.backWhite.center.x -= self.view!.frame.maxX
+                self.backButton.center.x -= self.view!.frame.maxX
+                self.label.center.x -= self.view!.frame.maxX
+                //self.currencyLabel.center.x -= self.view!.frame.maxX
+                self.shopLabel.center.x -= self.view!.frame.maxX
+            })
+            //controller.removeFromSuperview()
+            //backWhite.removeFromSuperview()
+            //backButton.removeFromSuperview()
+            //label.removeFromSuperview()
+            currencyLabel.removeFromSuperview()
+            //shopLabel.removeFromSuperview()
+            Cloud.backFromShop = true
+            let skView = self.view! as SKView
+            let scene = TitleScene(fileNamed:"TitleScene")
+            scene!.scaleMode = .AspectFill
+            skView.presentScene(scene)
         }
-        /*
-        for index in playerImageViews {
-            if CGRectContainsPoint(index!.frame, location){
-                for imageName in playerImageStrings {
-                    if index?.image == UIImage(named: imageName){
-                        if Cloud.lockedForPlayers[playerImageStrings.indexOf(imageName)!] {
-                            if Cloud.currency >= self.currencylabelNumsForPlayers[playerImageStrings.indexOf(imageName)!] {
-                                Cloud.playerString = imageName
-                                label.text = "\(imageName) selected"
-                                self.transformImage(imageName)
-                                Cloud.currency -= self.currencylabelNumsForPlayers[playerImageStrings.indexOf(imageName)!]
-                                Cloud.lockedForPlayers[playerImageStrings.indexOf(imageName)!] = false
-                                currencyLabel.text = String(Cloud.currency)
-                            }
-                        }else{
-                            Cloud.playerString = imageName
-                            label.text = "\(imageName) selected"
-                            self.transformImage(imageName)
-                        }
-                    }
-                }
-            }
+        
+        func picTapped(index: Int){
+            print("yay")
         }
-        for index in themeImageViews {
-            if CGRectContainsPoint(index!.frame, location){
-                for imageName in themeStrings {
-                    if index?.image == UIImage(named: imageName){
-                        if Cloud.lockedForThemes[themeStrings.indexOf(imageName)!] {
-                            if Cloud.currency >= self.currencyLabelNumsForThemes[themeStrings.indexOf(imageName)!] {
-                                //FIX --> Cloud.playerString = imageName
-                                //FIX --> label.text = "\(imageName) selected"
-                                self.transformImage(imageName)
-                                Cloud.currency -= self.currencyLabelNumsForThemes[themeStrings.indexOf(imageName)!]
-                                Cloud.lockedForThemes[themeStrings.indexOf(imageName)!] = false
-                                currencyLabel.text = String(Cloud.currency)
-                            }
-                        }else{
-                            //Cloud.playerString = imageName
-                            //label.text = "\(imageName) selected"
-                            self.transformImage(imageName)
-                        }
-                    }
-                }
+        
+        override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+            for touch in touches {
+                location = touch.locationInView(self.view)
             }
+            /*
+             for index in playerImageViews {
+             if CGRectContainsPoint(index!.frame, location){
+             for imageName in playerImageStrings {
+             if index?.image == UIImage(named: imageName){
+             if Cloud.lockedForPlayers[playerImageStrings.indexOf(imageName)!] {
+             if Cloud.currency >= self.currencylabelNumsForPlayers[playerImageStrings.indexOf(imageName)!] {
+             Cloud.playerString = imageName
+             label.text = "\(imageName) selected"
+             self.transformImage(imageName)
+             Cloud.currency -= self.currencylabelNumsForPlayers[playerImageStrings.indexOf(imageName)!]
+             Cloud.lockedForPlayers[playerImageStrings.indexOf(imageName)!] = false
+             currencyLabel.text = String(Cloud.currency)
+             }
+             }else{
+             Cloud.playerString = imageName
+             label.text = "\(imageName) selected"
+             self.transformImage(imageName)
+             }
+             }
+             }
+             }
+             }
+             for index in themeImageViews {
+             if CGRectContainsPoint(index!.frame, location){
+             for imageName in themeStrings {
+             if index?.image == UIImage(named: imageName){
+             if Cloud.lockedForThemes[themeStrings.indexOf(imageName)!] {
+             if Cloud.currency >= self.currencyLabelNumsForThemes[themeStrings.indexOf(imageName)!] {
+             //FIX --> Cloud.playerString = imageName
+             //FIX --> label.text = "\(imageName) selected"
+             self.transformImage(imageName)
+             Cloud.currency -= self.currencyLabelNumsForThemes[themeStrings.indexOf(imageName)!]
+             Cloud.lockedForThemes[themeStrings.indexOf(imageName)!] = false
+             currencyLabel.text = String(Cloud.currency)
+             }
+             }else{
+             //Cloud.playerString = imageName
+             //label.text = "\(imageName) selected"
+             self.transformImage(imageName)
+             }
+             }
+             }
+             }
+             }
+             */
+            check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers, curlArray: currencyLabelArray)
+            check(themeImageViews, arrayOfStrings: themeStrings, isLockedArray: &Cloud.lockedForThemes, numArray: currencyLabelNumsForThemes, isPlayer: false, lockImgArray: lockArrayforThemes, curlArray: currencyLabelArrayForThemes)
         }
-        */
-        check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers, curlArray: currencyLabelArray)
-        check(themeImageViews, arrayOfStrings: themeStrings, isLockedArray: &Cloud.lockedForThemes, numArray: currencyLabelNumsForThemes, isPlayer: false, lockImgArray: lockArrayforThemes, curlArray: currencyLabelArrayForThemes)
-    }
-    
-    func check(arrayOfImages: Array<UIImageView?>, arrayOfStrings: Array<String>, inout isLockedArray: Array<Bool>, numArray: Array<Int>, isPlayer: Bool, lockImgArray: Array<UIImageView>, curlArray: Array<UILabel>) {
-        for index in arrayOfImages {
-            if CGRectContainsPoint(index!.frame, location){
-                for imageName in arrayOfStrings {
-                    if index?.image == UIImage(named: imageName){
-                        if isLockedArray[arrayOfStrings.indexOf(imageName)!] {
-                            if Cloud.currency >= numArray[arrayOfStrings.indexOf(imageName)!] {
+        
+        func check(arrayOfImages: Array<UIImageView?>, arrayOfStrings: Array<String>, inout isLockedArray: Array<Bool>, numArray: Array<Int>, isPlayer: Bool, lockImgArray: Array<UIImageView>, curlArray: Array<UILabel>) {
+            for index in arrayOfImages {
+                if CGRectContainsPoint(index!.frame, location){
+                    for imageName in arrayOfStrings {
+                        if index?.image == UIImage(named: imageName){
+                            if isLockedArray[arrayOfStrings.indexOf(imageName)!] {
+                                if Cloud.currency >= numArray[arrayOfStrings.indexOf(imageName)!] {
+                                    if isPlayer {
+                                        Cloud.playerString = imageName
+                                        label.text = "\(imageName) selected"
+                                    }else{
+                                        Cloud.themeString = imageName
+                                    }
+                                    self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
+                                    //self.transformImage(imageName)
+                                    Cloud.currency -= numArray[arrayOfStrings.indexOf(imageName)!]         //LLLLLLLABEL
+                                    isLockedArray[arrayOfStrings.indexOf(imageName)!] = false
+                                    curlArray[arrayOfStrings.indexOf(imageName)!].text = ""
+                                    currencyLabel.text = String(Cloud.currency)
+                                }
+                            }else{
                                 if isPlayer {
                                     Cloud.playerString = imageName
-                                    label.text = "\(imageName) selected"
-                                }else{
-                                    Cloud.themeString = imageName
                                 }
                                 self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
-                                //self.transformImage(imageName)
-                                Cloud.currency -= numArray[arrayOfStrings.indexOf(imageName)!]         //LLLLLLLABEL
-                                isLockedArray[arrayOfStrings.indexOf(imageName)!] = false
-                                curlArray[arrayOfStrings.indexOf(imageName)!].text = ""
-                                currencyLabel.text = String(Cloud.currency)
                             }
-                        }else{
-                            if isPlayer {
-                                Cloud.playerString = imageName
-                            }
-                            self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
                         }
                     }
                 }
             }
         }
-    }
-    
-    func transformImage(imageName: String, arrayOfImgViews: Array<UIImageView?>, stringArray: Array<String>, lockArray: Array<UIImageView>) {
-        for index in arrayOfImgViews {
-            if index!.image == UIImage(named: imageName){
-                UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
-                    let thisIt = stringArray.indexOf(imageName)!
-                    self.backWhite.alpha = 0.0
-                    lockArray[thisIt].alpha = 0.0
-                    index!.alpha = 1.0
-                    lockArray[thisIt].transform = CGAffineTransformMakeScale(2, 2)
-                    }, completion: { finished in
-                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
+        
+        func transformImage(imageName: String, arrayOfImgViews: Array<UIImageView?>, stringArray: Array<String>, lockArray: Array<UIImageView>) {
+            for index in arrayOfImgViews {
+                if index!.image == UIImage(named: imageName){
+                    UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
+                        let thisIt = stringArray.indexOf(imageName)!
                         self.backWhite.alpha = 0.0
-                        self.view?.insertSubview(self.backWhite, atIndex: 1)
-                        UIView.animateWithDuration(0.3, animations: {
-                            self.backWhite.alpha = 1.0
-                        })
-                })
+                        lockArray[thisIt].alpha = 0.0
+                        index!.alpha = 1.0
+                        lockArray[thisIt].transform = CGAffineTransformMakeScale(2, 2)
+                        }, completion: { finished in
+                            self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
+                            self.backWhite.alpha = 0.0
+                            self.view?.insertSubview(self.backWhite, atIndex: 1)
+                            UIView.animateWithDuration(0.3, animations: {
+                                self.backWhite.alpha = 1.0
+                            })
+                    })
+                }
             }
         }
-    }
-
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    }
-    
-    override func update(currentTime: CFTimeInterval) {
-    }
-    
+        
+        override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        }
+        
+        override func update(currentTime: CFTimeInterval) {
+        }
+        
 }

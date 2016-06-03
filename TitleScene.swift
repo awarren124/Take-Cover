@@ -71,8 +71,13 @@ class TitleScene: SKScene {
             //realRadius = 50
             break
         }
+        //if Cloud.backFromSettings || Cloud.backFromShop {
+          //  currencyLabel.removeFromSuperview()
+            //print("removing in Cloud.backFromSettings || Cloud.backFromShop")
+        //}
         let background = SKSpriteNode()
-        background.color = UIColor.whiteColor()
+//        background.color = UIColor.whiteColor()
+        background.texture = SKTexture(imageNamed: "Title Screen Graident")
         background.size = self.frame.size
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
@@ -189,6 +194,7 @@ class TitleScene: SKScene {
         settingsButton.frame.size = CGSize(width: 100, height: 100)
         if  Cloud.backFromSettings {
             settingsButton.center = CGPointMake(self.view!.frame.midX + 200 - self.view!.frame.maxX, self.view!.center.y)
+            currencyLabel.center.x -= self.view!.frame.maxX
         }else if Cloud.backFromShop{
             settingsButton.center = CGPointMake(self.view!.frame.midX + 200 + self.view!.frame.maxX, self.view!.center.y)
         }else{
@@ -209,6 +215,7 @@ class TitleScene: SKScene {
                 for corner in self.cornerImages {
                     corner.frame.origin.x += self.view!.frame.maxX
                 }
+                self.currencyLabel.center.x += self.view!.frame.maxX
             })
             Cloud.backFromSettings = false
         }else if Cloud.backFromShop{
@@ -237,6 +244,7 @@ class TitleScene: SKScene {
                 image.frame.origin.x -= self.view!.frame.maxX
             }
         })
+        //currencyLabel.removeFromSuperview()
         skView.presentScene(scene)
         
     }
@@ -246,6 +254,7 @@ class TitleScene: SKScene {
         let scene = GameScene(fileNamed:"GameScene")
         scene!.scaleMode = .AspectFill
         currencyLabel.removeFromSuperview()
+        print("removing in play()")
         UIView.animateWithDuration(1.0, animations: {
             self.transitioning = true
             self.playButton.alpha = 0.0
@@ -258,6 +267,7 @@ class TitleScene: SKScene {
             }, completion: { finshed in
                 self.playButton.removeFromSuperview()
                 self.shopButton.removeFromSuperview()
+                self.settingsButton.removeFromSuperview()
                 for image in self.cornerImages {
                     image.removeFromSuperview()
                 }
@@ -276,7 +286,21 @@ class TitleScene: SKScene {
             for corner in self.cornerImages {
                 corner.frame.origin.x += self.view!.frame.maxX
             }
-        })
+//            self.currencyLabel.center.x += self.view!.frame.maxX
+            self.currencyLabel.removeFromSuperview()
+            }, completion: { finished in
+                //print("removing in shop()(completion)")
+        })/*
+        UIView.animateWithDuration(1, animations: {
+            self.playButton.center.x += self.view!.frame.maxX
+            self.shopButton.center.x += self.view!.frame.maxX
+            self.settingsButton.center.x += self.view!.frame.maxX
+            for corner in self.cornerImages {
+                corner.frame.origin.x += self.view!.frame.maxX
+            }
+            }, completion: { finished in
+                self.currencyLabel.removeFromSuperview()
+            })*/
         skView.presentScene(scene)
     }
     
