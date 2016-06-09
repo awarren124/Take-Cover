@@ -29,8 +29,14 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     let actualFade = SKTransition.doorwayWithDuration(1.5)//SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 3.0)//crossFadeWithDuration(1.0)
     //let shooterScene = ShooterScene(fileNamed: "ShooterScene")
     //self.view?.presentScene(shooterScene, transition: doors)
-    
+    let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
+
     override func didMoveToView(view: SKView) {
+        
+        backgroundImageView.frame = self.view!.frame
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+            self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
+        })
         
         arrayOfButtons.append(soundSwitch)
         arrayOfButtons.append(backButton)
@@ -40,7 +46,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         arrayOfLabels.append(feedDesc)
         arrayOfButtons.append(feedHelp)
         arrayOfButtons.append(creditsButton)
-        background.color = UIColor.whiteColor()
+        background.texture = SKTexture(imageNamed: "Title Screen Graident")
         background.size = self.frame.size
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
@@ -202,6 +208,9 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                 thing.center.x += self.view!.frame.maxX
             }
             
+        })
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+            self.backgroundImageView.removeFromSuperview()
         })
         Cloud.backFromSettings = true
         let skView = self.view! as SKView

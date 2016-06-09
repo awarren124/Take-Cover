@@ -37,6 +37,7 @@ struct Cloud {
     static var backFromSettings = false
     static var backFromShop = false
     static var model = String()
+    static var highScore = 0
 }
 
 class TitleScene: SKScene {
@@ -51,8 +52,17 @@ class TitleScene: SKScene {
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
     var cornerImages = [UIImageView]()
     let cornerImageStrings = ["ul", "ur", "ll", "lr"]
+    let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
     
     override func didMoveToView(view: SKView) {
+        backgroundImageView.frame = self.view!.frame
+        if Cloud.backFromSettings || Cloud.backFromShop {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
+            })
+        }else{
+            self.view!.addSubview(self.backgroundImageView)
+        }
         let screenHeight = self.view!.frame.height
         switch screenHeight {
         case 375.0:
@@ -75,12 +85,14 @@ class TitleScene: SKScene {
           //  currencyLabel.removeFromSuperview()
             //print("removing in Cloud.backFromSettings || Cloud.backFromShop")
         //}
-        let background = SKSpriteNode()
 //        background.color = UIColor.whiteColor()
-        background.texture = SKTexture(imageNamed: "Title Screen Graident")
-        background.size = self.frame.size
-        background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
-        background.zPosition = 0
+//        background.texture = SKTexture(imageNamed: "Title Screen Graident")
+//        background.size = self.frame.size
+//        background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
+//        background.zPosition = 0
+//        backgroundImage.frame = CGRectMake(self.view!.frame.midX, 100, 100, 100) //self.view!.frame
+//        background.image = UIImage(named: "Title Screen Gradient")
+//        self.view!.addSubview(backgroundImage)
         
         for imageName in cornerImageStrings {
             cornerImages.append(UIImageView(image: UIImage(named: imageName)))
@@ -132,7 +144,7 @@ class TitleScene: SKScene {
             self.view?.addSubview(imageView)
         }
         
-        self.addChild(background)
+        //self.addChild(background)
         currencyLabel.text = String(Cloud.currency)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
         currencyLabel.center = CGPointMake(self.view!.center.x + 100, self.view!.frame.minY + 10)
@@ -243,6 +255,9 @@ class TitleScene: SKScene {
             for image in self.cornerImages {
                 image.frame.origin.x -= self.view!.frame.maxX
             }
+            }, completion: { finished in
+                self.backgroundImageView.removeFromSuperview()
+
         })
         //currencyLabel.removeFromSuperview()
         skView.presentScene(scene)
@@ -255,11 +270,15 @@ class TitleScene: SKScene {
         scene!.scaleMode = .AspectFill
         currencyLabel.removeFromSuperview()
         print("removing in play()")
+//        background.runAction(SKAction.fadeAlphaTo(0.0, duration: 10))
+        
         UIView.animateWithDuration(1.0, animations: {
             self.transitioning = true
             self.playButton.alpha = 0.0
             self.shopButton.alpha = 0.0
             self.settingsButton.alpha = 0.0
+            self.backgroundImageView.alpha = 0.0
+            
             for image in self.cornerImages {
                 image.alpha = 0.0
             }
@@ -289,8 +308,8 @@ class TitleScene: SKScene {
 //            self.currencyLabel.center.x += self.view!.frame.maxX
             self.currencyLabel.removeFromSuperview()
             }, completion: { finished in
-                //print("removing in shop()(completion)")
-        })/*
+                self.backgroundImageView.removeFromSuperview()
+         })/*
         UIView.animateWithDuration(1, animations: {
             self.playButton.center.x += self.view!.frame.maxX
             self.shopButton.center.x += self.view!.frame.maxX

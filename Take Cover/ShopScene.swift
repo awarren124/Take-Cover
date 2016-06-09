@@ -62,15 +62,21 @@ class ShopScene: SKScene {
     let controller = UISegmentedControl(items: ["Players", "Themes"])//items)
     let shopLabel = UILabel()
     var segmentedControlNum = 0
+    let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
     
     override func didMoveToView(view: SKView) {
         
-        let background = SKSpriteNode()
-        background.color = UIColor.whiteColor()
-        background.size = self.frame.size
-        background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
-        background.zPosition = 0
-        self.addChild(background)
+        backgroundImageView.frame = self.view!.frame
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+            self.view!.insertSubview(self.backgroundImageView, atIndex: 0)//addSubview(self.backgroundImageView)
+        })
+        
+//        let background = SKSpriteNode()
+//        background.texture = SKTexture(imageNamed: "Title Screen Graident")
+//        background.size = self.frame.size
+//        background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
+//        background.zPosition = 0
+//        self.addChild(background)
         let screenSize: CGRect = UIScreen.mainScreen().bounds
         playerSize = screenSize.width / 6.67
         xPosForThemes = (playerSize / 2) - 1000
@@ -321,11 +327,16 @@ class ShopScene: SKScene {
                 //self.currencyLabel.center.x -= self.view!.frame.maxX
                 self.shopLabel.center.x -= self.view!.frame.maxX
             })
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                self.backgroundImageView.removeFromSuperview()
+            })
+
             //controller.removeFromSuperview()
             //backWhite.removeFromSuperview()
             //backButton.removeFromSuperview()
             //label.removeFromSuperview()
             currencyLabel.removeFromSuperview()
+            
             //shopLabel.removeFromSuperview()
             Cloud.backFromShop = true
             let skView = self.view! as SKView

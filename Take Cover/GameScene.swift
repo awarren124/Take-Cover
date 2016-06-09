@@ -684,6 +684,9 @@ class GameScene: SKScene {
         deleteNodes("cover")
         deleteNodes("coverShade")
         deleteNodes("shade")
+        if score > Cloud.highScore {
+            Cloud.highScore = score
+        }
         gameOver = true
         delayTime = 1
         pauseView = makeRestartPanel()
@@ -724,11 +727,15 @@ class GameScene: SKScene {
         restartButton.backgroundColor = UIColor.blackColor()
         restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
         panel.addSubview(restartButton)
-        let currencyLabel = UILabel(frame: CGRectMake(0, panelMax.y * (3/4), panelSize.width, 25))
-        currencyLabel.center.y = panelMax.y * (3/4)
+        let currencyLabel = UILabel(frame: CGRectMake(0, panelSize.height * (2.85/5), panelSize.width, 25))
+//        currencyLabel.center.y = panelMax.y * (3/4)
         currencyLabel.text = "Coins: \(Cloud.currency)"
         currencyLabel.textAlignment = NSTextAlignment.Center
         panel.addSubview(currencyLabel)
+        let highScoreLabel = UILabel(frame: CGRectMake(0, currencyLabel.frame.maxY, panelSize.width, 25))
+        highScoreLabel.text = "HighScore: 348"
+        highScoreLabel.textAlignment = NSTextAlignment.Center
+        panel.addSubview(highScoreLabel)
         return panel
     }
     
