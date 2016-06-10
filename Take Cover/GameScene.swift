@@ -748,47 +748,50 @@ class GameScene: SKScene {
     }
     
     func reset() {
-        if restartTapped{
-            delay(0.5){
-                self.restartButtonInPauseMenu.removeFromSuperview()
-                self.backButton.removeFromSuperview()
+        player.runAction(SKAction.moveToX(self.frame.midX, duration: 0.39))
+        delay(0.4){
+            if self.restartTapped{
+                self.delay(0.5){
+                    self.restartButtonInPauseMenu.removeFromSuperview()
+                    self.backButton.removeFromSuperview()
+                }
+                UIView.animateWithDuration(0.5, animations: {
+                    self.restartButtonInPauseMenu.alpha = 0.0
+                    self.backButton.alpha = 0.0
+                    
+                })
+                self.restartTapped = false
+            }else{
+                UIView.animateWithDuration(0.5, animations: {
+                    self.pauseButton.alpha = 1.0
+                })
             }
             UIView.animateWithDuration(0.5, animations: {
-                self.restartButtonInPauseMenu.alpha = 0.0
-                self.backButton.alpha = 0.0
-                
+                self.pauseView.alpha = 0.0
+                self.backButtonInGameOver.alpha = 0.0
+                }, completion: { finished in
+                    self.pauseView.removeFromSuperview()
+                    self.backButtonInGameOver.removeFromSuperview()
             })
-            restartTapped = false
-        }else{
-            UIView.animateWithDuration(0.5, animations: {
-                self.pauseButton.alpha = 1.0
-            })
+            self.deleteNodes("cover")
+            self.deleteNodes("coverShade")
+            self.deleteNodes("shade")
+            self.itIsPaused = false
+            self.deleteNodes("fade")
+            self.gameOver = false
+            self.doneFalling = true
+            self.makeCovers = true
+            self.delayChange = 0.7
+            self.durationChange = 0.3
+            self.minDelay = 0.5
+            self.minDur = 1.0
+            self.duration = 3
+            self.delayTime = 1
+            self.radius = 100
+            self.start = true
+            self.score = 0
+            self.scaleFactor = 0.9
         }
-        UIView.animateWithDuration(0.5, animations: {
-            self.pauseView.alpha = 0.0
-            self.backButtonInGameOver.alpha = 0.0
-            }, completion: { finished in
-                self.pauseView.removeFromSuperview()
-                self.backButtonInGameOver.removeFromSuperview()
-        })
-        deleteNodes("cover")
-        deleteNodes("coverShade")
-        deleteNodes("shade")
-        itIsPaused = false
-        deleteNodes("fade")
-        gameOver = false
-        doneFalling = true
-        makeCovers = true
-        delayChange = 0.7
-        durationChange = 0.3
-        minDelay = 0.5
-        minDur = 1.0
-        duration = 3
-        delayTime = 1
-        radius = 100
-        start = true
-        score = 0
-        scaleFactor = 0.9
     }
     
     func delay(delay:Double, closure:()->()) {
