@@ -415,6 +415,7 @@ class ShopScene: SKScene {
                                         label.text = "\(imageName) selected"
                                     }else{
                                         Cloud.themeString = imageName
+                                        print("changing")
                                     }
                                     self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
                                     //self.transformImage(imageName)
@@ -426,6 +427,8 @@ class ShopScene: SKScene {
                             }else{
                                 if isPlayer {
                                     Cloud.playerString = imageName
+                                }else{
+                                    Cloud.themeString = imageName
                                 }
                                 self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
                             }

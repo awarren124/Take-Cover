@@ -85,10 +85,13 @@ class GameScene: SKScene {
         switch Cloud.themeString {
         case "dark":
             background.color = UIColor.lightGrayColor()
+            print("darky")
         case "disco":
             background.color = randColor()
+            print("discoo")
         default:
             background.color = UIColor.whiteColor()
+            print("reg")
         }
         
         screenHeight = self.view!.frame.height
@@ -475,7 +478,6 @@ class GameScene: SKScene {
     }
     
     func makeCovers(pointPosition: CGPoint, color: SKColor) {
-        print(pointPosition)
         var position = pointPosition
         position.x = abs(pointPosition.x)
         position.y = abs(pointPosition.y)
@@ -561,7 +563,6 @@ class GameScene: SKScene {
         }
         if scaleFactor >= 0.5 && score % 3 == 2 {
             scaleFactor -= 0.1
-            print("Shrinking...")
         }
         first = false
     }
