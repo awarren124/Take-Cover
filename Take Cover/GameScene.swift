@@ -512,7 +512,7 @@ class GameScene: SKScene {
         //rect.physicsBody?.usesPreciseCollisionDetection = false
         //rect.physicsBody?.affectedByGravity = false
         //rect.igno
-        rect.fillColor = UIColor.whiteColor()//color
+        rect.fillColor = background.color
         rect.zPosition = 2
         rect.name = "coverShade"
         rect.strokeColor = UIColor.clearColor()
