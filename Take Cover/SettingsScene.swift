@@ -131,7 +131,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     }
     
     func mailTime() {
-        print("i")
         let m = setupMailTime()
         let currentViewController:UIViewController=UIApplication.sharedApplication().keyWindow!.rootViewController!
         if MFMailComposeViewController.canSendMail() {
@@ -162,14 +161,12 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
             
             newCurrentViewController.presentViewController(alertController, animated: true, completion: nil)
-            print("sent")
         case MFMailComposeResultCancelled.rawValue:
             let alertController = UIAlertController(title: "Message Cancelled", message:
                 "", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
             
             newCurrentViewController.presentViewController(alertController, animated: true, completion: nil)
-            print("cancelled")
         default:
             break
         }

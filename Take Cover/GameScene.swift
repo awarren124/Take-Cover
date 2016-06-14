@@ -85,13 +85,10 @@ class GameScene: SKScene {
         switch Cloud.themeString {
         case "dark":
             background.color = UIColor.lightGrayColor()
-            print("darky")
         case "disco":
             background.color = randColor()
-            print("discoo")
         default:
             background.color = UIColor.whiteColor()
-            print("reg")
         }
         
         screenHeight = self.view!.frame.height

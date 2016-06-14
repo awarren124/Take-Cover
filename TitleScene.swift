@@ -269,7 +269,6 @@ class TitleScene: SKScene {
         let scene = GameScene(fileNamed:"GameScene")
         scene!.scaleMode = .AspectFill
         currencyLabel.removeFromSuperview()
-        print("removing in play()")
 //        background.runAction(SKAction.fadeAlphaTo(0.0, duration: 10))
         
         UIView.animateWithDuration(1.0, animations: {

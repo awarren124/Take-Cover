@@ -82,9 +82,6 @@ class ShopScene: SKScene {
         xPosForThemes = (playerSize / 2) - 1000
         xPosForPlayers = playerSize / 2
         
-        print(screenSize)
-        print(self.frame.size)
-        
         shopLabel.text = "SHOP"
         //shopLabel.font = UIFont(name: "Verdana", size: 50)
         shopLabel.font = shopLabel.font.fontWithSize(50)
@@ -221,7 +218,6 @@ class ShopScene: SKScene {
             //self.currencyLabel.center.x += self.view!.frame.maxX
             self.backButton.center.x += self.view!.frame.maxX
             }, completion: { finished in
-                print("inni")
                 //self.view!.addSubview(self.currencyLabel)
         })
     }
@@ -346,7 +342,6 @@ class ShopScene: SKScene {
         }
         
         func picTapped(index: Int){
-            print("yay")
         }
         
         override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -415,7 +410,6 @@ class ShopScene: SKScene {
                                         label.text = "\(imageName) selected"
                                     }else{
                                         Cloud.themeString = imageName
-                                        print("changing")
                                     }
                                     self.transformImage(imageName, arrayOfImgViews: arrayOfImages, stringArray: arrayOfStrings, lockArray: lockImgArray)
                                     //self.transformImage(imageName)
