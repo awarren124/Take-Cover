@@ -202,7 +202,7 @@ class TitleScene: SKScene {
         shopButton.addTarget(self, action: #selector(TitleScene.shop), forControlEvents: .TouchUpInside)
         view.addSubview(shopButton)
         
-        settingsButton.setImage(UIImage(named: "ShopButton"), forState: .Normal)
+        settingsButton.setImage(UIImage(named: "SettingsButton"), forState: .Normal)
         settingsButton.frame.size = CGSize(width: 100, height: 100)
         if  Cloud.backFromSettings {
             settingsButton.center = CGPointMake(self.view!.frame.midX + 200 - self.view!.frame.maxX, self.view!.center.y)

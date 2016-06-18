@@ -128,7 +128,7 @@ class GameScene: SKScene {
         self.moveToY = moveToY
         
         pauseButton.frame = CGRectMake(50, 50, 50, 50)
-        pauseButton.setImage(UIImage(named: "pauseButton.png"), forState: .Normal)
+        pauseButton.setImage(UIImage(named: "pausebutton"), forState: .Normal)
         pauseButton.alpha = 0.0
         //pauseButton.center = CGPoint(x: view.frame.midX, y: 210)//x: 500, y: 350)
         pauseButton.addTarget(self, action: #selector(GameScene.pause), forControlEvents: UIControlEvents.TouchUpInside)
@@ -539,6 +539,10 @@ class GameScene: SKScene {
         }
         var z = 0
         deleteNodes("coverShade")
+        if scaleFactor >= 0.6 && score % 3 == 0 {
+            scaleFactor -= 0.1
+            print("decreasing")
+        }
         for node in circle {
             let x = rand(1020)
             let moveCover = SKAction.moveToX(CGFloat(x), duration: delayTime)
@@ -558,10 +562,8 @@ class GameScene: SKScene {
             rect[z] = recta
             z += 1
         }
-        if scaleFactor >= 0.5 && score % 3 == 2 {
-            scaleFactor -= 0.1
-        }
         first = false
+        //print(score)
     }
     
     func randPoint(min: CGFloat, max: CGFloat) -> Int? {
@@ -653,6 +655,7 @@ class GameScene: SKScene {
     func fall() {
         if !start {
             score += 1
+            print("score += 1")
             Cloud.currency += 5
         }
         //print(score)
