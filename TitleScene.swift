@@ -51,6 +51,7 @@ struct DefaultsKeys {
 
 class TitleScene: SKScene {
     
+    var titleImg = UIImageView()
     var playButton = UIButton()
     var shopButton = UIButton()
     let settingsButton = UIButton()
@@ -171,7 +172,12 @@ class TitleScene: SKScene {
             }
             self.view?.addSubview(imageView)
         }
-        
+        titleImg.frame.size = CGSizeMake(400, 800)
+        titleImg.center = CGPointMake(self.view!.frame.midX, 100)
+        titleImg.image = UIImage(named: "Logo")
+        titleImg.contentMode = UIViewContentMode.ScaleAspectFit
+        self.view!.addSubview(titleImg)
+
         //self.addChild(background)
         currencyLabel.text = String(Cloud.currency)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
@@ -235,8 +241,10 @@ class TitleScene: SKScene {
         if  Cloud.backFromSettings {
             settingsButton.center = CGPointMake(self.view!.frame.midX + 200 - self.view!.frame.maxX, self.view!.center.y)
             currencyLabel.center.x -= self.view!.frame.maxX
+            titleImg.center.x -= self.view!.frame.maxX
         }else if Cloud.backFromShop{
             settingsButton.center = CGPointMake(self.view!.frame.midX + 200 + self.view!.frame.maxX, self.view!.center.y)
+            titleImg.center.x += self.view!.frame.maxX
         }else{
             settingsButton.center.x = self.view!.frame.midX + 200
             settingsButton.center.y = self.view!.center.y
@@ -252,6 +260,7 @@ class TitleScene: SKScene {
                 self.playButton.center.x += self.view!.frame.maxX
                 self.shopButton.center.x += self.view!.frame.maxX
                 self.settingsButton.center.x += self.view!.frame.maxX
+                self.titleImg.center.x += self.view!.frame.maxX
                 for corner in self.cornerImages {
                     corner.frame.origin.x += self.view!.frame.maxX
                 }
@@ -263,12 +272,14 @@ class TitleScene: SKScene {
                 self.playButton.center.x -= self.view!.frame.maxX
                 self.shopButton.center.x -= self.view!.frame.maxX
                 self.settingsButton.center.x -= self.view!.frame.maxX
+                self.titleImg.center.x -= self.view!.frame.maxX
                 for corner in self.cornerImages {
                     corner.frame.origin.x -= self.view!.frame.maxX
                 }
             })
             Cloud.backFromShop = false
         }
+
     }
     
     func settings(){
@@ -280,6 +291,7 @@ class TitleScene: SKScene {
             self.playButton.center.x -= self.view!.frame.maxX
             self.shopButton.center.x -= self.view!.frame.maxX
             self.settingsButton.center.x -= self.view!.frame.maxX
+            self.titleImg.center.x -= self.view!.frame.maxX
             for image in self.cornerImages {
                 image.frame.origin.x -= self.view!.frame.maxX
             }
@@ -305,7 +317,7 @@ class TitleScene: SKScene {
             self.shopButton.alpha = 0.0
             self.settingsButton.alpha = 0.0
             self.backgroundImageView.alpha = 0.0
-            
+            self.titleImg.alpha = 0.0
             for image in self.cornerImages {
                 image.alpha = 0.0
             }
@@ -329,6 +341,7 @@ class TitleScene: SKScene {
             self.playButton.center.x += self.view!.frame.maxX
             self.shopButton.center.x += self.view!.frame.maxX
             self.settingsButton.center.x += self.view!.frame.maxX
+            self.titleImg.center.x += self.view!.frame.maxX
             for corner in self.cornerImages {
                 corner.frame.origin.x += self.view!.frame.maxX
             }
