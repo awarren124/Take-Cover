@@ -345,10 +345,6 @@ class GameScene: SKScene {
             }
             if start {
                 if makeCovers {
-                    let shopPoint = self.view!.convertPoint(Cloud.shopOrig, toScene: self)
-                    let settingsPoint = self.view!.convertPoint(Cloud.settOrig, toScene: self)
-                    
-                    let playPoint = self.view!.convertPoint(Cloud.playOrig, toScene: self)
                     var color = UIColor()
                     switch Cloud.themeString {
                     case "dark":

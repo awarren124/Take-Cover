@@ -65,7 +65,7 @@ class TitleScene: SKScene {
     let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
     
     override func didMoveToView(view: SKView) {
-        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as? Int != nil {
+        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
             print("setting currency")
             Cloud.currency = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey)
         }
@@ -81,7 +81,7 @@ class TitleScene: SKScene {
         if let themeString = NSUserDefaults.standardUserDefaults().stringForKey(DefaultsKeys.themeStringKey) {
             Cloud.themeString = themeString
         }
-        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as? Int != nil {
+        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
             Cloud.highScore = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.highScoreKey)
         }
         backgroundImageView.frame = self.view!.frame
