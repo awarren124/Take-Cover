@@ -33,7 +33,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     override func didMoveToView(view: SKView) {
         
         backgroundImageView.frame = self.view!.frame
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.9 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
         })
         
@@ -45,11 +45,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         arrayOfLabels.append(feedDesc)
         arrayOfButtons.append(feedHelp)
         arrayOfButtons.append(creditsButton)
-        background.texture = SKTexture(imageNamed: "Title Screen Graident")
-        background.size = self.frame.size
-        background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
-        background.zPosition = 0
-        self.addChild(background)
         realSoundSwitch.addTarget(self, action: #selector(SettingsScene.realSoundChange), forControlEvents: .ValueChanged)
         realSoundSwitch.on = Cloud.sound
         realSoundSwitch.frame.origin = CGPointMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80)
@@ -113,17 +108,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         Cloud.sound = !Cloud.sound
     }
     
-    func allFade(duration: Double){
-        UIView.animateWithDuration(duration, animations: {
-            for thing in self.arrayOfButtons {
-                thing.alpha = 0.0
-            }
-            for thing in self.arrayOfLabels {
-                thing.alpha = 0.0
-            }
-        })
-    }
-    
     func helpMe(){
         let theAlertVC = UIAlertController(title: "What is this button?", message: "This button is for feedback: \n bugs, feature requests, etc.", preferredStyle: .Alert)
         theAlertVC.addAction(UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil))
@@ -174,17 +158,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
 
     }
     
-    func discoSwitchPressed(){
-    }
-    
-    func formatSwitchButton(theSwitch: UIButton, target: Selector, frame: CGRect, value: Bool){
-        theSwitch.frame.size = frame.size
-        theSwitch.frame.origin = frame.origin
-        theSwitch.addTarget(self, action: target, forControlEvents: .TouchUpInside)
-        setSwitchImage(theSwitch, value: value)
-        self.view!.addSubview(theSwitch)
-    }
-    
     func backButtonPressed(){
         UIView.animateWithDuration(1, animations: {
             for thing in self.arrayOfButtons {
@@ -225,21 +198,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                 }, completion: { finished in
                     creditPanel.removeFromSuperview()
             })
-    })
+        })
     }
-    
-    func soundSwitchTapped() {
-        Cloud.sound = !Cloud.sound
-        setSwitchImage(soundSwitch, value: Cloud.sound)
-    }
-        
-    func setSwitchImage(theSwitch: UIButton, value: Bool) {
-        switch value {
-        case true:
-            theSwitch.setImage(UIImage(named: "switchOn"), forState: .Normal)
-        case false:
-            theSwitch.setImage(UIImage(named: "switchOff"), forState: .Normal)
-        }
-    }
-    
 }

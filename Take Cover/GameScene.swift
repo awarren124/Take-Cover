@@ -135,42 +135,6 @@ class GameScene: SKScene {
         scoreLabel.text = "0"
         self.view?.addSubview(scoreLabel)
         
-        devSwitch.on = devMode
-        devSwitch.setOn(devMode, animated: false)
-        devSwitch.addTarget(self, action: #selector(GameScene.valueChanged(_:)), forControlEvents: .ValueChanged)
-        
-        switchDemo.on = die
-        switchDemo.setOn(die, animated: false);
-        switchDemo.addTarget(self, action: #selector(GameScene.switchValueDidChange(_:)), forControlEvents: .ValueChanged)
-        self.view!.addSubview(switchDemo);
-        
-        setupSlider(delaySlider, minVal: 0, maxVal: 2, val: Float(delayChange), color: UIColor.blueColor(), selector: #selector(GameScene.delaySliderValueDidChange(_:)))
-        
-        setupSlider(speedSlider, minVal: 0, maxVal: 2, val: Float(durationChange), color: UIColor.redColor(), selector: #selector(GameScene.speedSliderValueDidChange(_:)))
-        
-        setupSlider(minDelaySlider, minVal: 0, maxVal: 2, val: Float(minDelay), color: UIColor.blackColor(), selector: #selector(GameScene.minDelaySliderValueDidChange(_:)))
-        
-        setupSlider(minSpeedSlider, minVal: 0, maxVal: 2, val: Float(minDur), color: UIColor.yellowColor(), selector: #selector(GameScene.minSpeedSliderValueDidChange(_:)))
-        
-        
-        playerStepper.wraps = false
-        playerStepper.autorepeat = true
-        playerStepper.maximumValue = 20
-        playerStepper.minimumValue = 1
-        playerStepper.addTarget(self, action: #selector(GameScene.stepperValueChanged(_:)), forControlEvents: .ValueChanged)
-        self.view!.addSubview(playerStepper)
-        
-        label.text = "\t \t delayinc \t  \t \t \t mindelay \t \t \t \t\t \t \t  speedinc \t \t \t \t \t \t \t \t  minspeed"
-        label.textColor = UIColor.redColor()
-        view.addSubview(label)
-        
-        playerLabel.textColor = UIColor.blackColor()
-        view.addSubview(playerLabel)
-        
-        labelalso.text = "\(delayChange), \(minDelay), \(durationChange), \(minDur)"
-        labelalso.textColor = UIColor.blackColor()
-        view.addSubview(labelalso)
-        
         for _ in 1...3 {
             rect.append(nil)
             circle.append(nil)
@@ -202,37 +166,6 @@ class GameScene: SKScene {
         skView.presentScene(scene)
     }
     
-    func valueChanged(sender:UISwitch!) {
-        devMode = sender.on
-    }
-    
-    func switchValueDidChange(sender:UISwitch!) {
-        if (sender.on == true){
-            die = true
-        }else{
-            die = false
-        }
-    }
-    
-    func stepperValueChanged(sender:UIStepper!){
-        playerSpeed = CGFloat(sender.value)
-    }
-    
-    func delaySliderValueDidChange(sender:UISlider!) {
-        delayChange = Double(delaySlider.value)
-    }
-    
-    func speedSliderValueDidChange(sender:UISlider!){
-        durationChange = Double(speedSlider.value)
-    }
-    
-    func minDelaySliderValueDidChange(sender:UISlider!){
-        minDelay = Double(minDelaySlider.value)
-    }
-    
-    func minSpeedSliderValueDidChange(sender:UISlider!){
-        minDur = Double(minSpeedSlider.value)
-    }
     
     func restartButtonTapped(){
         restartTapped = true
@@ -291,17 +224,6 @@ class GameScene: SKScene {
         }
         
     }
-    
-    func setupSlider(slider: UISlider, minVal: Float, maxVal: Float, val: Float, color: UIColor, selector: Selector) {
-        slider.minimumValue = minVal
-        slider.maximumValue = maxVal
-        slider.continuous = true
-        slider.tintColor = color
-        slider.value = val
-        slider.addTarget(self, action: selector, forControlEvents: .ValueChanged)
-        self.view!.addSubview(slider)
-    }
-    
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         touching = true
         for touch in touches {
@@ -314,20 +236,8 @@ class GameScene: SKScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
-        delaySlider.hidden = !devMode
-        minDelaySlider.hidden = !devMode
-        speedSlider.hidden = !devMode
-        minSpeedSlider.hidden = !devMode
-        labelalso.hidden = !devMode
-        switchDemo.hidden = !devMode
-        playerStepper.hidden = !devMode
-        playerLabel.hidden = !devMode
-        label.hidden = !devMode
         counter += 1
         scoreLabel.text = String(score)
-        
-        playerLabel.text = "\(Int(playerSpeed))"
-        labelalso.text = "\(round(10 * delayChange) / 10), \(round(10 * minDelay) / 10), \(round(10 * durationChange) / 10), \(round(10 * minDur) / 10)"
         
         if !gameOver {
             if doneFalling {

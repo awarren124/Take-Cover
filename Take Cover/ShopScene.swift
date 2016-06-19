@@ -66,7 +66,7 @@ class ShopScene: SKScene {
     override func didMoveToView(view: SKView) {
         
         backgroundImageView.frame = self.view!.frame
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.9 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
         })
         
