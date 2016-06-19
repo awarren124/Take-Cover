@@ -78,10 +78,6 @@ class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
-        
-        
-        //restartButton.frame = CGRectMake(self.view!.frame.midX, self.view!.frame.maxY - 150, 100, 30)
-        
         switch Cloud.themeString {
         case "dark":
             background.color = UIColor.lightGrayColor()
@@ -112,17 +108,16 @@ class GameScene: SKScene {
         scene!.scaleMode = .AspectFill
         
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
-        backButton.center = CGPoint(x: view.frame.midX - 200, y: 210)//x: 500, y: 350)
+        backButton.center = CGPoint(x: view.frame.midX - 200, y: 210)
         backButton.addTarget(self, action: #selector(GameScene.backButtonPressed), forControlEvents: .TouchUpInside)
         backButton.frame.size.width = 120
         backButton.frame.size.height = 85
         
         restartButtonInPauseMenu.setImage(UIImage(named: "restart"), forState: .Normal)
-        restartButtonInPauseMenu.center = CGPoint(x: view.frame.midX, y: 210)//x: 500, y: 350)
+        restartButtonInPauseMenu.center = CGPoint(x: view.frame.midX, y: 210)
         restartButtonInPauseMenu.addTarget(self, action: #selector(GameScene.restartButtonTapped), forControlEvents: .TouchUpInside)
         restartButtonInPauseMenu.frame.size.width = 100
         restartButtonInPauseMenu.frame.size.height = 100
-        //view.addSubview(restartButtonInPauseMenu)
         
         let moveToY = SKAction.moveToY(moveHere, duration: duration)
         self.moveToY = moveToY
@@ -130,7 +125,6 @@ class GameScene: SKScene {
         pauseButton.frame = CGRectMake(50, 50, 50, 50)
         pauseButton.setImage(UIImage(named: "pausebutton"), forState: .Normal)
         pauseButton.alpha = 0.0
-        //pauseButton.center = CGPoint(x: view.frame.midX, y: 210)//x: 500, y: 350)
         pauseButton.addTarget(self, action: #selector(GameScene.pause), forControlEvents: UIControlEvents.TouchUpInside)
         delay(0.5){
             self.view?.addSubview(self.pauseButton)
@@ -144,7 +138,6 @@ class GameScene: SKScene {
         devSwitch.on = devMode
         devSwitch.setOn(devMode, animated: false)
         devSwitch.addTarget(self, action: #selector(GameScene.valueChanged(_:)), forControlEvents: .ValueChanged)
-        //self.view!.addSubview(devSwitch)
         
         switchDemo.on = die
         switchDemo.setOn(die, animated: false);
@@ -178,13 +171,11 @@ class GameScene: SKScene {
         labelalso.textColor = UIColor.blackColor()
         view.addSubview(labelalso)
         
-        //print("ran")
         for _ in 1...3 {
             rect.append(nil)
             circle.append(nil)
         }
         
-        //background.color = UIColor.whiteColor()
         background.size = self.frame.size
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
@@ -195,7 +186,6 @@ class GameScene: SKScene {
         player.zPosition = 4
         self.addChild(player)
         
-        //makeCovers(CGPoint(x: 50, y: 40), color: randColor())
     }
     
     func backButtonPressed(){
@@ -214,7 +204,6 @@ class GameScene: SKScene {
     
     func valueChanged(sender:UISwitch!) {
         devMode = sender.on
-        //print("hereooo")
     }
     
     func switchValueDidChange(sender:UISwitch!) {
@@ -226,27 +215,22 @@ class GameScene: SKScene {
     }
     
     func stepperValueChanged(sender:UIStepper!){
-        //print("It Works, Value is \(Int(sender.value).description)")
         playerSpeed = CGFloat(sender.value)
     }
     
     func delaySliderValueDidChange(sender:UISlider!) {
-        //print(delaySlider.value)
         delayChange = Double(delaySlider.value)
     }
     
     func speedSliderValueDidChange(sender:UISlider!){
-        //print(speedSlider.value)
         durationChange = Double(speedSlider.value)
     }
     
     func minDelaySliderValueDidChange(sender:UISlider!){
-        //print(minDelaySlider.value)
         minDelay = Double(minDelaySlider.value)
     }
     
     func minSpeedSliderValueDidChange(sender:UISlider!){
-        //print(minSpeedSlider.value)
         minDur = Double(minSpeedSlider.value)
     }
     
@@ -270,20 +254,12 @@ class GameScene: SKScene {
                 self.backButton.alpha = 1.0
                 
             })
-            //pauseButton.alpha = 0.0
             shade.removeAllActions()
-            //shade.alpha = 0.5
             fade.position = CGPoint(x: self.position.x + (self.size.width / 2), y: self.position.y + (self.size.height / 2))
             fade.fillColor = UIColor.whiteColor()
             self.addChild(fade)
             fade.alpha = 0.5
             fade.zPosition = 5
-            //for node in circle {
-            //    node!.alpha = 0.5
-            //}
-            //for node in rect {
-            //    node!.alpha = 0.5
-            //}
         }else{
             delay(0.5){
                 self.restartButtonInPauseMenu.removeFromSuperview()
@@ -296,15 +272,11 @@ class GameScene: SKScene {
                 
             })
             shade.runAction(moveToY, completion: {
-                //print(self.shade.position.y)
-                //print("yeeeeeeeeeeeeyuoyeureyttttt boiiiiii")
                 self.makeCovers = true
                 self.delay(self.delayTime){
                     self.doneFalling = true
                 }
                 self.deleteNodes("shade")
-                //self.deleteNodes("cover")
-                //self.deleteNodes("coverShade")
                 self.moveCovers()
             })
             
@@ -316,8 +288,6 @@ class GameScene: SKScene {
         touching = true
         for touch in touches {
             location = touch.locationInNode(self)
-            //            print(location)
-            //print(shade.position.y)
         }
         
     }
@@ -328,7 +298,7 @@ class GameScene: SKScene {
         slider.continuous = true
         slider.tintColor = color
         slider.value = val
-        slider.addTarget(self, action: selector, forControlEvents: .ValueChanged)// #selector()
+        slider.addTarget(self, action: selector, forControlEvents: .ValueChanged)
         self.view!.addSubview(slider)
     }
     
@@ -344,7 +314,6 @@ class GameScene: SKScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
-        //print(arc4random_uniform(7))
         delaySlider.hidden = !devMode
         minDelaySlider.hidden = !devMode
         speedSlider.hidden = !devMode
@@ -366,12 +335,10 @@ class GameScene: SKScene {
                     fall()
                     
                     doneFalling = false
-                    //print("here")
                     if delayTime >= minDelay {
                         delayTime -= delayChange
                     }
                     if duration > minDur {
-                        //duration -= durationChange
                         duration /= 1.1
                     }
                 }
@@ -379,13 +346,9 @@ class GameScene: SKScene {
             if start {
                 if makeCovers {
                     let shopPoint = self.view!.convertPoint(Cloud.shopOrig, toScene: self)
-                    //let settingsPoint = convertPoint(CGPoint(x: settingsButton.frame.origin.x + offset, y: settingsButton.frame.origin.y), toNode: self)
                     let settingsPoint = self.view!.convertPoint(Cloud.settOrig, toScene: self)
                     
-                    //var playPoint = playButton.convertPoint(playButton.frame.origin, toView: self.view!)
-                    //playPoint = self.view!.convertPoint(playButton.frame.origin, fromView: playButton)
                     let playPoint = self.view!.convertPoint(Cloud.playOrig, toScene: self)
-                    //makeCovers(CGPoint(x: shopButton.frame.minX + shopButton.frame.width + 4  , y: 350), color: UIColor.lightGrayColor())
                     var color = UIColor()
                     switch Cloud.themeString {
                     case "dark":
@@ -395,14 +358,6 @@ class GameScene: SKScene {
                     default:
                         color = UIColor.lightGrayColor()
                     }
-                    /*
-                     makeCovers(playPoint, color: color)
-                     makeCovers(shopPoint, color: color)
-                     makeCovers(settingsPoint, color: color)
-                     print("PLAY \(playPoint)")
-                     print("SHOP \(shopPoint)")
-                     print("SET \(settingsPoint)")
-                     */
                     switch Cloud.model {
                     case "iPhone 6":
                         makeCovers(CGPointMake(512.0, 384.000061035156), color: color)
@@ -431,14 +386,12 @@ class GameScene: SKScene {
             eight = 1
             if die {
                 for node in rect {
-                    //print("for8: \(eight)")
                     if ((node?.containsPoint(CGPoint(x: player.frame.minX, y: player.frame.maxY))) != false) || ((node?.containsPoint(CGPoint(x: player.frame.maxX, y: player.frame.maxY))) != false) {
                         inRect += 1
                     }
                     if ((node?.containsPoint(CGPoint(x: player.frame.minX, y: player.frame.maxY))) != false) && ((node?.containsPoint(CGPoint(x: player.frame.maxX, y: player.frame.maxY))) != false) {
                         break
                     }else{
-                        //print("???")
                         if shade.containsPoint(CGPoint(x: player.frame.minX, y: player.frame.maxY)) != false || shade.containsPoint(CGPoint(x: player.frame.maxX, y: player.frame.maxY)) != false {
                             if !(inRect == 2) {
                                 if eight % 3 == 0 {
@@ -449,10 +402,6 @@ class GameScene: SKScene {
                             }
                         }
                         eight += 1
-                        //print("up")
-                        //break
-                        //print("no yeet")
-                        //print("???")
                     }
                 }
             }
@@ -478,18 +427,13 @@ class GameScene: SKScene {
         var position = pointPosition
         position.x = abs(pointPosition.x)
         position.y = abs(pointPosition.y)
-        let cover = SKShapeNode(circleOfRadius: realRadius)      	//25)//78.5)//Cloud.buttonSize.width * 0.78539)//50)//(Cloud.buttWidth * (CGFloat(pi)/4)))/// 2)//78)//playButton.frame.size.width / 2)//78)// - CGFloat(two))
-        //M_PI_4 * 100
-        //let cover = SKShapeNode(ellipseOfSize: CGSize(width: Cloud.buttWidth * 4/3, height: Cloud.buttWidth * 4/3))
+        let cover = SKShapeNode(circleOfRadius: realRadius)
         let circleWidth = cover.frame.size.width
-        //let circleHeight = circle.frame.size.height
         cover.position = position
-        //cover.name = "defaultCircle"
         cover.strokeColor = SKColor.lightGrayColor()
         cover.glowWidth = 1
         cover.zPosition = 3
         cover.name = "cover"
-        //circle.physicsBody?.usesPreciseCollisionDetection = true
         
         switch Cloud.themeString {
         case "classic":
@@ -498,27 +442,15 @@ class GameScene: SKScene {
         default:
             cover.fillColor = color
         }
-        //circle.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-        //cover.physicsBody = SKPhysicsBody(rectangleOfSize: self.frame.size)
-        //cover.physicsBody?.usesPreciseCollisionDetection = true
-        //cover.physicsBody?.affectedByGravity = false
-        //cover.physicsBody?.dynamic = true //.physicsBody?.dynamic = true
         self.addChild(cover)
-        //let rectangle = CGRectMake(position.x - (circleWidth / 2) + 1, position.y - self.frame.minY, circleWidth - 2, self.frame.minY - position.y)
-        let rect = SKShapeNode(rect: CGRectMake(position.x - (circleWidth / 2) + 1, position.y - self.frame.minY, circleWidth - 2, self.frame.minY - position.y))//rectangle)
-        //rect.physicsBody?.usesPreciseCollisionDetection = false
-        //rect.physicsBody?.affectedByGravity = false
-        //rect.igno
+        let rect = SKShapeNode(rect: CGRectMake(position.x - (circleWidth / 2) + 1, position.y - self.frame.minY, circleWidth - 2, self.frame.minY - position.y))
         rect.fillColor = background.color
         rect.zPosition = 2
         rect.name = "coverShade"
         rect.strokeColor = UIColor.clearColor()
         self.addChild(rect)
-        //self.rect.append(rect)
         self.rect[i] = rect
         self.circle[i] = cover
-        //print(position)
-        //make it better
         if two < 50{
             two += circleSizeVariable
         }
@@ -563,17 +495,13 @@ class GameScene: SKScene {
             z += 1
         }
         first = false
-        //print(score)
     }
     
     func randPoint(min: CGFloat, max: CGFloat) -> Int? {
-        //print("here")
         let result = Int(arc4random_uniform(UInt32(max)))
         if result < Int(min) {
-            //print("fail")
             return nil
         } else {
-            //("success")
             return result
         }
     }
@@ -582,7 +510,6 @@ class GameScene: SKScene {
         let color = arc4random_uniform(5)
         if color == 0 {
             return SKColor.blueColor()
-            //return SKColor.blackColor()
         }else if color == 1 {
             return SKColor.redColor()
         }else if color == 2 {
@@ -617,7 +544,6 @@ class GameScene: SKScene {
             }else{
                 return SKColor.blueColor()
             }
-            //return SKColor.blueColor()
         }else if color == 3 {
             if SKColor.yellowColor() == background.color {
                 return SKColor.greenColor()
@@ -631,9 +557,6 @@ class GameScene: SKScene {
                 return SKColor.greenColor()
             }
         }
-        //}else if color == 5 {
-        //    return SKColor.whiteColor()
-        //}
         return SKColor.brownColor()
     }
     
@@ -645,7 +568,6 @@ class GameScene: SKScene {
         let shadeRect = CGRectMake(0, startVal, self.frame.width, self.frame.height)
         let shade = SKShapeNode(rect: shadeRect)
         shade.name = "shade"
-        //shade.fillColor = randColor()//UIColor(red:0.34, green:0.21, blue:0.72, alpha:1.0)//SKColor.color //UIColor.purpleColor()//grayColor()
         shade.zPosition = 1
         shade.fillTexture = SKTexture(imageNamed: randShadeTex())
         shade.fillColor = UIColor.whiteColor()
@@ -661,25 +583,18 @@ class GameScene: SKScene {
             NSUserDefaults.standardUserDefaults().setInteger(Cloud.currency, forKey: DefaultsKeys.currencyKey)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-        //print(score)
         let moveToY = SKAction.moveToY(moveHere, duration: duration)
         self.moveToY = moveToY
         
         self.shade = drop()
-        //print("made")
         self.addChild(shade)
         shade.zPosition = 1
-        //shade. = self.frame.size
         shade.runAction(moveToY, completion: {
-            //print(self.shade.position.y)
-            //print("yeeeeeeeeeeeeyuoyeureyttttt boiiiiii")
             self.makeCovers = true
             self.delay(self.delayTime){
                 self.doneFalling = true
             }
             self.deleteNodes("shade")
-            //self.deleteNodes("cover")
-            //self.deleteNodes("coverShade")
             self.moveCovers()
         })
     }
@@ -722,20 +637,19 @@ class GameScene: SKScene {
         panel.backgroundColor = UIColor(red:0.53, green:0.87, blue:0.95, alpha:1.0)
         panel.alpha = 0.7
         let panelMax = self.view!.convertPoint(CGPoint(x: panel.frame.maxX, y: panel.frame.maxY), toView: panel)
-        let scoreLabelText = UILabel(frame: CGRectMake(0, /*panel.frame.maxY / 4*/panelMax.y / 4, panelSize.width, 40))
+        let scoreLabelText = UILabel(frame: CGRectMake(0, panelMax.y / 4, panelSize.width, 40))
         scoreLabelText.center.y = panelMax.y / 4
         scoreLabelText.text = "Score: \(score)"
         scoreLabelText.textAlignment = NSTextAlignment.Center
         panel.addSubview(scoreLabelText)
-        let restartButton = UIButton()//frame: CGRectMake(300, 300, 100, 30))
-        restartButton.frame = CGRectMake(0, panelMax.y / 2/*scoreLabelText.frame.maxY*/, panelSize.width - 10, 25)
+        let restartButton = UIButton()
+        restartButton.frame = CGRectMake(0, panelMax.y / 2, panelSize.width - 10, 25)
         restartButton.center.y = panelMax.y / 2
         restartButton.setTitle("Restart", forState: .Normal)
         restartButton.backgroundColor = UIColor.blackColor()
         restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
         panel.addSubview(restartButton)
         let currencyLabel = UILabel(frame: CGRectMake(0, panelSize.height * (2.85/5), panelSize.width, 25))
-//        currencyLabel.center.y = panelMax.y * (3/4)
         currencyLabel.text = "Coins: \(Cloud.currency)"
         currencyLabel.textAlignment = NSTextAlignment.Center
         panel.addSubview(currencyLabel)

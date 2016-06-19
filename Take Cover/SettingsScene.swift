@@ -23,13 +23,11 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     let creditsButton = UIButton()
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     let background = SKSpriteNode()
-    var arrayOfButtons = [UIButton]()//[AnyObject]()
+    var arrayOfButtons = [UIButton]()
     var arrayOfLabels = [UILabel]()
     let fadeOut = SKAction.fadeOutWithDuration(1.0)
     let doors = SKTransition.doorwayWithDuration(1.5)
-    let actualFade = SKTransition.doorwayWithDuration(1.5)//SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 3.0)//crossFadeWithDuration(1.0)
-    //let shooterScene = ShooterScene(fileNamed: "ShooterScene")
-    //self.view?.presentScene(shooterScene, transition: doors)
+    let actualFade = SKTransition.doorwayWithDuration(1.5)
     let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
 
     override func didMoveToView(view: SKView) {
@@ -40,7 +38,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         })
         
         arrayOfButtons.append(soundSwitch)
-//arrayOfButtons.append(realSoundSwitch)
         arrayOfButtons.append(backButton)
         arrayOfButtons.append(mailButton)
         arrayOfLabels.append(settingsLabel)
@@ -53,54 +50,46 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
         self.addChild(background)
-        //formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80, 100, 50), value: Cloud.sound)
-        //formatSwitchButton(discoSwitch, target: #selector(SettingsScene.discoSwitchPressed), frame: CGRectMake(self.view!.frame.midX - 20, soundSwitch.frame.origin.y + 30, 40, 20), value: Cloud.disco)
         realSoundSwitch.addTarget(self, action: #selector(SettingsScene.realSoundChange), forControlEvents: .ValueChanged)
         realSoundSwitch.on = Cloud.sound
         realSoundSwitch.frame.origin = CGPointMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80)
-//        realSoundSwitch.frame.size = CGSizeMake(<#T##width: CGFloat##CGFloat#>, <#T##height: CGFloat##CGFloat#>)
         self.view!.addSubview(realSoundSwitch)
-        //realSoundSwitch.setOn(true, animated: false);
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
         backButton.frame.size.width = 120
         backButton.frame.size.height = 85
-        backButton.center = CGPoint(x: (view.frame.midX + 200) + self.view!.frame.maxX, y: 210)//x: 500, y: 350)
+        backButton.center = CGPoint(x: (view.frame.midX + 200) + self.view!.frame.maxX, y: 210)
         backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
         self.view?.addSubview(backButton)
         mailButton.setImage(UIImage(named: "mail"), forState: .Normal)
         mailButton.frame.size = CGSize(width: 100, height: 100)
         
-        mailButton.center = CGPointMake(realSoundSwitch.center.x/* + self.view!.frame.maxX*/, self.view!.frame.maxY - 100)
+        mailButton.center = CGPointMake(realSoundSwitch.center.x, self.view!.frame.maxY - 100)
         
         mailButton.addTarget(self, action: #selector(SettingsScene.mailTime), forControlEvents: .TouchUpInside)
         self.view!.addSubview(mailButton)
         settingsLabel.text = "SETTINGS"
-        //settingsLabel.font = UIFont(name: "Verdana", size: 50)
         settingsLabel.font = settingsLabel.font.fontWithSize(50)
         settingsLabel.frame.size = CGSizeMake(500, 100)
         settingsLabel.center = CGPointMake(self.view!.center.x + self.view!.frame.maxX, 30)
-//        settingsLabel.center = self.view!.center
         settingsLabel.textAlignment = NSTextAlignment.Center
         self.view!.addSubview(settingsLabel)
         soundDesc.text = "Music"
         soundDesc.frame.size = CGSizeMake(120, 40)
         
-        soundDesc.center = CGPointMake((realSoundSwitch.center.x + 120)/* + self.view!.frame.maxX*/, realSoundSwitch.center.y)
+        soundDesc.center = CGPointMake((realSoundSwitch.center.x + 120), realSoundSwitch.center.y)
         
-        //soundDescView.backgroundColor = UIColor.clearColor()
         self.view!.addSubview(soundDesc)
         
         feedDesc.text = "Feedback"
         feedDesc.frame.size = CGSizeMake(120, 40)
         
-        feedDesc.center = CGPointMake((mailButton.center.x + 120)/* + self.view!.frame.maxX*/, mailButton.center.y)
+        feedDesc.center = CGPointMake((mailButton.center.x + 120), mailButton.center.y)
         
-        //soundDescView.backgroundColor = UIColor.clearColor()
         self.view!.addSubview(feedDesc)
         
         feedHelp.setImage(UIImage(named: "quues"), forState: .Normal)
         
-        feedHelp.frame = CGRectMake((mailButton.frame.maxX + 10)/* + self.view!.frame.maxX*/, mailButton.frame.maxY - 10, 30, 30)
+        feedHelp.frame = CGRectMake((mailButton.frame.maxX + 10), mailButton.frame.maxY - 10, 30, 30)
         
         feedHelp.addTarget(self, action: #selector(SettingsScene.helpMe), forControlEvents: .TouchUpInside)
         self.view?.addSubview(feedHelp)
@@ -186,8 +175,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     }
     
     func discoSwitchPressed(){
-        //Cloud.disco = !Cloud.disco
-        //setSwitchImage(discoSwitch, value: Cloud.disco)
     }
     
     func formatSwitchButton(theSwitch: UIButton, target: Selector, frame: CGRect, value: Bool){
@@ -199,16 +186,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     }
     
     func backButtonPressed(){
-        /*
-        soundSwitch.removeFromSuperview()
-        backButton.removeFromSuperview()
-        settingsLabel.removeFromSuperview()
-        mailButton.removeFromSuperview()
-        soundDesc.removeFromSuperview()
-        feedDesc.removeFromSuperview()
-        feedHelp.removeFromSuperview()
-        creditsButton.removeFromSuperview()
-        */
         UIView.animateWithDuration(1, animations: {
             for thing in self.arrayOfButtons {
                 thing.center.x += self.view!.frame.maxX
@@ -234,9 +211,6 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         creditPanel.layer.cornerRadius = 10
         let creditLabel = UILabel(frame: CGRectMake(10,0,200,100))
         creditLabel.text = "Programming: Alexander Warren \n Art: Archie Caride \n Music: Marco Warren"
-        //UIView.animateWithDuration(10, animations: {
-          //  /*creditLabel*/creditPanel.frame.origin.y = self.frame.maxY + 100
-        //})
         creditLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
         creditLabel.numberOfLines = 4
         creditPanel.addSubview(creditLabel)

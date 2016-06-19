@@ -95,34 +95,17 @@ class TitleScene: SKScene {
         let screenHeight = self.view!.frame.height
         switch screenHeight {
         case 375.0:
-            //realRadius = CGFloat(M_PI_4) * 100
             Cloud.model = "iPhone 6"
             break
         case 320.0:
             Cloud.model = "iPhone 5"
-            //realRadius = 90
             break
         case 414.0:
             Cloud.model = "iPhone 6+"
-            //realRadius = 70
             break
         default:
-            //realRadius = 50
             break
         }
-        //if Cloud.backFromSettings || Cloud.backFromShop {
-          //  currencyLabel.removeFromSuperview()
-            //print("removing in Cloud.backFromSettings || Cloud.backFromShop")
-        //}
-//        background.color = UIColor.whiteColor()
-//        background.texture = SKTexture(imageNamed: "Title Screen Graident")
-//        background.size = self.frame.size
-//        background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
-//        background.zPosition = 0
-//        backgroundImage.frame = CGRectMake(self.view!.frame.midX, 100, 100, 100) //self.view!.frame
-//        background.image = UIImage(named: "Title Screen Gradient")
-//        self.view!.addSubview(backgroundImage)
-        
         for imageName in cornerImageStrings {
             cornerImages.append(UIImageView(image: UIImage(named: imageName)))
         }
@@ -148,7 +131,6 @@ class TitleScene: SKScene {
                     imageView.frame.origin = CGPointMake((self.view?.frame.maxX)! - imageView.frame.size.width, 0)
                 }
             case "ll":
-                //MARK: FIX THIS
                 imageView.frame.size = CGSizeMake(100, 100)
                 if Cloud.backFromSettings {
                     imageView.frame.origin = CGPointMake(0 - self.view!.frame.maxX, self.view!.frame.maxY - imageView.frame.size.height)
@@ -178,7 +160,6 @@ class TitleScene: SKScene {
         titleImg.contentMode = UIViewContentMode.ScaleAspectFit
         self.view!.addSubview(titleImg)
 
-        //self.addChild(background)
         currencyLabel.text = String(Cloud.currency)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
         currencyLabel.center = CGPointMake(self.view!.center.x + 100, self.view!.frame.minY + 10)
@@ -299,7 +280,6 @@ class TitleScene: SKScene {
                 self.backgroundImageView.removeFromSuperview()
 
         })
-        //currencyLabel.removeFromSuperview()
         skView.presentScene(scene)
         
     }
@@ -309,7 +289,6 @@ class TitleScene: SKScene {
         let scene = GameScene(fileNamed:"GameScene")
         scene!.scaleMode = .AspectFill
         currencyLabel.removeFromSuperview()
-//        background.runAction(SKAction.fadeAlphaTo(0.0, duration: 10))
         
         UIView.animateWithDuration(1.0, animations: {
             self.transitioning = true
@@ -336,7 +315,6 @@ class TitleScene: SKScene {
         let skView = self.view! as SKView
         let scene = ShopScene(fileNamed:"ShopScene")
         scene!.scaleMode = .AspectFill
-        //removeAllFromSuperview()
         UIView.animateWithDuration(1, animations: {
             self.playButton.center.x += self.view!.frame.maxX
             self.shopButton.center.x += self.view!.frame.maxX
@@ -345,21 +323,10 @@ class TitleScene: SKScene {
             for corner in self.cornerImages {
                 corner.frame.origin.x += self.view!.frame.maxX
             }
-//            self.currencyLabel.center.x += self.view!.frame.maxX
             self.currencyLabel.removeFromSuperview()
             }, completion: { finished in
                 self.backgroundImageView.removeFromSuperview()
-         })/*
-        UIView.animateWithDuration(1, animations: {
-            self.playButton.center.x += self.view!.frame.maxX
-            self.shopButton.center.x += self.view!.frame.maxX
-            self.settingsButton.center.x += self.view!.frame.maxX
-            for corner in self.cornerImages {
-                corner.frame.origin.x += self.view!.frame.maxX
-            }
-            }, completion: { finished in
-                self.currencyLabel.removeFromSuperview()
-            })*/
+         })
         skView.presentScene(scene)
     }
     
