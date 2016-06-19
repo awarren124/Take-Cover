@@ -11,7 +11,7 @@ import AVFoundation
 
 struct Cloud {
     static var playerString = "default"
-    static var currency = 100000
+    static var currency = 0
     static var lockedForPlayers = [
         false,
         true,
@@ -40,6 +40,15 @@ struct Cloud {
     static var highScore = 0
 }
 
+struct DefaultsKeys {
+    static let currencyKey = "currencyKey"
+    static let lockedForPlayersKey = "lockedForPlayersKey"
+    static let lockedForThemesKey = "lockedForThemesKey"
+    static let playerStringKey = "playerStringKey"
+    static let themeStringKey = "themeStringKey"
+    static let highScoreKey = "highScoreKey"
+}
+
 class TitleScene: SKScene {
     
     var playButton = UIButton()
@@ -55,6 +64,25 @@ class TitleScene: SKScene {
     let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
     
     override func didMoveToView(view: SKView) {
+        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as? Int != nil {
+            print("setting currency")
+            Cloud.currency = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey)
+        }
+        if let lockedForPlayersArray = NSUserDefaults.standardUserDefaults().arrayForKey(DefaultsKeys.lockedForPlayersKey) as? [Bool] {
+            Cloud.lockedForPlayers = lockedForPlayersArray
+        }
+        if let lockedForThemesArray = NSUserDefaults.standardUserDefaults().arrayForKey(DefaultsKeys.lockedForThemesKey) as? [Bool] {
+            Cloud.lockedForThemes = lockedForThemesArray
+        }
+        if let playerString = NSUserDefaults.standardUserDefaults().stringForKey(DefaultsKeys.playerStringKey) {
+            Cloud.playerString = playerString
+        }
+        if let themeString = NSUserDefaults.standardUserDefaults().stringForKey(DefaultsKeys.themeStringKey) {
+            Cloud.themeString = themeString
+        }
+        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as? Int != nil {
+            Cloud.highScore = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.highScoreKey)
+        }
         backgroundImageView.frame = self.view!.frame
         if Cloud.backFromSettings || Cloud.backFromShop {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {

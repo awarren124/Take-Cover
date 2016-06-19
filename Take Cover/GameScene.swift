@@ -658,6 +658,8 @@ class GameScene: SKScene {
             score += 1
             print("score += 1")
             Cloud.currency += 5
+            NSUserDefaults.standardUserDefaults().setInteger(Cloud.currency, forKey: DefaultsKeys.currencyKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
         }
         //print(score)
         let moveToY = SKAction.moveToY(moveHere, duration: duration)
@@ -688,6 +690,8 @@ class GameScene: SKScene {
         deleteNodes("shade")
         if score > Cloud.highScore {
             Cloud.highScore = score
+            NSUserDefaults.standardUserDefaults().setInteger(Cloud.highScore, forKey: DefaultsKeys.highScoreKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
         }
         gameOver = true
         delayTime = 1
@@ -736,7 +740,7 @@ class GameScene: SKScene {
         currencyLabel.textAlignment = NSTextAlignment.Center
         panel.addSubview(currencyLabel)
         let highScoreLabel = UILabel(frame: CGRectMake(0, currencyLabel.frame.maxY, panelSize.width, 25))
-        highScoreLabel.text = "HighScore: 348"
+        highScoreLabel.text = "HighScore: \(Cloud.highScore)"
         highScoreLabel.textAlignment = NSTextAlignment.Center
         panel.addSubview(highScoreLabel)
         return panel
