@@ -12,6 +12,7 @@ import MessageUI
 class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     
     let soundSwitch = UIButton()
+    let realSoundSwitch = UISwitch()
     let discoSwitch = UIButton()
     let backButton = UIButton()
     let mailButton = UIButton()
@@ -39,6 +40,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         })
         
         arrayOfButtons.append(soundSwitch)
+//arrayOfButtons.append(realSoundSwitch)
         arrayOfButtons.append(backButton)
         arrayOfButtons.append(mailButton)
         arrayOfLabels.append(settingsLabel)
@@ -51,18 +53,24 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
         self.addChild(background)
-        formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80, 100, 50), value: Cloud.sound)
+        //formatSwitchButton(soundSwitch, target: #selector(SettingsScene.soundSwitchTapped), frame: CGRectMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80, 100, 50), value: Cloud.sound)
         //formatSwitchButton(discoSwitch, target: #selector(SettingsScene.discoSwitchPressed), frame: CGRectMake(self.view!.frame.midX - 20, soundSwitch.frame.origin.y + 30, 40, 20), value: Cloud.disco)
+        realSoundSwitch.addTarget(self, action: #selector(SettingsScene.realSoundChange), forControlEvents: .ValueChanged)
+        realSoundSwitch.on = Cloud.sound
+        realSoundSwitch.frame.origin = CGPointMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80)
+//        realSoundSwitch.frame.size = CGSizeMake(<#T##width: CGFloat##CGFloat#>, <#T##height: CGFloat##CGFloat#>)
+        self.view!.addSubview(realSoundSwitch)
+        //realSoundSwitch.setOn(true, animated: false);
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
-        backButton.frame.size.width = 100
-        backButton.frame.size.height = 100
+        backButton.frame.size.width = 120
+        backButton.frame.size.height = 85
         backButton.center = CGPoint(x: (view.frame.midX + 200) + self.view!.frame.maxX, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
         self.view?.addSubview(backButton)
         mailButton.setImage(UIImage(named: "mail"), forState: .Normal)
         mailButton.frame.size = CGSize(width: 100, height: 100)
         
-        mailButton.center = CGPointMake(soundSwitch.center.x/* + self.view!.frame.maxX*/, self.view!.frame.maxY - 100)
+        mailButton.center = CGPointMake(realSoundSwitch.center.x/* + self.view!.frame.maxX*/, self.view!.frame.maxY - 100)
         
         mailButton.addTarget(self, action: #selector(SettingsScene.mailTime), forControlEvents: .TouchUpInside)
         self.view!.addSubview(mailButton)
@@ -77,7 +85,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         soundDesc.text = "Music"
         soundDesc.frame.size = CGSizeMake(120, 40)
         
-        soundDesc.center = CGPointMake((soundSwitch.center.x + 120)/* + self.view!.frame.maxX*/, soundSwitch.center.y)
+        soundDesc.center = CGPointMake((realSoundSwitch.center.x + 120)/* + self.view!.frame.maxX*/, realSoundSwitch.center.y)
         
         //soundDescView.backgroundColor = UIColor.clearColor()
         self.view!.addSubview(soundDesc)
@@ -108,8 +116,12 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
             for thing in self.arrayOfLabels {
                 thing.center.x -= self.view!.frame.maxX
             }
-
+            self.realSoundSwitch.center.x -= self.view!.frame.maxX
         })
+    }
+    
+    func realSoundChange() {
+        Cloud.sound = !Cloud.sound
     }
     
     func allFade(duration: Double){
@@ -204,7 +216,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
             for thing in self.arrayOfLabels {
                 thing.center.x += self.view!.frame.maxX
             }
-            
+            self.realSoundSwitch.center.x += self.view!.frame.maxX
         })
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.backgroundImageView.removeFromSuperview()
@@ -217,7 +229,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     }
     
     func credits() {
-        let creditPanel = UIView(frame: CGRectMake(self.view!.frame.maxX - 300, self.view!.frame.midY,300,100))
+        let creditPanel = UIView(frame: CGRectMake(creditsButton.frame.origin.x - 240, self.view!.frame.maxY - 110, 230, 100))
         creditPanel.backgroundColor = UIColor.lightGrayColor()
         creditPanel.layer.cornerRadius = 10
         let creditLabel = UILabel(frame: CGRectMake(10,0,200,100))
@@ -226,9 +238,20 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
           //  /*creditLabel*/creditPanel.frame.origin.y = self.frame.maxY + 100
         //})
         creditLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        creditLabel.numberOfLines = 3
+        creditLabel.numberOfLines = 4
         creditPanel.addSubview(creditLabel)
+        creditPanel.alpha = 0.0
         self.view!.addSubview(creditPanel)
+        UIView.animateWithDuration(0.2, animations: {
+            creditPanel.alpha = 1.0
+        })
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+            UIView.animateWithDuration(0.2, animations: {
+                creditPanel.alpha = 0.0
+                }, completion: { finished in
+                    creditPanel.removeFromSuperview()
+            })
+    })
     }
     
     func soundSwitchTapped() {

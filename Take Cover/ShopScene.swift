@@ -15,12 +15,12 @@ class ShopScene: SKScene {
     var location = CGPoint()
     let playerImageStrings: [String] = [ //REMEMBER TO CHANGE AMOUNT OF ITEMS IN LOCK ARRAY
         "default",
-        "Illuminati",
-        "oldguy",
-        "mets",
-        "Pepe",
-        "mtndew",
-        "pizza"
+        "circle",
+        "triangle",
+        "x-shape",
+        "cake",
+        "target",
+        "bowling ball"
     ]
     var playerImageViews = [UIImageView?]()
     var themeImageViews = [UIImageView?]()
@@ -125,8 +125,8 @@ class ShopScene: SKScene {
         backButton.setImage(backImage, forState: .Normal)
         backButton.center = CGPoint(x: (view.frame.midX + 200) - self.view!.frame.maxX, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(ShopScene.backButtonPressed), forControlEvents: .TouchUpInside)
-        backButton.frame.size.width = 100
-        backButton.frame.size.height = 100
+        backButton.frame.size.width = 120
+        backButton.frame.size.height = 85
         self.view?.addSubview(backButton)
         
         
@@ -165,6 +165,7 @@ class ShopScene: SKScene {
             //lock.frame = playerImageViews[playerImageStrings.indexOf(index)!]!.frame
             //self.view!.addSubview(lock)
             lockArrayForPlayers[thisIt].frame = playerImageViews[playerImageStrings.indexOf(index)!]!.frame
+            lockArrayForPlayers[thisIt].contentMode = UIViewContentMode.ScaleAspectFit
             let lFrame = lockArrayForPlayers[thisIt].frame
             if Cloud.lockedForPlayers[thisIt]{
                 self.view!.addSubview(lockArrayForPlayers[thisIt])
@@ -187,6 +188,7 @@ class ShopScene: SKScene {
                 themeImageViews[thisIt!]?.alpha = 0.0
             }
             lockArrayforThemes[thisIt!].frame = themeImageViews[thisIt!]!.frame
+            lockArrayforThemes[thisIt!].contentMode = UIViewContentMode.ScaleAspectFit
             let lFrame = lockArrayforThemes[thisIt!].frame
             if Cloud.lockedForThemes[thisIt!] {
                 self.view!.addSubview(lockArrayforThemes[thisIt!])

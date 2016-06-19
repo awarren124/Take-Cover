@@ -114,8 +114,8 @@ class GameScene: SKScene {
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
         backButton.center = CGPoint(x: view.frame.midX - 200, y: 210)//x: 500, y: 350)
         backButton.addTarget(self, action: #selector(GameScene.backButtonPressed), forControlEvents: .TouchUpInside)
-        backButton.frame.size.width = 100
-        backButton.frame.size.height = 100
+        backButton.frame.size.width = 120
+        backButton.frame.size.height = 85
         
         restartButtonInPauseMenu.setImage(UIImage(named: "restart"), forState: .Normal)
         restartButtonInPauseMenu.center = CGPoint(x: view.frame.midX, y: 210)//x: 500, y: 350)
@@ -581,7 +581,8 @@ class GameScene: SKScene {
     func randColor() -> SKColor {
         let color = arc4random_uniform(5)
         if color == 0 {
-            return SKColor.blackColor()
+            return SKColor.blueColor()
+            //return SKColor.blackColor()
         }else if color == 1 {
             return SKColor.redColor()
         }else if color == 2 {
@@ -693,8 +694,9 @@ class GameScene: SKScene {
         pauseView = makeRestartPanel()
         pauseView.alpha = 0.0
         view!.addSubview(pauseView)
-        backButtonInGameOver.setImage(UIImage(named: "realback"), forState: .Normal)
-        backButtonInGameOver.frame = pauseButton.frame
+        backButtonInGameOver.setImage(UIImage(named: "back-icon"), forState: .Normal)
+        backButtonInGameOver.frame.size = CGSizeMake(120, 85)
+        backButtonInGameOver.frame.origin = pauseButton.frame.origin
         backButtonInGameOver.alpha = 0.0
         backButtonInGameOver.addTarget(self, action: #selector(GameScene.backButtonPressed), forControlEvents: .TouchUpInside)
         self.view!.addSubview(backButtonInGameOver)

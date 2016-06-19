@@ -11,7 +11,7 @@ import AVFoundation
 
 struct Cloud {
     static var playerString = "default"
-    static var currency = 1000
+    static var currency = 100000
     static var lockedForPlayers = [
         false,
         true,
