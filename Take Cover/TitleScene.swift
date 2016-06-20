@@ -66,7 +66,6 @@ class TitleScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
-            print("setting currency")
             Cloud.currency = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey)
         }
         if let lockedForPlayersArray = NSUserDefaults.standardUserDefaults().arrayForKey(DefaultsKeys.lockedForPlayersKey) as? [Bool] {

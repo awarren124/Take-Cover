@@ -379,7 +379,6 @@ class GameScene: SKScene {
         deleteNodes("coverShade")
         if scaleFactor >= 0.6 && score % 3 == 0 {
             scaleFactor -= 0.1
-            print("decreasing")
         }
         for node in circle {
             let x = rand(1020)

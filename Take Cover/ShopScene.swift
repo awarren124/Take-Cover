@@ -254,7 +254,7 @@ class ShopScene: SKScene {
             })
             segmentedControlNum = 1
         default:
-            print("no")
+            break
         }
     }
     
