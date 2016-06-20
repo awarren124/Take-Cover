@@ -483,7 +483,6 @@ class GameScene: SKScene {
     func fall() {
         if !start {
             score += 1
-            print("score += 1")
             Cloud.currency += 5
             NSUserDefaults.standardUserDefaults().setInteger(Cloud.currency, forKey: DefaultsKeys.currencyKey)
             NSUserDefaults.standardUserDefaults().synchronize()
