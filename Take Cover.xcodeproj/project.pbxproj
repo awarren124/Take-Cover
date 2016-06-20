@@ -24,7 +24,6 @@
 		01DD23B01CA592EE0075E139 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01DD23AE1CA592EE0075E139 /* LaunchScreen.storyboard */; };
 		01DD23BB1CA592EE0075E139 /* Take_CoverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DD23BA1CA592EE0075E139 /* Take_CoverTests.swift */; };
 		01DD23C61CA592EE0075E139 /* Take_CoverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DD23C51CA592EE0075E139 /* Take_CoverUITests.swift */; };
-		01DD23D41CA593830075E139 /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DD23D31CA593830075E139 /* Cover.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +67,6 @@
 		01DD23C11CA592EE0075E139 /* Take CoverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Take CoverUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01DD23C51CA592EE0075E139 /* Take_CoverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Take_CoverUITests.swift; sourceTree = "<group>"; };
 		01DD23C71CA592EE0075E139 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		01DD23D31CA593830075E139 /* Cover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +119,6 @@
 			isa = PBXGroup;
 			children = (
 				01DD23A71CA592EE0075E139 /* GameViewController.swift */,
-				01DD23D31CA593830075E139 /* Cover.swift */,
 				013075131CB9D14700A94A34 /* ShopScene.sks */,
 				01DD23A31CA592EE0075E139 /* GameScene.sks */,
 				0130750F1CB9BF5900A94A34 /* TitleScene.sks */,
@@ -325,7 +322,6 @@
 				013075121CB9D13D00A94A34 /* ShopScene.swift in Sources */,
 				01723AF31CCD0D70004AD218 /* SettingsScene.swift in Sources */,
 				01DD23A61CA592EE0075E139 /* GameScene.swift in Sources */,
-				01DD23D41CA593830075E139 /* Cover.swift in Sources */,
 				01DD23A81CA592EE0075E139 /* GameViewController.swift in Sources */,
 				01DD23A21CA592EE0075E139 /* AppDelegate.swift in Sources */,
 				0130750E1CB9BF3200A94A34 /* TitleScene.swift in Sources */,
