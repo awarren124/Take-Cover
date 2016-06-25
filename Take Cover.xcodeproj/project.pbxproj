@@ -248,7 +248,7 @@
 				TargetAttributes = {
 					01DD239D1CA592EE0075E139 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = F78HD2STWQ;
+						DevelopmentTeam = 9FWL5U9554;
 					};
 					01DD23B51CA592EE0075E139 = {
 						CreatedOnToolsVersion = 7.3;
@@ -472,7 +472,7 @@
 				INFOPLIST_FILE = "Take Cover/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.doublebaat.Take-Cover";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AlexanderWarren.Take-Cover";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -489,7 +489,7 @@
 				INFOPLIST_FILE = "Take Cover/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.doublebaat.Take-Cover";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AlexanderWarren.Take-Cover";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

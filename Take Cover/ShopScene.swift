@@ -74,6 +74,15 @@ class ShopScene: SKScene {
         playerSize = screenSize.width / 6.67
         xPosForThemes = (playerSize / 2) - 1000
         xPosForPlayers = playerSize / 2
+        if Cloud.model == "iPhone 4s" {
+            xPosForThemes = (20) - 1000
+            xPosForPlayers = 20
+        }
+    
+        var yWidth: CGFloat = 4/10
+        if Cloud.model == "iPhone 4s" {
+            yWidth = 6/10
+        }
         
         shopLabel.text = "SHOP"
         shopLabel.font = shopLabel.font.fontWithSize(50)
@@ -111,6 +120,9 @@ class ShopScene: SKScene {
         let backImage = UIImage(named: "back-icon-rev")
         backButton.setImage(backImage, forState: .Normal)
         backButton.center = CGPoint(x: (view.frame.midX + 100) - self.view!.frame.maxX, y: 210)
+        if Cloud.model == "iPhone 4s" {
+            backButton.center.x += 18
+        }
         backButton.addTarget(self, action: #selector(ShopScene.backButtonPressed), forControlEvents: .TouchUpInside)
         backButton.frame.size.width = 120
         backButton.frame.size.height = 85
@@ -141,9 +153,11 @@ class ShopScene: SKScene {
         }
         
         for index in playerImageStrings {
+            
             let thisIt = playerImageStrings.indexOf(index)!
             playerImageViews.append(UIImageView(image: UIImage(named: index)))
             playerImageViews[thisIt]!.frame = CGRectMake(CGFloat(xPosForPlayers)  - self.view!.frame.maxX , CGFloat(yPosForPlayers), screenSize.width / 6.67, screenSize.height / 3.75)
+            playerImageViews[thisIt]!.contentMode = UIViewContentMode.ScaleAspectFit
             self.view!.addSubview(playerImageViews[thisIt]!)
             if Cloud.lockedForPlayers[thisIt] {
                 playerImageViews[thisIt]!.alpha = 0.0
@@ -160,13 +174,17 @@ class ShopScene: SKScene {
                 xPosForPlayers += 130
             }else{
                 xPosForPlayers = playerSize / 2
-                yPosForPlayers += playerSize + (playerSize * 4/10) //play around with this
+                if Cloud.model == "iPhone 4s" {
+                    xPosForPlayers = 20
+                }
+                yPosForPlayers += playerSize + (playerSize * yWidth) //play around with this
             }
         }
         for index in themeStrings {
             let thisIt = themeStrings.indexOf(index)
             themeImageViews.append(UIImageView(image: UIImage(named: index)))
             themeImageViews[thisIt!]?.frame = CGRectMake(CGFloat(xPosForThemes)  - self.view!.frame.maxX, CGFloat(yPosForThemes), screenSize.width / 6.67, screenSize.height / 3.75)
+            themeImageViews[thisIt!]!.contentMode = UIViewContentMode.ScaleAspectFit
             self.view!.addSubview(themeImageViews[thisIt!]!)
             if Cloud.lockedForThemes[thisIt!] {
                 themeImageViews[thisIt!]?.alpha = 0.0
@@ -183,7 +201,10 @@ class ShopScene: SKScene {
                 xPosForThemes += 130
             }else{
                 xPosForThemes = (playerSize / 2)  - 1000
-                yPosForThemes += playerSize + (playerSize * 4/10)
+                if Cloud.model == "iPhone 4s" {
+                    xPosForPlayers = 20 - 1000
+                }
+                yPosForThemes += playerSize + (playerSize * yWidth)
             }
         }
         UIView.animateWithDuration(1, animations: {
@@ -292,7 +313,6 @@ class ShopScene: SKScene {
                 index.center.x -= self.view!.frame.maxX
             }
             self.controller.center.x -= self.view!.frame.maxX
-            self.backWhite.center.x -= self.view!.frame.maxX
             self.backButton.center.x -= self.view!.frame.maxX
             self.label.center.x -= self.view!.frame.maxX
             self.shopLabel.center.x -= self.view!.frame.maxX
@@ -300,7 +320,7 @@ class ShopScene: SKScene {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.backgroundImageView.removeFromSuperview()
         })
-        
+        backWhite.removeFromSuperview()
         currencyLabel.removeFromSuperview()
         Cloud.backFromShop = true
         let skView = self.view! as SKView

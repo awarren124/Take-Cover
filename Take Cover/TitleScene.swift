@@ -91,20 +91,24 @@ class TitleScene: SKScene {
         }else{
             self.view!.addSubview(self.backgroundImageView)
         }
-        let screenHeight = self.view!.frame.height
-        switch screenHeight {
-        case 375.0:
+        let screenWidth = self.view!.frame.width
+        switch screenWidth {
+        case 667.0:
             Cloud.model = "iPhone 6"
             break
-        case 320.0:
+        case 568.0:
             Cloud.model = "iPhone 5"
             break
-        case 414.0:
+        case 736.0:
             Cloud.model = "iPhone 6+"
+            break
+        case 480.0:
+            Cloud.model = "iPhone 4s"
             break
         default:
             break
         }
+        
         for imageName in cornerImageStrings {
             cornerImages.append(UIImageView(image: UIImage(named: imageName)))
         }
@@ -154,14 +158,18 @@ class TitleScene: SKScene {
             self.view?.addSubview(imageView)
         }
         titleImg.frame.size = CGSizeMake(400, 800)
-        titleImg.center = CGPointMake(self.view!.frame.midX, 100)
+        if Cloud.model != "iPhone 4s" && Cloud.model != "iPhone 5" {
+            titleImg.center = CGPointMake(self.view!.frame.midX, 100)
+        }else{
+            titleImg.center = CGPointMake(self.view!.frame.midX, 85)
+        }
         titleImg.image = UIImage(named: "Logo")
         titleImg.contentMode = UIViewContentMode.ScaleAspectFit
         self.view!.addSubview(titleImg)
 
         currencyLabel.text = String(Cloud.currency)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
-        currencyLabel.center = CGPointMake(self.view!.center.x + 100, self.view!.frame.minY + 10)
+        currencyLabel.center = CGPointMake(self.view!.center.x, self.view!.frame.minY + 10)
         currencyLabel.textAlignment = NSTextAlignment.Right
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         self.view!.addSubview(currencyLabel)
@@ -187,10 +195,17 @@ class TitleScene: SKScene {
             titleMusicPlayer.numberOfLoops = -1
         }
         
+        var buttonPos: CGFloat = 200
+        var buttonSize: CGFloat = 100
+        if Cloud.model == "iPhone 4s" {
+            buttonPos = 175
+            buttonSize = 80
+        }
+        
         playButton.setImage(UIImage(named: "playButton"), forState: .Normal)
         playButton.addTarget(self, action: #selector(TitleScene.play), forControlEvents: .TouchUpInside)
-        playButton.frame.size.width = 100
-        playButton.frame.size.height = 100
+        playButton.frame.size.width = buttonSize
+        playButton.frame.size.height = buttonSize
         if Cloud.backFromSettings {
             playButton.center = CGPointMake(self.view!.center.x - self.view!.frame.maxX, (self.view?.center.y)!)
         }else if Cloud.backFromShop {
@@ -202,14 +217,14 @@ class TitleScene: SKScene {
         Cloud.buttonSize = playButton.frame.size
         
         shopButton.setImage(UIImage(named: "ShopButton"), forState: .Normal)
-        shopButton.frame.size.width = 100
-        shopButton.frame.size.height = 100
+        shopButton.frame.size.width = buttonSize
+        shopButton.frame.size.height = buttonSize
         if Cloud.backFromSettings {
-            shopButton.center = CGPointMake(self.view!.frame.midX - 200 - self.view!.frame.maxX, self.view!.center.y)
+            shopButton.center = CGPointMake(self.view!.frame.midX - buttonPos - self.view!.frame.maxX, self.view!.center.y)
         }else if Cloud.backFromShop {
-            shopButton.center = CGPointMake(self.view!.frame.midX - 200 + self.view!.frame.maxX, self.view!.center.y)
+            shopButton.center = CGPointMake(self.view!.frame.midX - buttonPos + self.view!.frame.maxX, self.view!.center.y)
         }else{
-            shopButton.center.x = self.view!.frame.midX - 200
+            shopButton.center.x = self.view!.frame.midX - buttonPos
             shopButton.center.y = self.view!.center.y
         }
         
@@ -217,16 +232,16 @@ class TitleScene: SKScene {
         view.addSubview(shopButton)
         
         settingsButton.setImage(UIImage(named: "SettingsButton"), forState: .Normal)
-        settingsButton.frame.size = CGSize(width: 100, height: 100)
+        settingsButton.frame.size = CGSize(width: buttonSize, height: buttonSize)
         if  Cloud.backFromSettings {
-            settingsButton.center = CGPointMake(self.view!.frame.midX + 200 - self.view!.frame.maxX, self.view!.center.y)
+            settingsButton.center = CGPointMake(self.view!.frame.midX + buttonPos - self.view!.frame.maxX, self.view!.center.y)
             currencyLabel.center.x -= self.view!.frame.maxX
             titleImg.center.x -= self.view!.frame.maxX
         }else if Cloud.backFromShop{
-            settingsButton.center = CGPointMake(self.view!.frame.midX + 200 + self.view!.frame.maxX, self.view!.center.y)
+            settingsButton.center = CGPointMake(self.view!.frame.midX + buttonPos + self.view!.frame.maxX, self.view!.center.y)
             titleImg.center.x += self.view!.frame.maxX
         }else{
-            settingsButton.center.x = self.view!.frame.midX + 200
+            settingsButton.center.x = self.view!.frame.midX + buttonPos
             settingsButton.center.y = self.view!.center.y
         }
         settingsButton.addTarget(self, action: #selector(TitleScene.settings), forControlEvents: .TouchUpInside)

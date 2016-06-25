@@ -88,18 +88,20 @@ class GameScene: SKScene {
         }
         
         screenHeight = self.view!.frame.height
-        switch screenHeight {
-        case 375.0:
+        switch Cloud.model {
+        case "iPhone 6":
             realRadius = CGFloat(M_PI_4) * 100
             break
-        case 320.0:
+        case "iPhone 5":
             realRadius = 90
             break
-        case 414.0:
+        case "iPhone 6+":
             realRadius = 70
             break
+        case "iPhone 4s":
+            realRadius = 85
+            break
         default:
-            realRadius = 50
             break
         }
         
@@ -277,6 +279,10 @@ class GameScene: SKScene {
                         makeCovers(CGPointMake(512.0, 384.0), color: color)
                         makeCovers(CGPointMake(233.739135742188, 384.0), color: color)
                         makeCovers(CGPointMake(790.260864257812, 384.0), color: color)
+                    case "iPhone 4s":
+                        makeCovers(CGPointMake(138.667, 384.0), color: color)
+                        makeCovers(CGPointMake(512.0, 384.0), color: color)
+                        makeCovers(CGPointMake(885.333, 384.0), color: color)
                     default:
                         break
                     }
@@ -520,6 +526,9 @@ class GameScene: SKScene {
         backButtonInGameOver.setImage(UIImage(named: "back-icon"), forState: .Normal)
         backButtonInGameOver.frame.size = CGSizeMake(120, 85)
         backButtonInGameOver.frame.origin = pauseButton.frame.origin
+        if Cloud.model == "iPhone 4s" {
+            backButtonInGameOver.center.x -= 15
+        }
         backButtonInGameOver.alpha = 0.0
         backButtonInGameOver.addTarget(self, action: #selector(GameScene.backButtonPressed), forControlEvents: .TouchUpInside)
         self.view!.addSubview(backButtonInGameOver)
@@ -542,13 +551,13 @@ class GameScene: SKScene {
         panel.alpha = 0.7
         let panelMax = self.view!.convertPoint(CGPoint(x: panel.frame.maxX, y: panel.frame.maxY), toView: panel)
         let scoreLabelText = UILabel(frame: CGRectMake(0, panelMax.y / 4, panelSize.width, 40))
-        scoreLabelText.center.y = panelMax.y / 4
+        scoreLabelText.center.y = 37.5 //panelMax.y / 4
         scoreLabelText.text = "Score: \(score)"
         scoreLabelText.textAlignment = NSTextAlignment.Center
         panel.addSubview(scoreLabelText)
         let restartButton = UIButton()
         restartButton.frame = CGRectMake(0, panelMax.y / 2, panelSize.width - 10, 25)
-        restartButton.center.y = panelMax.y / 2
+        restartButton.center.y = 75.0 //panelMax.y / 2
         restartButton.setTitle("Restart", forState: .Normal)
         restartButton.backgroundColor = UIColor.blackColor()
         restartButton.addTarget(self, action: #selector(GameScene.restart), forControlEvents: UIControlEvents.TouchUpInside)
@@ -560,7 +569,7 @@ class GameScene: SKScene {
         let highScoreLabel = UILabel(frame: CGRectMake(0, currencyLabel.frame.maxY, panelSize.width, 25))
         highScoreLabel.text = "HighScore: \(Cloud.highScore)"
         highScoreLabel.textAlignment = NSTextAlignment.Center
-        panel.addSubview(highScoreLabel)
+        panel.addSubview(highScoreLabel)        
         return panel
     }
     

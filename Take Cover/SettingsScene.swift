@@ -53,6 +53,9 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         backButton.frame.size.width = 120
         backButton.frame.size.height = 85
         backButton.center = CGPoint(x: (view.frame.midX + 200) + self.view!.frame.maxX, y: 210)
+        if Cloud.model == "iPhone 4s" || Cloud.model == "iPhone 5"{
+            backButton.center = CGPoint(x: (view.frame.midX + 150) + self.view!.frame.maxX, y: 160)
+        }
         backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
         self.view?.addSubview(backButton)
         mailButton.setImage(UIImage(named: "mail"), forState: .Normal)
