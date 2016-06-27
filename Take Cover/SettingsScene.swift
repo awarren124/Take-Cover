@@ -109,6 +109,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     
     func realSoundChange() {
         Cloud.sound = !Cloud.sound
+        NSUserDefaults.standardUserDefaults().setBool(Cloud.sound, forKey: DefaultsKeys.musicKey)
     }
     
     func helpMe(){

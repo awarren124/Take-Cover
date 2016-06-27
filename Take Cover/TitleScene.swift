@@ -47,6 +47,7 @@ struct DefaultsKeys {
     static let playerStringKey = "playerStringKey"
     static let themeStringKey = "themeStringKey"
     static let highScoreKey = "highScoreKey"
+    static let musicKey = "musicKey"
 }
 
 class TitleScene: SKScene {
@@ -83,6 +84,13 @@ class TitleScene: SKScene {
         if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
             Cloud.highScore = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.highScoreKey)
         }
+//        if let soundOn = NSUserDefaults().standardUserDefaults().boolForKey(DefaultsKeys.musicKey) as Bool? {
+//            Cloud.sound = soundOn
+//        }
+        if let soundBool = NSUserDefaults.standardUserDefaults().boolForKey(DefaultsKeys.musicKey) as Bool? {
+            Cloud.sound = soundBool
+        }
+
         backgroundImageView.frame = self.view!.frame
         if Cloud.backFromSettings || Cloud.backFromShop {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
