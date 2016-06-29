@@ -26,7 +26,7 @@ struct Cloud {
         true,
         true
     ]
-    static var sound = false
+    static var sound = true
     static var playOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var shopOrig:CGPoint = CGPoint(x: 0, y: 0)
     static var settOrig:CGPoint = CGPoint(x: 0, y: 0)
@@ -38,6 +38,7 @@ struct Cloud {
     static var backFromShop = false
     static var model = String()
     static var highScore = 0
+    static var showTutorial = true
 }
 
 struct DefaultsKeys {
@@ -48,6 +49,7 @@ struct DefaultsKeys {
     static let themeStringKey = "themeStringKey"
     static let highScoreKey = "highScoreKey"
     static let musicKey = "musicKey"
+    static let showTutorialKey = "showTutorialKey"
 }
 
 class TitleScene: SKScene {
@@ -84,13 +86,13 @@ class TitleScene: SKScene {
         if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
             Cloud.highScore = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.highScoreKey)
         }
-//        if let soundOn = NSUserDefaults().standardUserDefaults().boolForKey(DefaultsKeys.musicKey) as Bool? {
-//            Cloud.sound = soundOn
-//        }
         if let soundBool = NSUserDefaults.standardUserDefaults().boolForKey(DefaultsKeys.musicKey) as Bool? {
             Cloud.sound = soundBool
         }
-
+        if let showTutorial = NSUserDefaults.standardUserDefaults().boolForKey(DefaultsKeys.showTutorialKey) as Bool? {
+            Cloud.showTutorial = showTutorial
+        }
+        
         backgroundImageView.frame = self.view!.frame
         if Cloud.backFromSettings || Cloud.backFromShop {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {

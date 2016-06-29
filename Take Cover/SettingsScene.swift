@@ -29,14 +29,13 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     let doors = SKTransition.doorwayWithDuration(1.5)
     let actualFade = SKTransition.doorwayWithDuration(1.5)
     let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
-
+    let showTutorialSwitch = UISwitch()
+    let tutorialLabel = UILabel()
     override func didMoveToView(view: SKView) {
-        
         backgroundImageView.frame = self.view!.frame
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.9 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
         })
-        
         arrayOfButtons.append(soundSwitch)
         arrayOfButtons.append(backButton)
         arrayOfButtons.append(mailButton)
@@ -45,10 +44,19 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         arrayOfLabels.append(feedDesc)
         arrayOfButtons.append(feedHelp)
         arrayOfButtons.append(creditsButton)
+        arrayOfLabels.append(tutorialLabel)
         realSoundSwitch.addTarget(self, action: #selector(SettingsScene.realSoundChange), forControlEvents: .ValueChanged)
         realSoundSwitch.on = Cloud.sound
         realSoundSwitch.frame.origin = CGPointMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80)
         self.view!.addSubview(realSoundSwitch)
+        showTutorialSwitch.addTarget(self, action: #selector(SettingsScene.showTutorialValChange), forControlEvents: .ValueChanged)
+        showTutorialSwitch.on = Cloud.showTutorial
+        showTutorialSwitch.frame.origin = CGPointMake(100 + self.view!.frame.maxX, realSoundSwitch.frame.maxY + 30)
+        self.view!.addSubview(showTutorialSwitch)
+        tutorialLabel.text = "Show Tutorial"
+        tutorialLabel.sizeToFit()
+        tutorialLabel.center = CGPointMake(showTutorialSwitch.center.x + 120, showTutorialSwitch.center.y)
+        self.view!.addSubview(tutorialLabel)
         backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
         backButton.frame.size.width = 120
         backButton.frame.size.height = 85
@@ -72,14 +80,14 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         settingsLabel.textAlignment = NSTextAlignment.Center
         self.view!.addSubview(settingsLabel)
         soundDesc.text = "Music"
-        soundDesc.frame.size = CGSizeMake(120, 40)
+        soundDesc.sizeToFit()
         
         soundDesc.center = CGPointMake((realSoundSwitch.center.x + 120), realSoundSwitch.center.y)
         
         self.view!.addSubview(soundDesc)
         
         feedDesc.text = "Feedback"
-        feedDesc.frame.size = CGSizeMake(120, 40)
+        feedDesc.sizeToFit()
         
         feedDesc.center = CGPointMake((mailButton.center.x + 120), mailButton.center.y)
         
@@ -104,7 +112,13 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                 thing.center.x -= self.view!.frame.maxX
             }
             self.realSoundSwitch.center.x -= self.view!.frame.maxX
+            self.showTutorialSwitch.center.x -= self.view!.frame.maxX
         })
+    }
+    
+    func showTutorialValChange() {
+        Cloud.showTutorial = !Cloud.showTutorial
+        NSUserDefaults.standardUserDefaults().setBool(Cloud.showTutorial, forKey: DefaultsKeys.showTutorialKey)
     }
     
     func realSoundChange() {
@@ -171,6 +185,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                 thing.center.x += self.view!.frame.maxX
             }
             self.realSoundSwitch.center.x += self.view!.frame.maxX
+            self.showTutorialSwitch.center.x += self.view!.frame.maxX
         })
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.backgroundImageView.removeFromSuperview()
