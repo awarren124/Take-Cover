@@ -10,8 +10,6 @@ import SpriteKit
 
 class ShopScene: SKScene {
     
-    let uiView = UIView()
-    let scrollView = UIScrollView()
     var location = CGPoint()
     let playerImageStrings: [String] = [ //REMEMBER TO CHANGE AMOUNT OF ITEMS IN LOCK ARRAY
         "default",
@@ -25,15 +23,14 @@ class ShopScene: SKScene {
     var playerImageViews = [UIImageView?]()
     var themeImageViews = [UIImageView?]()
     var xPosForPlayers: CGFloat = 50
-    var yPosForPlayers: CGFloat = 45 //70
+    var yPosForPlayers: CGFloat = 45
     var xPosForThemes: CGFloat = 50 - 1000
-    var yPosForThemes: CGFloat = 45 //70
+    var yPosForThemes: CGFloat = 45
     let backButton = UIButton()
-    let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
     let backWhite = UIImageView(image: UIImage(named: "whiteback"))
     var lockArrayForPlayers = [UIImageView]()
     var lockArrayforThemes = [UIImageView]()
-    var currencyLabelArray = [UILabel]()
+    var currencyLabelArrayForPlayers = [UILabel]()
     let currencylabelNumsForPlayers = [
         100,
         200,
@@ -58,10 +55,12 @@ class ShopScene: SKScene {
     
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
     let items = ["Players", "Themes"]
-    let controller = UISegmentedControl(items: ["Players", "Themes"])//items)
+    let controller = UISegmentedControl(items: ["Players", "Themes"])
     let shopLabel = UILabel()
     var segmentedControlNum = 0
     let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
+    let screenSize: CGRect = UIScreen.mainScreen().bounds
+    var yWidth = CGFloat()
     
     override func didMoveToView(view: SKView) {
         
@@ -70,7 +69,6 @@ class ShopScene: SKScene {
             self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
         })
         
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
         playerSize = screenSize.width / 6.67
         xPosForThemes = (playerSize / 2) - 1000
         xPosForPlayers = playerSize / 2
@@ -79,7 +77,7 @@ class ShopScene: SKScene {
             xPosForPlayers = 20
         }
     
-        var yWidth: CGFloat = 4/10
+        yWidth = 4/10
         if Cloud.model == "iPhone 4s" {
             yWidth = 6/10
         }
@@ -129,90 +127,19 @@ class ShopScene: SKScene {
         self.view?.addSubview(backButton)
         
         
+        assignNumsToLabels(currencylabelNumsForPlayers, currencyLabelArray: &currencyLabelArrayForPlayers, cloudLockedArray: Cloud.lockedForPlayers)
+        assignNumsToLabels(currencyLabelNumsForThemes, currencyLabelArray: &currencyLabelArrayForThemes, cloudLockedArray: Cloud.lockedForThemes)
         
-        for num in currencylabelNumsForPlayers {
-            currencyLabelArray.append(UILabel())
-            currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].text = String(num)
-            if Cloud.lockedForPlayers[currencylabelNumsForPlayers.indexOf(num)!] {
-                currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].text = String(num)
-            }else{
-                currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].text = ""
-            }
-            
-            currencyLabelArray[currencylabelNumsForPlayers.indexOf(num)!].textAlignment = NSTextAlignment.Center
-        }
         
-        for num in currencyLabelNumsForThemes {
-            currencyLabelArrayForThemes.append(UILabel())
-            if Cloud.lockedForThemes[currencyLabelNumsForThemes.indexOf(num)!] {
-                currencyLabelArrayForThemes[currencyLabelNumsForThemes.indexOf(num)!].text = String(num)
-            }else{
-                currencyLabelArrayForThemes[currencyLabelNumsForThemes.indexOf(num)!].text = ""
-            }
-            currencyLabelArrayForThemes[currencyLabelNumsForThemes.indexOf(num)!].textAlignment = NSTextAlignment.Center
-        }
+        setupShop(playerImageStrings, imageViewArray: &playerImageViews, xPos: &xPosForPlayers, yPos: &yPosForPlayers, lockArray: lockArrayForPlayers, cloudLockedArray: Cloud.lockedForPlayers, currencyLabelArray: currencyLabelArrayForPlayers, offset: 0)
+        setupShop(themeStrings, imageViewArray: &themeImageViews, xPos: &xPosForThemes, yPos: &yPosForThemes, lockArray: lockArrayforThemes, cloudLockedArray: Cloud.lockedForThemes, currencyLabelArray: currencyLabelArrayForThemes, offset: 1000)
         
-        for index in playerImageStrings {
-            
-            let thisIt = playerImageStrings.indexOf(index)!
-            playerImageViews.append(UIImageView(image: UIImage(named: index)))
-            playerImageViews[thisIt]!.frame = CGRectMake(CGFloat(xPosForPlayers)  - self.view!.frame.maxX , CGFloat(yPosForPlayers), screenSize.width / 6.67, screenSize.height / 3.75)
-            playerImageViews[thisIt]!.contentMode = UIViewContentMode.ScaleAspectFit
-            self.view!.addSubview(playerImageViews[thisIt]!)
-            if Cloud.lockedForPlayers[thisIt] {
-                playerImageViews[thisIt]!.alpha = 0.0
-            }
-            lockArrayForPlayers[thisIt].frame = playerImageViews[playerImageStrings.indexOf(index)!]!.frame
-            lockArrayForPlayers[thisIt].contentMode = UIViewContentMode.ScaleAspectFit
-            let lFrame = lockArrayForPlayers[thisIt].frame
-            if Cloud.lockedForPlayers[thisIt]{
-                self.view!.addSubview(lockArrayForPlayers[thisIt])
-            }
-            currencyLabelArray[thisIt].frame = CGRectMake(lFrame.minX, lFrame.maxY + 5, lFrame.width, 30)
-            self.view?.addSubview(currencyLabelArray[thisIt])
-            if CGFloat(xPosForPlayers) <= (self.view?.frame.maxX)! - (playerImageViews[0]!.frame.width + 100) {
-                xPosForPlayers += 130
-            }else{
-                xPosForPlayers = playerSize / 2
-                if Cloud.model == "iPhone 4s" {
-                    xPosForPlayers = 20
-                }
-                yPosForPlayers += playerSize + (playerSize * yWidth) //play around with this
-            }
-        }
-        for index in themeStrings {
-            let thisIt = themeStrings.indexOf(index)
-            themeImageViews.append(UIImageView(image: UIImage(named: index)))
-            themeImageViews[thisIt!]?.frame = CGRectMake(CGFloat(xPosForThemes)  - self.view!.frame.maxX, CGFloat(yPosForThemes), screenSize.width / 6.67, screenSize.height / 3.75)
-            themeImageViews[thisIt!]!.contentMode = UIViewContentMode.ScaleAspectFit
-            self.view!.addSubview(themeImageViews[thisIt!]!)
-            if Cloud.lockedForThemes[thisIt!] {
-                themeImageViews[thisIt!]?.alpha = 0.0
-            }
-            lockArrayforThemes[thisIt!].frame = themeImageViews[thisIt!]!.frame
-            lockArrayforThemes[thisIt!].contentMode = UIViewContentMode.ScaleAspectFit
-            let lFrame = lockArrayforThemes[thisIt!].frame
-            if Cloud.lockedForThemes[thisIt!] {
-                self.view!.addSubview(lockArrayforThemes[thisIt!])
-            }
-            currencyLabelArrayForThemes[thisIt!].frame = CGRectMake(lFrame.minX, lFrame.maxY + 5, lFrame.width, 30)
-            self.view!.addSubview(currencyLabelArrayForThemes[thisIt!])
-            if CGFloat(xPosForThemes) <= (self.view?.frame.maxX)! - (themeImageViews[0]!.frame.width + 100) {
-                xPosForThemes += 130
-            }else{
-                xPosForThemes = (playerSize / 2)  - 1000
-                if Cloud.model == "iPhone 4s" {
-                    xPosForPlayers = 20 - 1000
-                }
-                yPosForThemes += playerSize + (playerSize * yWidth)
-            }
-        }
         UIView.animateWithDuration(1, animations: {
             for index in self.playerImageStrings {
                 let thisIt = self.playerImageStrings.indexOf(index)
                 self.playerImageViews[thisIt!]!.center.x += self.view!.frame.maxX
                 self.lockArrayForPlayers[thisIt!].center.x += self.view!.frame.maxX
-                self.currencyLabelArray[thisIt!].center.x += self.view!.frame.maxX
+                self.currencyLabelArrayForPlayers[thisIt!].center.x += self.view!.frame.maxX
             }
             for index in self.themeStrings {
                 let thisIt = self.themeStrings.indexOf(index)
@@ -226,11 +153,57 @@ class ShopScene: SKScene {
             }, completion: { finished in
         })
     }
+    
+    func setupShop(stringArray: [String], inout imageViewArray: [UIImageView?], inout xPos: CGFloat, inout yPos: CGFloat, lockArray: [UIImageView], cloudLockedArray: [Bool], currencyLabelArray: [UILabel], offset: CGFloat) {
+        for index in stringArray {
+            let thisIt = stringArray.indexOf(index)
+            imageViewArray.append(UIImageView(image: UIImage(named: index)))
+            imageViewArray[thisIt!]!.frame = CGRectMake(CGFloat(xPos)  - self.view!.frame.maxX, CGFloat(yPos), screenSize.width / 6.67, screenSize.height / 3.75)
+            imageViewArray[thisIt!]!.contentMode = UIViewContentMode.ScaleAspectFit
+            self.view!.addSubview(imageViewArray[thisIt!]!)
+            if cloudLockedArray[thisIt!] {
+                imageViewArray[thisIt!]!.alpha = 0.0
+            }
+            lockArray[thisIt!].frame = imageViewArray[thisIt!]!.frame
+            lockArray[thisIt!].contentMode = UIViewContentMode.ScaleAspectFit
+            let lFrame = lockArray[thisIt!].frame
+            if cloudLockedArray[thisIt!] {
+                self.view!.addSubview(lockArray[thisIt!])
+            }
+            currencyLabelArray[thisIt!].frame = CGRectMake(lFrame.minX, lFrame.maxY + 5, lFrame.width, 30)
+            self.view!.addSubview(currencyLabelArray[thisIt!])
+            if CGFloat(xPos) <= (self.view?.frame.maxX)! - (imageViewArray[0]!.frame.width + 100) {
+                xPos += 130
+            }else{
+                xPos = (playerSize / 2)  - offset
+                if Cloud.model == "iPhone 4s" {
+                    xPos = 20 - offset
+                }
+                yPos += playerSize + (playerSize * yWidth)
+            }
+        }
+    }
+    
+    func assignNumsToLabels(currencyLabelNumArray: [Int], inout currencyLabelArray: [UILabel], cloudLockedArray: [Bool]) {
+        for num in currencyLabelNumArray {
+            let thisIt = currencyLabelNumArray.indexOf(num)!
+            currencyLabelArray.append(UILabel())
+            currencyLabelArray[thisIt].text = String(num)
+            if cloudLockedArray[thisIt] {
+                currencyLabelArray[thisIt].text = String(num)
+            }else{
+                currencyLabelArray[thisIt].text = ""
+            }
+            
+            currencyLabelArray[thisIt].textAlignment = NSTextAlignment.Center
+        }
+    }
+    
     func switchView(sender: UISegmentedControl){
         switch sender.selectedSegmentIndex {
         case 0:
             UIView.animateWithDuration(0.5, animations: {
-                for index in self.currencyLabelArray {
+                for index in self.currencyLabelArrayForPlayers {
                     index.center.x -= 1000
                 }
                 for index in self.playerImageViews {
@@ -253,7 +226,7 @@ class ShopScene: SKScene {
             segmentedControlNum = 0
         case 1:
             UIView.animateWithDuration(0.5, animations: {
-                for index in self.currencyLabelArray {
+                for index in self.currencyLabelArrayForPlayers {
                     index.center.x += 1000
                 }
                 for index in self.playerImageViews {
@@ -282,7 +255,7 @@ class ShopScene: SKScene {
     func backButtonPressed(){
         UIView.animateWithDuration(1, animations: {
             if self.segmentedControlNum == 0 {
-                for index in self.currencyLabelArray {
+                for index in self.currencyLabelArrayForPlayers {
                     index.center.x -= self.view!.frame.maxX
                 }
                 for index in self.playerImageViews {
@@ -292,7 +265,7 @@ class ShopScene: SKScene {
                     index.center.x -= self.view!.frame.maxX
                 }
             }else{
-                for index in self.currencyLabelArray {
+                for index in self.currencyLabelArrayForPlayers {
                     index.removeFromSuperview()
                 }
                 for index in self.playerImageViews {
@@ -314,7 +287,6 @@ class ShopScene: SKScene {
             }
             self.controller.center.x -= self.view!.frame.maxX
             self.backButton.center.x -= self.view!.frame.maxX
-            self.label.center.x -= self.view!.frame.maxX
             self.shopLabel.center.x -= self.view!.frame.maxX
         })
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
@@ -329,15 +301,12 @@ class ShopScene: SKScene {
         skView.presentScene(scene)
     }
     
-    func picTapped(index: Int){
-    }
-    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             location = touch.locationInView(self.view)
         }
 
-        check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers, curlArray: currencyLabelArray)
+        check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers, curlArray: currencyLabelArrayForPlayers)
         check(themeImageViews, arrayOfStrings: themeStrings, isLockedArray: &Cloud.lockedForThemes, numArray: currencyLabelNumsForThemes, isPlayer: false, lockImgArray: lockArrayforThemes, curlArray: currencyLabelArrayForThemes)
         
         NSUserDefaults.standardUserDefaults().setValue(Cloud.lockedForPlayers, forKey: DefaultsKeys.lockedForPlayersKey)
@@ -356,7 +325,6 @@ class ShopScene: SKScene {
                             if Cloud.currency >= numArray[arrayOfStrings.indexOf(imageName)!] {
                                 if isPlayer {
                                     Cloud.playerString = imageName
-                                    label.text = "\(imageName) selected"
                                 }else{
                                     Cloud.themeString = imageName
                                 }
@@ -392,7 +360,7 @@ class ShopScene: SKScene {
                     index!.alpha = 1.0
                     lockArray[thisIt].transform = CGAffineTransformMakeScale(2, 2)
                     }, completion: { finished in
-                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20) //index!.frame
+                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20)
                         self.backWhite.alpha = 0.0
                         self.view?.insertSubview(self.backWhite, atIndex: 1)
                         UIView.animateWithDuration(0.3, animations: {
@@ -402,11 +370,4 @@ class ShopScene: SKScene {
             }
         }
     }
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    }
-    
-    override func update(currentTime: CFTimeInterval) {
-    }
-    
 }

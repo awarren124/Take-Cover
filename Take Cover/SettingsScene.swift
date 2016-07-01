@@ -31,79 +31,75 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
     let showTutorialSwitch = UISwitch()
     let tutorialLabel = UILabel()
+    
     override func didMoveToView(view: SKView) {
         backgroundImageView.frame = self.view!.frame
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.9 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
         })
-        arrayOfButtons.append(soundSwitch)
-        arrayOfButtons.append(backButton)
-        arrayOfButtons.append(mailButton)
-        arrayOfLabels.append(settingsLabel)
-        arrayOfLabels.append(soundDesc)
-        arrayOfLabels.append(feedDesc)
-        arrayOfButtons.append(feedHelp)
-        arrayOfButtons.append(creditsButton)
-        arrayOfLabels.append(tutorialLabel)
-        realSoundSwitch.addTarget(self, action: #selector(SettingsScene.realSoundChange), forControlEvents: .ValueChanged)
-        realSoundSwitch.on = Cloud.sound
-        realSoundSwitch.frame.origin = CGPointMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80)
-        self.view!.addSubview(realSoundSwitch)
-        showTutorialSwitch.addTarget(self, action: #selector(SettingsScene.showTutorialValChange), forControlEvents: .ValueChanged)
-        showTutorialSwitch.on = Cloud.showTutorial
-        showTutorialSwitch.frame.origin = CGPointMake(100 + self.view!.frame.maxX, realSoundSwitch.frame.maxY + 30)
-        self.view!.addSubview(showTutorialSwitch)
-        tutorialLabel.text = "Show Tutorial"
-        tutorialLabel.sizeToFit()
-        tutorialLabel.center = CGPointMake(showTutorialSwitch.center.x + 120, showTutorialSwitch.center.y)
-        self.view!.addSubview(tutorialLabel)
-        backButton.setImage(UIImage(named: "back-icon"), forState: .Normal)
-        backButton.frame.size.width = 120
-        backButton.frame.size.height = 85
-        backButton.center = CGPoint(x: (view.frame.midX + 200) + self.view!.frame.maxX, y: 210)
+
+        setupSwitch(realSoundSwitch,
+                    center: nil,
+                    origin: CGPointMake(100 + self.view!.frame.maxX, self.view!.frame.minY + 80),
+                    onValue: Cloud.sound,
+                    selector: #selector(SettingsScene.realSoundChange))
+        setupSwitch(showTutorialSwitch,
+                    center: nil,
+                    origin: CGPointMake(100 + self.view!.frame.maxX, realSoundSwitch.frame.maxY + 30),
+                    onValue: Cloud.showTutorial,
+                    selector: #selector(SettingsScene.showTutorialValChange))
+        setupLabel(tutorialLabel,
+                   center: CGPointMake(showTutorialSwitch.center.x + 120, showTutorialSwitch.center.y),
+                   origin: nil,
+                   size: nil,
+                   text: "Show Tutorial",
+                   specialFont: nil)
+        setupButton(backButton,
+                    center: CGPoint(x: (view.frame.midX + 200) + self.view!.frame.maxX, y: 210),
+                    origin: nil,
+                    size: CGSizeMake(120, 85),
+                    image: (UIImage(named: "back-icon"))!,
+                    selector: #selector(SettingsScene.backButtonPressed))
         if Cloud.model == "iPhone 4s" || Cloud.model == "iPhone 5"{
             backButton.center = CGPoint(x: (view.frame.midX + 150) + self.view!.frame.maxX, y: 160)
         }
-        backButton.addTarget(self, action: #selector(SettingsScene.backButtonPressed), forControlEvents: .TouchUpInside)
-        self.view?.addSubview(backButton)
-        mailButton.setImage(UIImage(named: "mail"), forState: .Normal)
-        mailButton.frame.size = CGSize(width: 100, height: 100)
+        setupButton(mailButton,
+                    center: CGPointMake(realSoundSwitch.center.x, self.view!.frame.maxY - 100),
+                    origin: nil,
+                    size: CGSize(width: 100, height: 100),
+                    image: (UIImage(named: "mail-revised"))!,
+                    selector: #selector(SettingsScene.mailTime))
+        setupLabel(settingsLabel,
+                   center: CGPointMake(self.view!.center.x + self.view!.frame.maxX, 30),
+                   origin: nil,
+                   size: nil,
+                   text: "SETTINGS",
+                   specialFont: settingsLabel.font.fontWithSize(50))
+        setupLabel(soundDesc,
+                   center: CGPointMake((realSoundSwitch.center.x + 120), realSoundSwitch.center.y),
+                   origin: nil,
+                   size: nil,
+                   text: "Music",
+                   specialFont: nil)
+        setupLabel(feedDesc,
+                   center: CGPointMake((mailButton.center.x + 120), mailButton.center.y),
+                   origin: nil,
+                   size: nil,
+                   text: "FeedBack",
+                   specialFont: nil)
+        setupButton(feedHelp,
+                    center: nil,
+                    origin: CGPointMake(mailButton.frame.maxX + 10, mailButton.frame.maxY - 10),
+                    size: CGSizeMake(30, 30),
+                    image: (UIImage(named: "quues"))!,
+                    selector: #selector(SettingsScene.helpMe))
         
-        mailButton.center = CGPointMake(realSoundSwitch.center.x, self.view!.frame.maxY - 100)
-        
-        mailButton.addTarget(self, action: #selector(SettingsScene.mailTime), forControlEvents: .TouchUpInside)
-        self.view!.addSubview(mailButton)
-        settingsLabel.text = "SETTINGS"
-        settingsLabel.font = settingsLabel.font.fontWithSize(50)
-        settingsLabel.frame.size = CGSizeMake(500, 100)
-        settingsLabel.center = CGPointMake(self.view!.center.x + self.view!.frame.maxX, 30)
-        settingsLabel.textAlignment = NSTextAlignment.Center
-        self.view!.addSubview(settingsLabel)
-        soundDesc.text = "Music"
-        soundDesc.sizeToFit()
-        
-        soundDesc.center = CGPointMake((realSoundSwitch.center.x + 120), realSoundSwitch.center.y)
-        
-        self.view!.addSubview(soundDesc)
-        
-        feedDesc.text = "Feedback"
-        feedDesc.sizeToFit()
-        
-        feedDesc.center = CGPointMake((mailButton.center.x + 120), mailButton.center.y)
-        
-        self.view!.addSubview(feedDesc)
-        
-        feedHelp.setImage(UIImage(named: "quues"), forState: .Normal)
-        
-        feedHelp.frame = CGRectMake((mailButton.frame.maxX + 10), mailButton.frame.maxY - 10, 30, 30)
-        
-        feedHelp.addTarget(self, action: #selector(SettingsScene.helpMe), forControlEvents: .TouchUpInside)
-        self.view?.addSubview(feedHelp)
-        creditsButton.setImage(UIImage(named: "creditsbutton"), forState: .Normal)
-        creditsButton.frame.size = CGSize(width: 100, height: 100)
-        creditsButton.frame.origin = CGPointMake((self.view!.frame.maxX - creditsButton.frame.width) + self.view!.frame.maxX, self.view!.frame.maxY - creditsButton.frame.height)
-        creditsButton.addTarget(self, action: #selector(SettingsScene.credits), forControlEvents: .TouchUpInside)
-        self.view!.addSubview(creditsButton)
+        setupButton(creditsButton,
+                    center: nil,
+                    origin: CGPointMake(2 * self.view!.frame.maxX - 100, self.view!.frame.maxY - 100),
+                    size: CGSize(width: 100, height: 100),
+                    image: (UIImage(named: "creditsbutton"))!,
+                    selector: #selector(SettingsScene.credits))
         UIView.animateWithDuration(1, animations: {
             for thing in self.arrayOfButtons {
                 thing.center.x -= self.view!.frame.maxX
@@ -219,4 +215,48 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
             })
         })
     }
+    
+    func setupButton(button: UIButton, center: CGPoint?, origin: CGPoint?, size: CGSize, image: UIImage, selector: Selector){
+        button.frame.size = size
+        button.setImage(image, forState: .Normal)
+        button.addTarget(self, action: selector, forControlEvents: .TouchUpInside)
+        arrayOfButtons.append(button)
+        if origin != nil {
+            button.frame.origin = origin!
+        }else if center != nil {
+            button.center = center!
+        }
+        self.view!.addSubview(button)
+    }
+    
+    func setupLabel(label: UILabel, center: CGPoint?, origin: CGPoint?, size: CGSize?, text: String, specialFont: UIFont?){
+        label.text = text
+        if specialFont != nil {
+            label.font = specialFont!
+        }
+        if size != nil {
+            label.frame.size = size!
+        }else{
+            label.sizeToFit()
+        }
+        if origin != nil {
+            label.frame.origin = origin!
+        }else if center != nil {
+            label.center = center!
+        }
+        arrayOfLabels.append(label)
+        self.view!.addSubview(label)
+    }
+    
+    func setupSwitch(uiSwitch: UISwitch, center: CGPoint?, origin: CGPoint?, onValue: Bool, selector: Selector) {
+        if center != nil {
+            uiSwitch.center = center!
+        }else if origin != nil {
+            uiSwitch.frame.origin = origin!
+        }
+        uiSwitch.on = onValue
+        uiSwitch.addTarget(self, action: selector, forControlEvents: .ValueChanged)
+        self.view!.addSubview(uiSwitch)
+    }
+    
 }

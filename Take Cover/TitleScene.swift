@@ -27,12 +27,6 @@ struct Cloud {
         true
     ]
     static var sound = true
-    static var playOrig:CGPoint = CGPoint(x: 0, y: 0)
-    static var shopOrig:CGPoint = CGPoint(x: 0, y: 0)
-    static var settOrig:CGPoint = CGPoint(x: 0, y: 0)
-    static var buttonSize:CGSize = CGSize(width: 0, height: 0)
-    static var onPlayerView = true
-    static var onThemeView = false
     static var themeString = "classic"
     static var backFromSettings = false
     static var backFromShop = false
@@ -59,9 +53,7 @@ class TitleScene: SKScene {
     var shopButton = UIButton()
     let settingsButton = UIButton()
     var titleMusicPlayer = AVAudioPlayer()
-    var titleMusic = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
-    var transitioning = false
-    let viewCont = GameViewController()
+    let titleMusic = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
     let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
     var cornerImages = [UIImageView]()
     let cornerImageStrings = ["ul", "ur", "ll", "lr"]
@@ -224,7 +216,6 @@ class TitleScene: SKScene {
             playButton.center = self.view!.center
         }
         view.addSubview(playButton)
-        Cloud.buttonSize = playButton.frame.size
         
         shopButton.setImage(UIImage(named: "ShopButton"), forState: .Normal)
         shopButton.frame.size.width = buttonSize
@@ -257,9 +248,6 @@ class TitleScene: SKScene {
         settingsButton.addTarget(self, action: #selector(TitleScene.settings), forControlEvents: .TouchUpInside)
         self.view!.addSubview(settingsButton)
         
-        Cloud.playOrig = playButton.center
-        Cloud.settOrig = settingsButton.center
-        Cloud.shopOrig = shopButton.center
         if Cloud.backFromSettings {
             UIView.animateWithDuration(1, animations: {
                 self.playButton.center.x += self.view!.frame.maxX
@@ -315,7 +303,6 @@ class TitleScene: SKScene {
         currencyLabel.removeFromSuperview()
         
         UIView.animateWithDuration(1.0, animations: {
-            self.transitioning = true
             self.playButton.alpha = 0.0
             self.shopButton.alpha = 0.0
             self.settingsButton.alpha = 0.0
@@ -389,6 +376,18 @@ class TitleScene: SKScene {
             titleMusicPlayer.pause()
             titleMusicPlayer.volume = 1.0
         }
+    }
+    
+    func setupButton(button: UIButton, center: CGPoint?, origin: CGPoint?, size: CGSize, image: UIImage, selector: Selector){
+        button.frame.size = size
+        button.setImage(image, forState: .Normal)
+        button.addTarget(self, action: selector, forControlEvents: .TouchUpInside)
+        if origin != nil {
+            button.frame.origin = origin!
+        }else if center != nil {
+            button.center = center!
+        }
+        self.view!.addSubview(button)
     }
     
 }
