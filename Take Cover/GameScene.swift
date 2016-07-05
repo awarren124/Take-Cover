@@ -91,7 +91,7 @@ class GameScene: SKScene {
                     title: nil,
                     selector: #selector(GameScene.backButtonPressed),
                     superview: nil)
-
+        
         setupButton(restartButtonInPauseMenu,
                     center: CGPoint(x: view.frame.midX, y: 210),
                     origin: nil,
@@ -119,7 +119,7 @@ class GameScene: SKScene {
                 self.pauseButton.alpha = 1.0
             })
         }
-
+        
         setupLabel(scoreLabel,
                    center: nil,
                    origin: CGPointMake(20, 20),
@@ -593,7 +593,7 @@ class GameScene: SKScene {
         highScoreLabel.textAlignment = NSTextAlignment.Center
         return panel
     }
-
+    
     func reset(restartButtonWasTapped: Bool) {
         player.runAction(SKAction.moveToX(self.frame.midX, duration: 0.39))
         delay(0.4){
@@ -664,114 +664,11 @@ class GameScene: SKScene {
     
     func makeTutorialView() {
         delay(1){
-            let tutViewSizeRatioX: CGFloat = 3.5/5
-            let tutViewSizeRatioY: CGFloat = 5/7
-            self.tutorialView.frame.size = CGSizeMake(self.view!.frame.size.width * (tutViewSizeRatioX) - 50, (self.view!.frame.size.height * tutViewSizeRatioY) + 50)
-            self.tutorialView.backgroundColor = UIColor.whiteColor()
-            self.tutorialView.center = CGPointMake(self.view!.frame.maxX * (tutViewSizeRatioX) - 50, (self.view!.center.y * tutViewSizeRatioY) + (self.tutorialView.frame.size.height / 2) - 100)
-            self.tutorialView.layer.borderWidth = 5
-            self.tutorialView.layer.borderColor = UIColor.blueColor().CGColor
-            self.tutorialView.layer.cornerRadius = 20
-            self.tutorialView.alpha = 0
-            let titleLabel = UILabel()
-            self.setupLabel(titleLabel,
-                       center: CGPointMake(self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView).x, 30),
-                       origin: nil,
-                       size: nil,
-                       text: "TUTORIAL",
-                       superview: self.tutorialView,
-                       numberOfLines: 1)
-            
-            titleLabel.textAlignment = NSTextAlignment.Center
-            titleLabel.alpha = 0
-            let coverLabel = UILabel()
-            let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
-            self.setupLabel(coverLabel,
-                       center: CGPointMake(titleLabel.center.x, convertedTutCenter.y - 20),
-                       origin: nil,
-                       size: nil,
-                       text: "This is a Cover.\nHide under it to survive",
-                       superview: self.tutorialView,
-                       numberOfLines: 2)
-            coverLabel.textAlignment = NSTextAlignment.Center
-            coverLabel.alpha = 0
-            self.view!.addSubview(self.tutorialView)
-            UIView.animateWithDuration(0.5, animations: {
-                self.tutorialView.alpha = 1
-                titleLabel.alpha = 1
-            })
-            self.pause(true)
-            let coverArrow = UIImageView(image: UIImage(named: "back-icon"))
-            coverArrow.frame = CGRectMake(25, coverLabel.center.y, 68, 28)
-            coverArrow.alpha = 0
-            self.tutorialView.addSubview(coverArrow)
-            self.delay(1.5){
-                UIView.animateWithDuration(0.8, animations: {
-                    coverArrow.alpha = 1
-                    coverLabel.alpha = 1
-                    }, completion: { finished in
-                        let roomArrow = UIImageView(image: UIImage(named: "back-icon"))
-                        roomArrow.frame = CGRectMake(25, convertedTutCenter.y + 100, 68, 28)
-                        roomArrow.alpha = 0
-                        self.tutorialView.addSubview(roomArrow)
-                        let roomLabel = UILabel()
-                        
-                        self.setupLabel(roomLabel,
-                            center: CGPointMake(coverLabel.center.x, roomArrow.center.y),
-                            origin: nil,
-                            size: nil,
-                            text: "This is where you\nhave to go.",
-                            superview: self.tutorialView,
-                            numberOfLines: 2)
-                        roomLabel.textAlignment = NSTextAlignment.Center
-                        roomLabel.alpha = 0
-                        self.delay(1){
-                            UIView.animateWithDuration(0.8, animations: {
-                                roomArrow.alpha = 1
-                                roomLabel.alpha = 1
-                                }, completion: { finished in
-                                    self.delay(3) {
-                                        UIView.animateWithDuration(0.8, animations: {
-                                            roomLabel.alpha = 0
-                                            coverArrow.alpha = 0
-                                            coverLabel.alpha = 0
-                                            roomArrow.alpha = 0
-                                            }, completion: { finished in
-                                                let endTutLabel = UILabel()
-                                                
-                                                self.setupLabel(endTutLabel,
-                                                    center: convertedTutCenter,
-                                                    origin: nil,
-                                                    size: nil,
-                                                    text: "Slide with your finger to take cover.",
-                                                    superview: self.tutorialView,
-                                                    numberOfLines: 1)
-                                                
-                                                endTutLabel.alpha = 0
-                                                let gotItButton = UIButton()
-                                                
-                                                self.setupButton(gotItButton,
-                                                    center: nil,
-                                                    origin: CGPointMake(convertedTutCenter.x - 22.5, convertedTutCenter.y + 30),
-                                                    size: CGSizeMake(45, 34),
-                                                    image: nil,
-                                                    title: "Got It",
-                                                    selector: #selector(GameScene.endTutorial),
-                                                    superview: self.tutorialView)
-                                                
-                                                gotItButton.setTitleColor(self.view!.tintColor, forState: .Normal)
-                                                gotItButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
-                                                gotItButton.alpha = 0
-                                                UIView.animateWithDuration(0.8, animations: {
-                                                    endTutLabel.alpha = 1
-                                                    gotItButton.alpha = 1
-                                                })
-                                        })
-                                    }
-                            })
-                        }
-                    })
-            }
+            let tutorialOneDuration = 2.3
+            let tutorialTwoDuration = 4.8
+            self.tutorialOne(tutorialOneDuration + 2)
+            _ = NSTimer.scheduledTimerWithTimeInterval(tutorialOneDuration, target: self, selector: #selector(GameScene.tutorialTwo), userInfo: nil, repeats: false)
+            _ = NSTimer.scheduledTimerWithTimeInterval(tutorialOneDuration + tutorialTwoDuration, target: self, selector: #selector(GameScene.tutorialThree), userInfo: nil, repeats: false)
         }
     }
     
@@ -824,4 +721,123 @@ class GameScene: SKScene {
         superview.addSubview(label)
     }
     
+    func tutorialOne(delayTime: Double) {
+        let tutViewSizeRatioX: CGFloat = 3.5/5
+        let tutViewSizeRatioY: CGFloat = 5/7
+        self.tutorialView.frame.size = CGSizeMake(self.view!.frame.size.width * (tutViewSizeRatioX) - 50, (self.view!.frame.size.height * tutViewSizeRatioY) + 50)
+        self.tutorialView.backgroundColor = UIColor.whiteColor()
+        self.tutorialView.center = CGPointMake(self.view!.frame.maxX * (tutViewSizeRatioX) - 50, (self.view!.center.y * tutViewSizeRatioY) + (self.tutorialView.frame.size.height / 2) - 100)
+        self.tutorialView.layer.borderWidth = 5
+        self.tutorialView.layer.borderColor = UIColor.blueColor().CGColor
+        self.tutorialView.layer.cornerRadius = 20
+        self.tutorialView.alpha = 0
+        let titleLabel = UILabel()
+        self.setupLabel(titleLabel,
+                        center: CGPointMake(self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView).x, 30),
+                        origin: nil,
+                        size: nil,
+                        text: "TUTORIAL",
+                        superview: self.tutorialView,
+                        numberOfLines: 1)
+        
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.alpha = 0
+        let coverLabel = UILabel()
+        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
+        self.setupLabel(coverLabel,
+                        center: CGPointMake(titleLabel.center.x, convertedTutCenter.y - 20),
+                        origin: nil,
+                        size: nil,
+                        text: "This is a Cover.\nHide under it to survive",
+                        superview: self.tutorialView,
+                        numberOfLines: 2)
+        coverLabel.textAlignment = NSTextAlignment.Center
+        coverLabel.alpha = 0
+        self.view!.addSubview(self.tutorialView)
+        UIView.animateWithDuration(0.5, animations: {
+            self.tutorialView.alpha = 1
+            titleLabel.alpha = 1
+        })
+        self.pause(true)
+        let coverArrow = UIImageView(image: UIImage(named: "back-icon"))
+        coverArrow.frame = CGRectMake(25, coverLabel.center.y, 68, 28)
+        coverArrow.alpha = 0
+        self.tutorialView.addSubview(coverArrow)
+        
+        UIView.animateWithDuration(0.8, animations: {
+            coverArrow.alpha = 1
+            coverLabel.alpha = 1
+        })
+        delay(delayTime){
+            self.tutorialFadeElementsWithDuration(0.8, element1: coverLabel, element2: coverArrow)
+        }
+    }
+    
+    func tutorialTwo() {
+        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
+        let roomArrow = UIImageView(image: UIImage(named: "back-icon"))
+        roomArrow.frame = CGRectMake(25, convertedTutCenter.y + 100, 68, 28)
+        roomArrow.alpha = 0
+        self.tutorialView.addSubview(roomArrow)
+        let roomLabel = UILabel()
+        
+        self.setupLabel(roomLabel,
+                        center: CGPointMake(convertedTutCenter.x, roomArrow.center.y),
+                        origin: nil,
+                        size: nil,
+                        text: "This is where you\nhave to go.",
+                        superview: self.tutorialView,
+                        numberOfLines: 2)
+        roomLabel.textAlignment = NSTextAlignment.Center
+        roomLabel.alpha = 0
+            UIView.animateWithDuration(0.8, animations: {
+                roomArrow.alpha = 1
+                roomLabel.alpha = 1
+            })
+        delay(2) {
+            UIView.animateWithDuration(0.8, animations: {
+                self.tutorialFadeElementsWithDuration(0.8, element1: roomArrow, element2: roomLabel)
+            })
+        }
+    }
+    
+    func tutorialThree() {
+        let endTutLabel = UILabel()
+        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
+        self.setupLabel(endTutLabel,
+                        center: convertedTutCenter,
+                        origin: nil,
+                        size: nil,
+                        text: "Slide with your finger to take cover.",
+                        superview: self.tutorialView,
+                        numberOfLines: 1)
+        
+        endTutLabel.alpha = 0
+        let gotItButton = UIButton()
+        
+        self.setupButton(gotItButton,
+                         center: nil,
+                         origin: CGPointMake(convertedTutCenter.x - 22.5, convertedTutCenter.y + 30),
+                         size: CGSizeMake(45, 34),
+                         image: nil,
+                         title: "Got It",
+                         selector: #selector(GameScene.endTutorial),
+                         superview: self.tutorialView)
+        
+        gotItButton.setTitleColor(self.view!.tintColor, forState: .Normal)
+        gotItButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
+        gotItButton.alpha = 0
+        UIView.animateWithDuration(0.8, animations: {
+            endTutLabel.alpha = 1
+            gotItButton.alpha = 1
+        })
+
+    }
+    
+    func tutorialFadeElementsWithDuration(duration: Double, element1: UIView, element2: UIView) {
+        UIView.animateWithDuration(duration, animations: {
+            element1.alpha = 0
+            element2.alpha = 0
+        })
+    }
 }
