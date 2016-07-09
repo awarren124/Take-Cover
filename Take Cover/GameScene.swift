@@ -17,7 +17,7 @@ class GameScene: SKScene {
     var scoreLabel = UILabel()
     var userIsTouching = false
     var location = CGPointMake(0, 0)
-    let player = SKSpriteNode(imageNamed: Cloud.playerString)
+    let player = SKSpriteNode(imageNamed: "\(Cloud.playerString)\(Cloud.color)")
     var delayTime = 1.0
     var gameOver = false
     var arrayOfRectanglesUnderCovers = [SKShapeNode?]()
@@ -412,57 +412,20 @@ class GameScene: SKScene {
     }
     
     func randColor() -> SKColor {
-        let color = arc4random_uniform(5)
-        if color == 0 {
-            return SKColor.blueColor()
-        }else if color == 1 {
-            return SKColor.redColor()
-        }else if color == 2 {
-            return SKColor.blueColor()
-        }else if color == 3 {
-            return SKColor.yellowColor()
-        }else if color == 4 {
-            return SKColor.greenColor()
-        }else if color == 5 {
-            return SKColor.whiteColor()
-        }
-        return SKColor.brownColor()
+        let arrayOfColors: [SKColor] = [SKColor.blueColor(), SKColor.redColor(), SKColor.magentaColor(), SKColor.yellowColor(), SKColor.greenColor()]
+        return arrayOfColors[rand(5)]
     }
     
     func randColorThatsNotBackgroundColor() -> SKColor {
-        let color = arc4random_uniform(5)
-        if color == 0 {
-            if SKColor.blackColor() == background.color {
-                return SKColor.redColor()
-            }else{
-                return SKColor.blackColor()
-            }
-        }else if color == 1 {
-            if SKColor.blueColor() == background.color {
-                return SKColor.blueColor()
-            }else{
-                return SKColor.redColor()
-            }
-        }else if color == 2 {
-            if SKColor.blackColor() == background.color {
-                return SKColor.yellowColor()
-            }else{
-                return SKColor.blueColor()
-            }
-        }else if color == 3 {
-            if SKColor.yellowColor() == background.color {
-                return SKColor.greenColor()
-            }else{
-                return SKColor.yellowColor()
-            }
-        }else if color == 4 {
-            if SKColor.greenColor() == background.color {
-                return SKColor.blackColor()
-            }else{
-                return SKColor.greenColor()
-            }
+        let arrayOfColors: [SKColor] = [SKColor.redColor(), SKColor.blackColor(), SKColor.blueColor(), SKColor.yellowColor(), SKColor.greenColor()]
+        let randNum = rand(5)
+        if arrayOfColors[randNum] != background.color {
+            return arrayOfColors[randNum]
+        } else if randNum != 4 {
+            return arrayOfColors[randNum + 1]
+        } else {
+            return arrayOfColors[randNum - 1]
         }
-        return SKColor.brownColor()
     }
     
     func rand(max: UInt32) -> Int {

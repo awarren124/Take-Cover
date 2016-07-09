@@ -33,6 +33,7 @@ struct Cloud {
     static var model = String()
     static var highScore = 0
     static var showTutorial = true
+    static var color = "black"
 }
 
 struct DefaultsKeys {
@@ -44,6 +45,7 @@ struct DefaultsKeys {
     static let highScoreKey = "highScoreKey"
     static let musicKey = "musicKey"
     static let showTutorialKey = "showTutorialKey"
+    static let colorKey = "colorKey"
 }
 
 class TitleScene: SKScene {
@@ -84,7 +86,9 @@ class TitleScene: SKScene {
         if let showTutorial = NSUserDefaults.standardUserDefaults().boolForKey(DefaultsKeys.showTutorialKey) as Bool? {
             Cloud.showTutorial = showTutorial
         }
-        
+        if let color = NSUserDefaults.standardUserDefaults().stringForKey(DefaultsKeys.colorKey) {
+            Cloud.color = color
+        }
         backgroundImageView.frame = self.view!.frame
         if Cloud.backFromSettings || Cloud.backFromShop {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
