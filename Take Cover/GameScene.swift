@@ -193,7 +193,10 @@ class GameScene: SKScene {
                     self.pauseButton.alpha = 0
                 })
             }
-            shade.removeAllActions()
+            
+            //Pause scene
+            self.scene?.paused = true
+            
             fade.position = CGPoint(x: self.position.x + (self.size.width / 2), y: self.position.y + (self.size.height / 2))
             fade.fillColor = UIColor.whiteColor()
             self.addChild(fade)
@@ -210,14 +213,9 @@ class GameScene: SKScene {
                 self.backButton.alpha = 0.0
                 
             })
-            shade.runAction(moveToY, completion: {              //Have the shade fall
-                self.makeCovers = true
-                self.delay(self.delayTime){
-                    self.doneFalling = true
-                }
-                self.deleteNodes("shade")
-                self.moveCovers()
-            })
+            
+            //Unpause scene
+            self.scene?.paused = false
             
         }
     }
