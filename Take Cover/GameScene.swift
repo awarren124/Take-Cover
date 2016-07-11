@@ -53,6 +53,7 @@ class GameScene: SKScene {
             makeTutorialView()
             tutorialBeingShown = true
         }
+        
         switch Cloud.themeString {
         case "dark":
             background.color = UIColor.lightGrayColor()
@@ -62,6 +63,7 @@ class GameScene: SKScene {
             background.color = UIColor.whiteColor()
         }
         
+        //Change size of covers according to screen size
         switch Cloud.model {
         case "iPhone 6":
             coverRadius = CGFloat(M_PI_4) * 100
@@ -79,10 +81,7 @@ class GameScene: SKScene {
             break
         }
         
-        
-        let scene = GameScene(fileNamed: "GameScene")
-        scene!.scaleMode = .AspectFill
-        
+        //Back button
         setupButton(backButton,
                     center: CGPoint(x: view.frame.midX - 200, y: 210),
                     origin: nil,
@@ -92,6 +91,7 @@ class GameScene: SKScene {
                     selector: #selector(GameScene.backButtonPressed),
                     superview: nil)
         
+        //Restart button (in pause menu)
         setupButton(restartButtonInPauseMenu,
                     center: CGPoint(x: view.frame.midX, y: 210),
                     origin: nil,
@@ -103,6 +103,7 @@ class GameScene: SKScene {
         
         self.moveToY = SKAction.moveToY(shadeFinalYCoordinate, duration: shadeFallDuration)
         
+        //Pause button
         setupButton(pauseButton,
                     center: nil,
                     origin: CGPointMake(50, 50),
@@ -120,6 +121,7 @@ class GameScene: SKScene {
             })
         }
         
+        //Score label
         setupLabel(scoreLabel,
                    center: nil,
                    origin: CGPointMake(20, 20),
@@ -133,10 +135,13 @@ class GameScene: SKScene {
             arrayOfCovers.append(nil)
         }
         
+        //Background
         background.size = self.frame.size
         background.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
         background.zPosition = 0
         self.addChild(background)
+        
+        //Player
         player.size = CGSize(width: 50, height: 50)
         player.position.x = self.frame.maxX / 2
         player.position.y = self.frame.minY + 200
@@ -145,11 +150,12 @@ class GameScene: SKScene {
         
     }
     
-    
+    //When the pause button is pressed (because you can't pass parameters in selectors)
     func pauseButtonPressed() {
         pause(false)
     }
     
+    //Back button pressed
     func backButtonPressed(){
         reset(false)
         scoreLabel.removeFromSuperview()
@@ -163,7 +169,7 @@ class GameScene: SKScene {
         skView.presentScene(scene)
     }
     
-    
+    //Restart button pressed
     func restartButtonTapped(){
         reset(true)
     }
@@ -172,18 +178,17 @@ class GameScene: SKScene {
         itIsPaused = !itIsPaused
         let fade = SKShapeNode(rectOfSize: self.frame.size, cornerRadius: 0.0)
         fade.name = "fade"
-        if itIsPaused {
-            if !isTutorial {
-                view!.addSubview(restartButtonInPauseMenu)
+        if itIsPaused {                                         //If it went from unpaused to paused
+            if !isTutorial {                                    //If not tutorial
+                view!.addSubview(restartButtonInPauseMenu)      //Add buttons
                 view!.addSubview(backButton)
                 restartButtonInPauseMenu.alpha = 0.0
                 backButton.alpha = 0.0
                 UIView.animateWithDuration(0.5, animations: {
                     self.restartButtonInPauseMenu.alpha = 1.0
                     self.backButton.alpha = 1.0
-                    
                 })
-            }else{
+            }else{                                              //If it is tutorial
                 UIView.animateWithDuration(0.5, animations: {
                     self.pauseButton.alpha = 0
                 })
@@ -194,7 +199,7 @@ class GameScene: SKScene {
             self.addChild(fade)
             fade.alpha = 0.5
             fade.zPosition = 5
-        }else{
+        }else{                                                  //If it went from paused to unpaused
             delay(0.5){
                 self.restartButtonInPauseMenu.removeFromSuperview()
                 self.backButton.removeFromSuperview()
@@ -205,7 +210,7 @@ class GameScene: SKScene {
                 self.backButton.alpha = 0.0
                 
             })
-            shade.runAction(moveToY, completion: {
+            shade.runAction(moveToY, completion: {              //Have the shade fall
                 self.makeCovers = true
                 self.delay(self.delayTime){
                     self.doneFalling = true
@@ -238,10 +243,10 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         scoreLabel.text = String(score)
-        if !gameOver {
-            if doneFalling {
-                if !itIsPaused {
-                    fall()
+        if !gameOver {                                      //If the game is not over
+            if doneFalling {                                //If the shade is done falling
+                if !itIsPaused {                            //If the game is not paused
+                    fall()                                  //Have the shade fall
                     
                     doneFalling = false
                     if delayTime >= minDelay {
@@ -255,6 +260,8 @@ class GameScene: SKScene {
             if gameIsBeginning {
                 if makeCovers {
                     var color = UIColor()
+                    
+                    //Set color
                     switch Cloud.themeString {
                     case "dark":
                         color = UIColor.blackColor()
@@ -263,6 +270,8 @@ class GameScene: SKScene {
                     default:
                         color = UIColor.lightGrayColor()
                     }
+                    
+                    //Make covers according to iPhone model
                     switch Cloud.model {
                     case "iPhone 6":
                         makeCovers(CGPointMake(512.0, 384.000061035156), color: color)
@@ -294,6 +303,8 @@ class GameScene: SKScene {
             var inRect = 0
             var deathCheckIncrementor = 1
             if userCanDie {
+                
+                //Death check
                 for node in arrayOfRectanglesUnderCovers {
                     if ((node?.containsPoint(CGPoint(x: player.frame.minX, y: player.frame.maxY))) != false) || ((node?.containsPoint(CGPoint(x: player.frame.maxX, y: player.frame.maxY))) != false) {
                         inRect += 1
@@ -337,6 +348,8 @@ class GameScene: SKScene {
         var position = pointPosition
         position.x = abs(pointPosition.x)
         position.y = abs(pointPosition.y)
+        
+        //Cover
         let cover = SKShapeNode(circleOfRadius: coverRadius)
         let circleWidth = cover.frame.size.width
         cover.position = position
@@ -345,6 +358,7 @@ class GameScene: SKScene {
         cover.zPosition = 3
         cover.name = "cover"
         
+        //Fill color according to theme
         switch Cloud.themeString {
         case "classic":
             cover.fillColor = UIColor.whiteColor()
@@ -352,7 +366,10 @@ class GameScene: SKScene {
         default:
             cover.fillColor = color
         }
+        
         self.addChild(cover)
+        
+        //Rectangle under cover
         let rect = SKShapeNode(rect: CGRectMake(position.x - (circleWidth / 2) + 1, position.y - self.frame.minY, circleWidth - 2, self.frame.minY - position.y))
         rect.fillColor = background.color
         rect.zPosition = 2
@@ -361,6 +378,7 @@ class GameScene: SKScene {
         self.addChild(rect)
         self.arrayOfRectanglesUnderCovers[makeCoversIncrementer] = rect
         self.arrayOfCovers[makeCoversIncrementer] = cover
+        
         if makeCoversIncrementer == 2 {
             makeCoversIncrementer = 0
         }else{
@@ -376,20 +394,22 @@ class GameScene: SKScene {
                 node!.fillColor = randColorThatsNotBackgroundColor()
             }
         }
-        var z = 0
+        var incrementor = 0
         deleteNodes("coverShade")
-        if scaleFactor >= 0.6 && score % 3 == 0 {
+        if scaleFactor >= 0.6 && score % 3 == 0 {   //Compute size of cover
             scaleFactor -= 0.1
         }
         for node in arrayOfCovers {
             let x = rand(1020)
             let moveCover = SKAction.moveToX(CGFloat(x), duration: delayTime)
-            node!.runAction(moveCover)
+            node!.runAction(moveCover)              //Move cover to random x coordinate
             let holderSizeNode = SKShapeNode(circleOfRadius: coverRadius)
             let scaleAction = SKAction.scaleTo(scaleFactor, duration: delayTime)
             if scaleFactor >= 0.5 && score % 3 == 0 {
-                node?.runAction(scaleAction)
+                node?.runAction(scaleAction)        //Scale cover
             }
+            
+            //Compute rectangle size
             let rectangle = CGRectMake(CGFloat(x) - ((holderSizeNode.frame.width * scaleFactor) / 2), node!.position.y, ((holderSizeNode.frame.width) * scaleFactor), self.frame.minY - node!.position.y)
             let recta = SKShapeNode(rect: rectangle)
             recta.zPosition = 2
@@ -397,25 +417,19 @@ class GameScene: SKScene {
             recta.name = "coverShade"
             recta.lineWidth = 0.0
             self.addChild(recta)
-            arrayOfRectanglesUnderCovers[z] = recta
-            z += 1
+            arrayOfRectanglesUnderCovers[incrementor] = recta
+            
+            incrementor += 1
         }
     }
     
-    func randPoint(min: CGFloat, max: CGFloat) -> Int? {
-        let result = Int(arc4random_uniform(UInt32(max)))
-        if result < Int(min) {
-            return nil
-        } else {
-            return result
-        }
-    }
-    
+    //For the background in disco mode
     func randColor() -> SKColor {
         let arrayOfColors: [SKColor] = [SKColor.blueColor(), SKColor.redColor(), SKColor.magentaColor(), SKColor.yellowColor(), SKColor.greenColor()]
         return arrayOfColors[rand(5)]
     }
     
+    //For the covers in disco mode
     func randColorThatsNotBackgroundColor() -> SKColor {
         let arrayOfColors: [SKColor] = [SKColor.redColor(), SKColor.blackColor(), SKColor.blueColor(), SKColor.yellowColor(), SKColor.greenColor()]
         let randNum = rand(5)
@@ -432,7 +446,8 @@ class GameScene: SKScene {
         return Int(arc4random_uniform(max))
     }
     
-    func drop() -> SKShapeNode {
+    //Makes and returns the shade
+    func makeShade() -> SKShapeNode {
         let shadeRect = CGRectMake(0, shadeInitialYCoordinate, self.frame.width, self.frame.height)
         let shade = SKShapeNode(rect: shadeRect)
         shade.name = "shade"
@@ -450,10 +465,13 @@ class GameScene: SKScene {
             NSUserDefaults.standardUserDefaults().setInteger(Cloud.currency, forKey: DefaultsKeys.currencyKey)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
+        
+        //Moving shade
         let moveToY = SKAction.moveToY(shadeFinalYCoordinate, duration: shadeFallDuration)
         self.moveToY = moveToY
         
-        self.shade = drop()
+        //Shade
+        self.shade = makeShade()
         self.addChild(shade)
         shade.zPosition = 1
         shade.runAction(moveToY, completion: {
@@ -475,12 +493,14 @@ class GameScene: SKScene {
             NSUserDefaults.standardUserDefaults().setInteger(Cloud.highScore, forKey: DefaultsKeys.highScoreKey)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
+        
         gameOver = true
         delayTime = 1
         pauseView = makeRestartPanel()
         pauseView.alpha = 0.0
         view!.addSubview(pauseView)
         
+        //Back button in the game ver menu
         setupButton(backButtonInGameOver,
                     center: nil,
                     origin: pauseButton.frame.origin,
@@ -493,6 +513,8 @@ class GameScene: SKScene {
         if Cloud.model == "iPhone 4s" {
             backButtonInGameOver.center.x -= 15
         }
+        
+        //Show pause view
         UIView.animateWithDuration(0.5, animations: {
             self.pauseView.alpha = 1.0
             self.pauseButton.alpha = 0.0
@@ -500,6 +522,7 @@ class GameScene: SKScene {
         })
     }
     
+    //Restart view
     func makeRestartPanel() -> UIView {
         let panel = UIView()
         panel.frame.size = CGSizeMake(150, 150)
@@ -514,6 +537,7 @@ class GameScene: SKScene {
         let panelCent = self.view!.convertPoint(panel.center, toView: panel)
         let scoreLabelText = UILabel()
         
+        //Score label
         setupLabel(scoreLabelText,
                    center: CGPointMake(75, 37.5),
                    origin: nil,
@@ -523,6 +547,7 @@ class GameScene: SKScene {
                    numberOfLines: 1)
         scoreLabelText.textAlignment = NSTextAlignment.Center
         
+        //Restart button
         let restartButton = UIButton()
         setupButton(restartButton,
                     center: CGPointMake(panelCent.x, 75),
@@ -534,6 +559,8 @@ class GameScene: SKScene {
                     superview: panel)
         restartButton.backgroundColor = UIColor.blackColor()
         scoreLabelText.textAlignment = NSTextAlignment.Center
+        
+        //Currency label
         let currencyLabel = UILabel()
         setupLabel(currencyLabel,
                    center: nil,
@@ -544,8 +571,8 @@ class GameScene: SKScene {
                    numberOfLines: 1)
         currencyLabel.textAlignment = NSTextAlignment.Center
         
+        //High score label
         let highScoreLabel = UILabel()
-        
         setupLabel(highScoreLabel,
                    center: CGPointMake(panelCent.x, panelMax.y - 30),
                    origin: nil,
@@ -554,13 +581,15 @@ class GameScene: SKScene {
                    superview: panel,
                    numberOfLines: 1)
         highScoreLabel.textAlignment = NSTextAlignment.Center
+        
         return panel
     }
     
     func reset(restartButtonWasTapped: Bool) {
-        player.runAction(SKAction.moveToX(self.frame.midX, duration: 0.39))
+        player.runAction(SKAction.moveToX(self.frame.midX, duration: 0.39)) //Moves player back to middle
         delay(0.4){
             if restartButtonWasTapped{
+                //Fade and remove
                 self.delay(0.5){
                     self.restartButtonInPauseMenu.removeFromSuperview()
                     self.backButton.removeFromSuperview()
@@ -611,6 +640,7 @@ class GameScene: SKScene {
             dispatch_get_main_queue(), closure)
     }
     
+    //For shade
     func randShadeTex() -> String{
         let randNum = arc4random_uniform(4)
         switch(randNum){
@@ -625,28 +655,170 @@ class GameScene: SKScene {
         }
     }
     
+    //Tutorial
     func makeTutorialView() {
         delay(1){
             let tutorialOneDuration = 2.3
             let tutorialTwoDuration = 4.8
+            
+            //Schedule of the three segments
             self.tutorialOne(tutorialOneDuration + 2)
             _ = NSTimer.scheduledTimerWithTimeInterval(tutorialOneDuration, target: self, selector: #selector(GameScene.tutorialTwo), userInfo: nil, repeats: false)
             _ = NSTimer.scheduledTimerWithTimeInterval(tutorialOneDuration + tutorialTwoDuration, target: self, selector: #selector(GameScene.tutorialThree), userInfo: nil, repeats: false)
         }
     }
     
+    //Tutorial one: explains the cover
+    func tutorialOne(delayTime: Double) {
+        let tutViewSizeRatioX: CGFloat = 3.5/5
+        let tutViewSizeRatioY: CGFloat = 5/7
+        self.tutorialView.frame.size = CGSizeMake(self.view!.frame.size.width * (tutViewSizeRatioX) - 50, (self.view!.frame.size.height * tutViewSizeRatioY) + 50)
+        self.tutorialView.backgroundColor = UIColor.whiteColor()
+        self.tutorialView.center = CGPointMake(self.view!.frame.maxX * (tutViewSizeRatioX) - 50, (self.view!.center.y * tutViewSizeRatioY) + (self.tutorialView.frame.size.height / 2) - 100)
+        self.tutorialView.layer.borderWidth = 5
+        self.tutorialView.layer.borderColor = UIColor.blueColor().CGColor
+        self.tutorialView.layer.cornerRadius = 20
+        self.tutorialView.alpha = 0
+        
+        //Title label
+        let titleLabel = UILabel()
+        self.setupLabel(titleLabel,
+                        center: CGPointMake(self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView).x, 30),
+                        origin: nil,
+                        size: nil,
+                        text: "TUTORIAL",
+                        superview: self.tutorialView,
+                        numberOfLines: 1)
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.alpha = 0
+
+        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
+
+        //Cover label
+        let coverLabel = UILabel()
+        self.setupLabel(coverLabel,
+                        center: CGPointMake(titleLabel.center.x, convertedTutCenter.y - 20),
+                        origin: nil,
+                        size: nil,
+                        text: "This is a Cover.\nHide under it to survive",
+                        superview: self.tutorialView,
+                        numberOfLines: 2)
+        coverLabel.textAlignment = NSTextAlignment.Center
+        coverLabel.alpha = 0
+        
+        self.view!.addSubview(self.tutorialView)
+        UIView.animateWithDuration(0.5, animations: {
+            self.tutorialView.alpha = 1
+            titleLabel.alpha = 1
+        })
+        self.pause(true)
+        
+        //Cover arrow
+        let coverArrow = UIImageView(image: UIImage(named: "back-icon"))
+        coverArrow.frame = CGRectMake(25, coverLabel.center.y, 68, 28)
+        coverArrow.alpha = 0
+        self.tutorialView.addSubview(coverArrow)
+        
+        UIView.animateWithDuration(0.8, animations: {
+            coverArrow.alpha = 1
+            coverLabel.alpha = 1
+        })
+        delay(delayTime){
+            self.tutorialFadeElementsWithDuration(0.8, element1: coverLabel, element2: coverArrow)
+        }
+    }
+    
+    //Tutorial two: explains the rectangle under the cover
+    func tutorialTwo() {
+        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
+        
+        //Room arrow
+        let roomArrow = UIImageView(image: UIImage(named: "back-icon"))
+        roomArrow.frame = CGRectMake(25, convertedTutCenter.y + 100, 68, 28)
+        roomArrow.alpha = 0
+        self.tutorialView.addSubview(roomArrow)
+        
+        //Room label
+        let roomLabel = UILabel()
+        self.setupLabel(roomLabel,
+                        center: CGPointMake(convertedTutCenter.x, roomArrow.center.y),
+                        origin: nil,
+                        size: nil,
+                        text: "This is where you\nhave to go.",
+                        superview: self.tutorialView,
+                        numberOfLines: 2)
+        roomLabel.textAlignment = NSTextAlignment.Center
+        roomLabel.alpha = 0
+        
+        UIView.animateWithDuration(0.8, animations: {
+            roomArrow.alpha = 1
+            roomLabel.alpha = 1
+        })
+        delay(2) {
+            UIView.animateWithDuration(0.8, animations: {
+                self.tutorialFadeElementsWithDuration(0.8, element1: roomArrow, element2: roomLabel)
+            })
+        }
+    }
+    
+    //Tutorial three: explains how to move
+    func tutorialThree() {
+        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
+
+        //Tutorial finale label
+        let endTutLabel = UILabel()
+        self.setupLabel(endTutLabel,
+                        center: convertedTutCenter,
+                        origin: nil,
+                        size: nil,
+                        text: "Slide with your finger to take cover.",
+                        superview: self.tutorialView,
+                        numberOfLines: 1)
+        endTutLabel.alpha = 0
+        
+        //Got it button (end button)
+        let gotItButton = UIButton()
+        self.setupButton(gotItButton,
+                         center: nil,
+                         origin: CGPointMake(convertedTutCenter.x - 22.5, convertedTutCenter.y + 30),
+                         size: CGSizeMake(45, 34),
+                         image: nil,
+                         title: "Got It",
+                         selector: #selector(GameScene.endTutorial),
+                         superview: self.tutorialView)
+        gotItButton.setTitleColor(self.view!.tintColor, forState: .Normal)
+        gotItButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
+        gotItButton.alpha = 0
+        
+        UIView.animateWithDuration(0.8, animations: {
+            endTutLabel.alpha = 1
+            gotItButton.alpha = 1
+        })
+
+    }
+    
+    func tutorialFadeElementsWithDuration(duration: Double, element1: UIView, element2: UIView) {
+        UIView.animateWithDuration(duration, animations: {
+            element1.alpha = 0
+            element2.alpha = 0
+        })
+    }
+    
     func endTutorial() {
+        //Fade out
         UIView.animateWithDuration(1, animations: {
             self.tutorialView.alpha = 0
             self.pauseButton.alpha = 1
             }, completion: { finished in
                 self.pause(false)
                 Cloud.showTutorial = false
+                //Set defaults
                 NSUserDefaults.standardUserDefaults().setBool(false, forKey: DefaultsKeys.showTutorialKey)
                 NSUserDefaults.standardUserDefaults().synchronize()
                 self.tutorialBeingShown = false
         })
     }
+
     
     func setupButton(button: UIButton, center: CGPoint?, origin: CGPoint?, size: CGSize?, image: UIImage?, title: String?, selector: Selector, superview: UIView?){
         if size != nil {
@@ -683,124 +855,5 @@ class GameScene: SKScene {
         }
         superview.addSubview(label)
     }
-    
-    func tutorialOne(delayTime: Double) {
-        let tutViewSizeRatioX: CGFloat = 3.5/5
-        let tutViewSizeRatioY: CGFloat = 5/7
-        self.tutorialView.frame.size = CGSizeMake(self.view!.frame.size.width * (tutViewSizeRatioX) - 50, (self.view!.frame.size.height * tutViewSizeRatioY) + 50)
-        self.tutorialView.backgroundColor = UIColor.whiteColor()
-        self.tutorialView.center = CGPointMake(self.view!.frame.maxX * (tutViewSizeRatioX) - 50, (self.view!.center.y * tutViewSizeRatioY) + (self.tutorialView.frame.size.height / 2) - 100)
-        self.tutorialView.layer.borderWidth = 5
-        self.tutorialView.layer.borderColor = UIColor.blueColor().CGColor
-        self.tutorialView.layer.cornerRadius = 20
-        self.tutorialView.alpha = 0
-        let titleLabel = UILabel()
-        self.setupLabel(titleLabel,
-                        center: CGPointMake(self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView).x, 30),
-                        origin: nil,
-                        size: nil,
-                        text: "TUTORIAL",
-                        superview: self.tutorialView,
-                        numberOfLines: 1)
-        
-        titleLabel.textAlignment = NSTextAlignment.Center
-        titleLabel.alpha = 0
-        let coverLabel = UILabel()
-        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
-        self.setupLabel(coverLabel,
-                        center: CGPointMake(titleLabel.center.x, convertedTutCenter.y - 20),
-                        origin: nil,
-                        size: nil,
-                        text: "This is a Cover.\nHide under it to survive",
-                        superview: self.tutorialView,
-                        numberOfLines: 2)
-        coverLabel.textAlignment = NSTextAlignment.Center
-        coverLabel.alpha = 0
-        self.view!.addSubview(self.tutorialView)
-        UIView.animateWithDuration(0.5, animations: {
-            self.tutorialView.alpha = 1
-            titleLabel.alpha = 1
-        })
-        self.pause(true)
-        let coverArrow = UIImageView(image: UIImage(named: "back-icon"))
-        coverArrow.frame = CGRectMake(25, coverLabel.center.y, 68, 28)
-        coverArrow.alpha = 0
-        self.tutorialView.addSubview(coverArrow)
-        
-        UIView.animateWithDuration(0.8, animations: {
-            coverArrow.alpha = 1
-            coverLabel.alpha = 1
-        })
-        delay(delayTime){
-            self.tutorialFadeElementsWithDuration(0.8, element1: coverLabel, element2: coverArrow)
-        }
-    }
-    
-    func tutorialTwo() {
-        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
-        let roomArrow = UIImageView(image: UIImage(named: "back-icon"))
-        roomArrow.frame = CGRectMake(25, convertedTutCenter.y + 100, 68, 28)
-        roomArrow.alpha = 0
-        self.tutorialView.addSubview(roomArrow)
-        let roomLabel = UILabel()
-        
-        self.setupLabel(roomLabel,
-                        center: CGPointMake(convertedTutCenter.x, roomArrow.center.y),
-                        origin: nil,
-                        size: nil,
-                        text: "This is where you\nhave to go.",
-                        superview: self.tutorialView,
-                        numberOfLines: 2)
-        roomLabel.textAlignment = NSTextAlignment.Center
-        roomLabel.alpha = 0
-            UIView.animateWithDuration(0.8, animations: {
-                roomArrow.alpha = 1
-                roomLabel.alpha = 1
-            })
-        delay(2) {
-            UIView.animateWithDuration(0.8, animations: {
-                self.tutorialFadeElementsWithDuration(0.8, element1: roomArrow, element2: roomLabel)
-            })
-        }
-    }
-    
-    func tutorialThree() {
-        let endTutLabel = UILabel()
-        let convertedTutCenter = self.view!.convertPoint(self.tutorialView.center, toView: self.tutorialView)
-        self.setupLabel(endTutLabel,
-                        center: convertedTutCenter,
-                        origin: nil,
-                        size: nil,
-                        text: "Slide with your finger to take cover.",
-                        superview: self.tutorialView,
-                        numberOfLines: 1)
-        
-        endTutLabel.alpha = 0
-        let gotItButton = UIButton()
-        
-        self.setupButton(gotItButton,
-                         center: nil,
-                         origin: CGPointMake(convertedTutCenter.x - 22.5, convertedTutCenter.y + 30),
-                         size: CGSizeMake(45, 34),
-                         image: nil,
-                         title: "Got It",
-                         selector: #selector(GameScene.endTutorial),
-                         superview: self.tutorialView)
-        
-        gotItButton.setTitleColor(self.view!.tintColor, forState: .Normal)
-        gotItButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
-        gotItButton.alpha = 0
-        UIView.animateWithDuration(0.8, animations: {
-            endTutLabel.alpha = 1
-            gotItButton.alpha = 1
-        })
 
-    }
-    
-    func tutorialFadeElementsWithDuration(duration: Double, element1: UIView, element2: UIView) {
-        UIView.animateWithDuration(duration, animations: {
-            element1.alpha = 0
-            element2.alpha = 0
-        })
-    }
 }

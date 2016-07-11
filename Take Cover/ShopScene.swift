@@ -53,8 +53,7 @@ class ShopScene: SKScene {
     var currencyLabelArrayForThemes = [UILabel]()
     var playerSize: CGFloat = 0
     
-    let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
-    let items = ["Players", "Themes"]
+    let currencyLabel = UILabel()
     let controller = UISegmentedControl(items: ["Players", "Themes"])
     let shopLabel = UILabel()
     var segmentedControlNum = 0
@@ -64,6 +63,8 @@ class ShopScene: SKScene {
     let changeColorButton = UIButton()
     
     override func didMoveToView(view: SKView) {
+        
+        //Change color button
         setupButton(changeColorButton,
                     center: nil,
                     origin: CGPointMake(-100, self.view!.frame.maxY - 100),
@@ -72,11 +73,13 @@ class ShopScene: SKScene {
                     selector: #selector(ShopScene.changeColorButtonPressed))
         changeColorButton.setImage(UIImage(named: "BUTTP"), forState: .Highlighted)
         
+        //background
         backgroundImageView.frame = self.view!.frame
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.9 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
             self.view!.insertSubview(self.backgroundImageView, atIndex: 0)
         })
         
+        //Set sizes and positions according to screen size
         playerSize = screenSize.width / 6.67
         xPosForThemes = (playerSize / 2) - 1000
         xPosForPlayers = playerSize / 2
@@ -90,6 +93,7 @@ class ShopScene: SKScene {
             yWidth = 6/10
         }
         
+        //Shop label
         setupLabel(shopLabel,
                    center: CGPointMake(self.view!.center.x - self.view!.frame.maxX, 30),
                    origin: nil,
@@ -97,6 +101,7 @@ class ShopScene: SKScene {
                    text: "SHOP",
                    specialFont: shopLabel.font.fontWithSize(50))
         
+        //Segmented control
         controller.selectedSegmentIndex = 0
         controller.frame.size = CGSizeMake(200, 30)
         controller.center = CGPoint(x: self.view!.frame.midX - self.view!.frame.maxX, y: self.view!.frame.maxY - 27)
@@ -108,6 +113,7 @@ class ShopScene: SKScene {
         controller.layer.borderColor = UIColor.blackColor().CGColor
         self.view!.addSubview(controller)
         
+        //Currency label
         setupLabel(currencyLabel,
                    center: CGPointMake(self.view!.center.x + 100, self.view!.frame.minY + 10),
                    origin: nil,
@@ -115,34 +121,34 @@ class ShopScene: SKScene {
                    text: String(Cloud.currency),
                    specialFont: currencyLabel.font.fontWithSize(20))
         
+        //Append lock image to arrays
         for _ in 1...themeStrings.count {
             lockArrayforThemes.append(img("lock"))
         }
-        
         for _ in 1...playerImageStrings.count {
             lockArrayForPlayers.append(img("lock"))
         }
         
-        let backImage = UIImage(named: "back-icon-rev")
-        
+        //Back button
         setupButton(backButton,
                     center: CGPointMake((view.frame.midX + 100) - self.view!.frame.maxX, 210),
                     origin: nil,
                     size: CGSizeMake(120, 85),
-                    image: backImage!,
+                    image: UIImage(named: "back-icon-rev")!,
                     selector: #selector(ShopScene.backButtonPressed))
-        
         if Cloud.model == "iPhone 4s" {
             backButton.center.x += 18
         }
-
+        
+        //Make labels have correct numbers
         assignNumsToLabels(currencylabelNumsForPlayers, currencyLabelArray: &currencyLabelArrayForPlayers, cloudLockedArray: Cloud.lockedForPlayers)
         assignNumsToLabels(currencyLabelNumsForThemes, currencyLabelArray: &currencyLabelArrayForThemes, cloudLockedArray: Cloud.lockedForThemes)
         
-        
+        //Setup the rest of the shop
         setupShop(playerImageStrings, imageViewArray: &playerImageViews, xPos: &xPosForPlayers, yPos: &yPosForPlayers, lockArray: lockArrayForPlayers, cloudLockedArray: Cloud.lockedForPlayers, currencyLabelArray: currencyLabelArrayForPlayers, offset: 0)
         setupShop(themeStrings, imageViewArray: &themeImageViews, xPos: &xPosForThemes, yPos: &yPosForThemes, lockArray: lockArrayforThemes, cloudLockedArray: Cloud.lockedForThemes, currencyLabelArray: currencyLabelArrayForThemes, offset: 1000)
         
+        //Transition elements (move to the right)
         UIView.animateWithDuration(1, animations: {
             for index in self.playerImageStrings {
                 let thisIt = self.playerImageStrings.indexOf(index)
@@ -189,15 +195,17 @@ class ShopScene: SKScene {
     }
     
     func setupShop(stringArray: [String], inout imageViewArray: [UIImageView?], inout xPos: CGFloat, inout yPos: CGFloat, lockArray: [UIImageView], cloudLockedArray: [Bool], currencyLabelArray: [UILabel], offset: CGFloat) {
-        for index in stringArray {
+        for index in stringArray {                                  //Loops through array of image names
             let thisIt = stringArray.indexOf(index)
-            imageViewArray.append(img("\(index)\(Cloud.color)"))
+            imageViewArray.append(img("\(index)\(Cloud.color)"))    //Adds image to array withname of current image name + color
             imageViewArray[thisIt!]!.frame = CGRectMake(CGFloat(xPos)  - self.view!.frame.maxX, CGFloat(yPos), screenSize.width / 6.67, screenSize.height / 3.75)
             imageViewArray[thisIt!]!.contentMode = UIViewContentMode.ScaleAspectFit
-            self.view!.addSubview(imageViewArray[thisIt!]!)
+            self.view!.addSubview(imageViewArray[thisIt!]!)         //Add image
             if cloudLockedArray[thisIt!] {
-                imageViewArray[thisIt!]!.alpha = 0.0
+                imageViewArray[thisIt!]!.alpha = 0.0                //If current image is locked, make it transparent
             }
+            
+            //Add locks
             lockArray[thisIt!].frame = imageViewArray[thisIt!]!.frame
             lockArray[thisIt!].contentMode = UIViewContentMode.ScaleAspectFit
             let lFrame = lockArray[thisIt!].frame
@@ -206,6 +214,8 @@ class ShopScene: SKScene {
             }
             currencyLabelArray[thisIt!].frame = CGRectMake(lFrame.minX, lFrame.maxY + 5, lFrame.width, 30)
             self.view!.addSubview(currencyLabelArray[thisIt!])
+            
+            //Compute position for next element
             if CGFloat(xPos) <= (self.view?.frame.maxX)! - (imageViewArray[0]!.frame.width + 100) {
                 xPos += 130
             }else{
@@ -219,7 +229,7 @@ class ShopScene: SKScene {
     }
     
     func assignNumsToLabels(currencyLabelNumArray: [Int], inout currencyLabelArray: [UILabel], cloudLockedArray: [Bool]) {
-        for num in currencyLabelNumArray {
+        for num in currencyLabelNumArray {                      //Loops through label numbers
             let thisIt = currencyLabelNumArray.indexOf(num)!
             currencyLabelArray.append(UILabel())
             currencyLabelArray[thisIt].text = String(num)
@@ -228,7 +238,6 @@ class ShopScene: SKScene {
             }else{
                 currencyLabelArray[thisIt].text = ""
             }
-            
             currencyLabelArray[thisIt].textAlignment = NSTextAlignment.Center
         }
     }
@@ -341,9 +350,11 @@ class ShopScene: SKScene {
             location = touch.locationInView(self.view)
         }
 
+        //Check to see if they have enough coins and if so select player or theme
         check(playerImageViews, arrayOfStrings: playerImageStrings, isLockedArray: &Cloud.lockedForPlayers, numArray: currencylabelNumsForPlayers, isPlayer: true, lockImgArray: lockArrayForPlayers, curlArray: currencyLabelArrayForPlayers)
         check(themeImageViews, arrayOfStrings: themeStrings, isLockedArray: &Cloud.lockedForThemes, numArray: currencyLabelNumsForThemes, isPlayer: false, lockImgArray: lockArrayforThemes, curlArray: currencyLabelArrayForThemes)
         
+        //Set NSUserDefaults
         NSUserDefaults.standardUserDefaults().setValue(Cloud.lockedForPlayers, forKey: DefaultsKeys.lockedForPlayersKey)
         NSUserDefaults.standardUserDefaults().setValue(Cloud.lockedForThemes, forKey: DefaultsKeys.lockedForThemesKey)
         NSUserDefaults.standardUserDefaults().setValue(Cloud.playerString, forKey: DefaultsKeys.playerStringKey)
@@ -385,9 +396,10 @@ class ShopScene: SKScene {
         }
     }
     
+    //Select player or theme
     func transformImage(imageName: String, arrayOfImgViews: Array<UIImageView?>, stringArray: Array<String>, lockArray: Array<UIImageView>, unlocking: Bool) {
-        for index in arrayOfImgViews {
-            if imageNameMatches(index!, imageName: imageName, arrayOfImgViews: arrayOfImgViews) {
+        for index in arrayOfImgViews {                                                              //Loop through array of images
+            if imageNameMatches(index!, imageName: imageName, arrayOfImgViews: arrayOfImgViews) {   //If the image matches the image name passed
                 let thisIt = stringArray.indexOf(imageName)!
                 self.backWhite.alpha = 0.0
                 UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseOut, animations: {
@@ -396,19 +408,20 @@ class ShopScene: SKScene {
                         index!.alpha = 1.0
                         lockArray[thisIt].transform = CGAffineTransformMakeScale(2, 2)
                     }
-                    }, completion: { finished in
-                        self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20)
-                        self.backWhite.alpha = 0.0
-                        self.view!.insertSubview(self.backWhite, atIndex: 1)
-                        UIView.animateWithDuration(0.3, animations: {
-                            self.backWhite.alpha = 1.0
-                        })
+                }, completion: { finished in
+                    self.backWhite.frame = CGRectMake(index!.frame.minX - 10, (index?.frame.minY)! - 10, index!.frame.width + 20, (index?.frame.height)! + 20)
+                    self.backWhite.alpha = 0.0
+                    self.view!.insertSubview(self.backWhite, atIndex: 1)
+                    UIView.animateWithDuration(0.3, animations: {
+                        self.backWhite.alpha = 1.0
+                    })
                 })
                 
             }
         }
     }
     
+    //Check if the passed name matches the image + any color
     func imageNameMatches(image: UIImageView, imageName: String, arrayOfImgViews: Array<UIImageView?>) -> Bool {
         if image.image == UIImage(named: imageName) ||
             image.image == UIImage(named: "\(imageName) blue") ||
@@ -418,6 +431,7 @@ class ShopScene: SKScene {
         return false
     }
     
+    //Returns a UIImageView with the passed title (used for syntax simplification)
     func img(title: String) -> UIImageView {
         return UIImageView(image: UIImage(named: title))
     }

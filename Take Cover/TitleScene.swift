@@ -56,12 +56,14 @@ class TitleScene: SKScene {
     let settingsButton = UIButton()
     var titleMusicPlayer = AVAudioPlayer()
     let titleMusic = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
-    let currencyLabel = UILabel(frame: CGRectMake(400, 400, 200, 20))
+    let currencyLabel = UILabel()
     var cornerImages = [UIImageView]()
     let cornerImageStrings = ["ul", "ur", "ll", "lr"]
     let backgroundImageView = UIImageView(image: UIImage(named: "Title Screen Graident"))
     
     override func didMoveToView(view: SKView) {
+        
+        //Get NSUserDefaults
         if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
             Cloud.currency = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey)
         }
@@ -98,6 +100,7 @@ class TitleScene: SKScene {
             self.view!.addSubview(self.backgroundImageView)
         }
         let screenWidth = self.view!.frame.width
+        //Check which iPhone model
         switch screenWidth {
         case 667.0:
             Cloud.model = "iPhone 6"
@@ -115,10 +118,12 @@ class TitleScene: SKScene {
             break
         }
         
+        //Append corner images to array
         for imageName in cornerImageStrings {
             cornerImages.append(UIImageView(image: UIImage(named: imageName)))
         }
         
+        //Add corner images to corners
         for imageView in cornerImages {
             let thisIt = cornerImages.indexOf(imageView)
             switch cornerImageStrings[thisIt!] {
@@ -163,6 +168,8 @@ class TitleScene: SKScene {
             }
             self.view?.addSubview(imageView)
         }
+        
+        //Title image
         titleImg.frame.size = CGSizeMake(400, 800)
         if Cloud.model != "iPhone 4s" && Cloud.model != "iPhone 5" {
             titleImg.center = CGPointMake(self.view!.frame.midX, 100)
@@ -173,16 +180,18 @@ class TitleScene: SKScene {
         titleImg.contentMode = UIViewContentMode.ScaleAspectFit
         self.view!.addSubview(titleImg)
 
+        //Currency label
         currencyLabel.text = String(Cloud.currency)
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
         currencyLabel.center = CGPointMake(self.view!.center.x, self.view!.frame.minY + 10)
         currencyLabel.textAlignment = NSTextAlignment.Right
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         self.view!.addSubview(currencyLabel)
+        
+        //Title music
         if Cloud.sound {
             
             do {
-                // Preperation
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             } catch _ {
             }
@@ -201,6 +210,7 @@ class TitleScene: SKScene {
             titleMusicPlayer.numberOfLoops = -1
         }
         
+        
         var buttonPos: CGFloat = 200
         var buttonSize: CGFloat = 100
         if Cloud.model == "iPhone 4s" {
@@ -208,6 +218,7 @@ class TitleScene: SKScene {
             buttonSize = 80
         }
         
+        //Three main buttons
         playButton.setImage(UIImage(named: "playButton"), forState: .Normal)
         playButton.addTarget(self, action: #selector(TitleScene.play), forControlEvents: .TouchUpInside)
         playButton.frame.size.width = buttonSize
@@ -232,7 +243,6 @@ class TitleScene: SKScene {
             shopButton.center.x = self.view!.frame.midX - buttonPos
             shopButton.center.y = self.view!.center.y
         }
-        
         shopButton.addTarget(self, action: #selector(TitleScene.shop), forControlEvents: .TouchUpInside)
         view.addSubview(shopButton)
         
@@ -252,6 +262,7 @@ class TitleScene: SKScene {
         settingsButton.addTarget(self, action: #selector(TitleScene.settings), forControlEvents: .TouchUpInside)
         self.view!.addSubview(settingsButton)
         
+        //If transitioning, position elements accordingly
         if Cloud.backFromSettings {
             UIView.animateWithDuration(1, animations: {
                 self.playButton.center.x += self.view!.frame.maxX
@@ -279,11 +290,13 @@ class TitleScene: SKScene {
 
     }
     
+    //If settings button pressed
     func settings(){
         let skView = self.view! as SKView
         let scene = SettingsScene(fileNamed: "SettingsScene")
         scene!.scaleMode = .AspectFill
         UIView.animateWithDuration(1, animations: {
+            //Transition elements (move to the left)
             self.currencyLabel.center.x -= self.view!.frame.maxX
             self.playButton.center.x -= self.view!.frame.maxX
             self.shopButton.center.x -= self.view!.frame.maxX
@@ -297,16 +310,16 @@ class TitleScene: SKScene {
 
         })
         skView.presentScene(scene)
-        
     }
     
+    //If play button pressed
     func play(){
         let skView = self.view! as SKView
         let scene = GameScene(fileNamed:"GameScene")
         scene!.scaleMode = .AspectFill
         currencyLabel.removeFromSuperview()
-        
         UIView.animateWithDuration(1.0, animations: {
+            //transition elements (fade out)
             self.playButton.alpha = 0.0
             self.shopButton.alpha = 0.0
             self.settingsButton.alpha = 0.0
@@ -326,11 +339,13 @@ class TitleScene: SKScene {
         })
     }
     
+    //If shop button pressed
     func shop(){
         let skView = self.view! as SKView
         let scene = ShopScene(fileNamed:"ShopScene")
         scene!.scaleMode = .AspectFill
         UIView.animateWithDuration(1, animations: {
+            //Transition elements (move to the right)
             self.playButton.center.x += self.view!.frame.maxX
             self.shopButton.center.x += self.view!.frame.maxX
             self.settingsButton.center.x += self.view!.frame.maxX
@@ -345,28 +360,7 @@ class TitleScene: SKScene {
         skView.presentScene(scene)
     }
     
-    func removeAllFromSuperview() {
-        currencyLabel.removeFromSuperview()
-        playButton.removeFromSuperview()
-        shopButton.removeFromSuperview()
-        settingsButton.removeFromSuperview()
-        for image in cornerImages {
-            image.removeFromSuperview()
-        }
-    }
-    
-    func fadeOut(duration duration: NSTimeInterval = 1.0) {
-        UIView.animateWithDuration(duration, animations: {
-            self.alpha = 0.0
-        })
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    }
-    
-    override func update(currentTime: CFTimeInterval) {
-    }
-    
+    //Fades volume (called when play button pressed)
     func fadeVolumeAndPause(){
         if titleMusicPlayer.volume > 0.1 {
             titleMusicPlayer.volume = self.titleMusicPlayer.volume - 0.1
