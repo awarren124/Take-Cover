@@ -251,7 +251,7 @@ class GameScene: SKScene {
                         delayTime -= delayChange
                     }
                     if shadeFallDuration > minDuration {
-                        shadeFallDuration /= 1.1
+                        shadeFallDuration *= 0.98
                     }
                 }
             }
@@ -395,7 +395,7 @@ class GameScene: SKScene {
         var incrementor = 0
         deleteNodes("coverShade")
         if scaleFactor >= 0.6 && score % 3 == 0 {   //Compute size of cover
-            scaleFactor -= 0.1
+            scaleFactor -= 0.05
         }
         for node in arrayOfCovers {
             let x = rand(1020)
