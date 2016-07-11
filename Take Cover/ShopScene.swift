@@ -197,7 +197,11 @@ class ShopScene: SKScene {
     func setupShop(stringArray: [String], inout imageViewArray: [UIImageView?], inout xPos: CGFloat, inout yPos: CGFloat, lockArray: [UIImageView], cloudLockedArray: [Bool], currencyLabelArray: [UILabel], offset: CGFloat) {
         for index in stringArray {                                  //Loops through array of image names
             let thisIt = stringArray.indexOf(index)
-            imageViewArray.append(img("\(index)\(Cloud.color)"))    //Adds image to array withname of current image name + color
+            if cloudLockedArray == Cloud.lockedForPlayers {
+                imageViewArray.append(img("\(index)\(Cloud.color)"))    //Adds image to array withname of current image name + color
+            } else {
+                imageViewArray.append(img(index))                   //Adds image to array with name of current image name
+            }
             imageViewArray[thisIt!]!.frame = CGRectMake(CGFloat(xPos)  - self.view!.frame.maxX, CGFloat(yPos), screenSize.width / 6.67, screenSize.height / 3.75)
             imageViewArray[thisIt!]!.contentMode = UIViewContentMode.ScaleAspectFit
             self.view!.addSubview(imageViewArray[thisIt!]!)         //Add image
