@@ -33,7 +33,7 @@ struct Cloud {
     static var model = String()
     static var highScore = 0
     static var showTutorial = true
-    static var color = "black"
+    static var color = ""
 }
 
 struct DefaultsKeys {

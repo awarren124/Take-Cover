@@ -23,9 +23,9 @@ class ShopScene: SKScene {
     var playerImageViews = [UIImageView?]()
     var themeImageViews = [UIImageView?]()
     var xPosForPlayers: CGFloat = 50
-    var yPosForPlayers: CGFloat = 45
+    var yPosForPlayers: CGFloat = 50
     var xPosForThemes: CGFloat = 50 - 1000
-    var yPosForThemes: CGFloat = 45
+    var yPosForThemes: CGFloat = 50
     let backButton = UIButton()
     let backWhite = UIImageView(image: UIImage(named: "whiteback-revised"))
     var lockArrayForPlayers = [UIImageView]()
@@ -67,8 +67,8 @@ class ShopScene: SKScene {
         //Change color button
         setupButton(changeColorButton,
                     center: nil,
-                    origin: CGPointMake(-100, self.view!.frame.maxY - 100),
-                    size: CGSizeMake(100, 100),
+                    origin: CGPointMake(-50, self.view!.frame.maxY - 50),
+                    size: CGSizeMake(50, 50),
                     image: UIImage(named: "BUTT")!,
                     selector: #selector(ShopScene.changeColorButtonPressed))
         changeColorButton.setImage(UIImage(named: "BUTTP"), forState: .Highlighted)
@@ -82,15 +82,17 @@ class ShopScene: SKScene {
         //Set sizes and positions according to screen size
         playerSize = screenSize.width / 6.67
         xPosForThemes = (playerSize / 2) - 1000
-        xPosForPlayers = playerSize / 2
+        xPosForPlayers = playerSize / 2 - 20
         if Cloud.model == "iPhone 4s" {
             xPosForThemes = (20) - 1000
             xPosForPlayers = 20
         }
     
-        yWidth = 4/10
+        yWidth = 2/5
         if Cloud.model == "iPhone 4s" {
             yWidth = 6/10
+        }else if Cloud.model == "iPhone 5" {
+            yWidth = 7/20
         }
         
         //Shop label
@@ -100,7 +102,9 @@ class ShopScene: SKScene {
                    size: CGSizeMake(500, 100),
                    text: "SHOP",
                    specialFont: shopLabel.font.fontWithSize(50))
-        
+        if Cloud.model == "iPhone 4s" {
+            shopLabel.frame.origin.x = self.view!.frame.origin.x - self.view!.frame.maxX + 45
+        }
         //Segmented control
         controller.selectedSegmentIndex = 0
         controller.frame.size = CGSizeMake(200, 30)
@@ -131,14 +135,12 @@ class ShopScene: SKScene {
         
         //Back button
         setupButton(backButton,
-                    center: CGPointMake((view.frame.midX + 100) - self.view!.frame.maxX, 210),
-                    origin: nil,
+                    center: nil,//CGPointMake((view.frame.midX + 100) - self.view!.frame.maxX, 210),
+                    origin: CGPointMake(self.view!.frame.maxX - 120 - self.view!.frame.maxX, self.view!.frame.maxY - changeColorButton.frame.height - 85),
                     size: CGSizeMake(120, 85),
                     image: UIImage(named: "back-icon-rev")!,
                     selector: #selector(ShopScene.backButtonPressed))
-        if Cloud.model == "iPhone 4s" {
-            backButton.center.x += 18
-        }
+        
         
         //Make labels have correct numbers
         assignNumsToLabels(currencylabelNumsForPlayers, currencyLabelArray: &currencyLabelArrayForPlayers, cloudLockedArray: Cloud.lockedForPlayers)
@@ -223,7 +225,7 @@ class ShopScene: SKScene {
             if CGFloat(xPos) <= (self.view?.frame.maxX)! - (imageViewArray[0]!.frame.width + 100) {
                 xPos += 130
             }else{
-                xPos = (playerSize / 2)  - offset
+                xPos = (playerSize / 2) - offset - 20
                 if Cloud.model == "iPhone 4s" {
                     xPos = 20 - offset
                 }
