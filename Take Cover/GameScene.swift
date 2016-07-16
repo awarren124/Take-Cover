@@ -584,6 +584,9 @@ class GameScene: SKScene {
     }
     
     func reset(restartButtonWasTapped: Bool) {
+        if (self.scene?.paused)! {
+            self.scene?.paused = false
+        }
         player.runAction(SKAction.moveToX(self.frame.midX, duration: 0.39)) //Moves player back to middle
         delay(0.4){
             if restartButtonWasTapped{
