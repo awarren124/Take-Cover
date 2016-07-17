@@ -483,6 +483,12 @@ class GameScene: SKScene {
     }
     
     func gameover() {
+        Cloud.gameCounter += 1
+        if Cloud.gameCounter % 10 == 0 {
+            if Cloud.canAskForRating {
+                askForRating()
+            }
+        }
         deleteNodes("cover")
         deleteNodes("coverShade")
         deleteNodes("shade")
@@ -518,6 +524,24 @@ class GameScene: SKScene {
             self.pauseButton.alpha = 0.0
             self.backButtonInGameOver.alpha = 1.0
         })
+    }
+    
+    func askForRating(){
+        let theAlertVC = UIAlertController(title: "Rate Take Cover", message: "Would you like to rate our app on the app store?", preferredStyle: .Alert)
+        theAlertVC.addAction(UIAlertAction(title: "Rate", style: UIAlertActionStyle.Default, handler: {
+            (Bool) in
+            Cloud.canAskForRating = false
+            UIApplication.sharedApplication().openURL(NSURL(string : "itms-apps://itunes.apple.com/app/id1126598806")!)
+            
+        }))
+        theAlertVC.addAction(UIAlertAction(title: "Not Now", style: UIAlertActionStyle.Default, handler: nil))
+        theAlertVC.addAction(UIAlertAction(title: "Do not ask again", style: UIAlertActionStyle.Destructive, handler: {
+            (Bool) in
+            Cloud.canAskForRating = false
+        }))
+        let currentViewController:UIViewController=UIApplication.sharedApplication().keyWindow!.rootViewController!
+        currentViewController.presentViewController(theAlertVC, animated: true, completion: nil)
+
     }
     
     //Restart view

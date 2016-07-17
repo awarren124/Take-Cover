@@ -34,6 +34,8 @@ struct Cloud {
     static var highScore = 0
     static var showTutorial = true
     static var color = ""
+    static var canAskForRating = true
+    static var gameCounter = 0
 }
 
 struct DefaultsKeys {
@@ -46,6 +48,8 @@ struct DefaultsKeys {
     static let musicKey = "musicKey"
     static let showTutorialKey = "showTutorialKey"
     static let colorKey = "colorKey"
+    static let askForRatingKey = "askForRatingKey"
+    static let gameCounterKey = "gameCounterKey"
 }
 
 class TitleScene: SKScene {
@@ -90,6 +94,12 @@ class TitleScene: SKScene {
         }
         if let color = NSUserDefaults.standardUserDefaults().stringForKey(DefaultsKeys.colorKey) {
             Cloud.color = color
+        }
+        if let askForRating = NSUserDefaults.standardUserDefaults().boolForKey(DefaultsKeys.askForRatingKey) as Bool? {
+            Cloud.canAskForRating = askForRating
+        }
+        if let gameCounter = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.gameCounterKey) as Int? {
+            Cloud.gameCounter = gameCounter
         }
         backgroundImageView.frame = self.view!.frame
         if Cloud.backFromSettings || Cloud.backFromShop {
