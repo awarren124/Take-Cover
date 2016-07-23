@@ -58,7 +58,7 @@ class TitleScene: SKScene {
     var playButton = UIButton()
     var shopButton = UIButton()
     let settingsButton = UIButton()
-    var titleMusicPlayer = AVAudioPlayer()
+//    var titleMusicPlayer = AudioPlayer.sharedInstance
     let titleMusic = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
     let currencyLabel = UILabel()
     var cornerImages = [UIImageView]()
@@ -200,24 +200,24 @@ class TitleScene: SKScene {
         
         //Title music
         if Cloud.sound {
-            
-            do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            } catch _ {
-            }
-            do {
-                try AVAudioSession.sharedInstance().setActive(true)
-            } catch _ {
-            }
-            
-            do {
-                titleMusicPlayer = try AVAudioPlayer(contentsOfURL: titleMusic)
-            } catch _{
-            }
-            
-            titleMusicPlayer.prepareToPlay()
-            titleMusicPlayer.play()
-            titleMusicPlayer.numberOfLoops = -1
+//            
+//            do {
+//                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+//            } catch _ {
+//            }
+//            do {
+//                try AVAudioSession.sharedInstance().setActive(true)
+//            } catch _ {
+//            }
+//            
+//            do {
+//                titleMusicPlayer = try AudioPlayer(contentsOfURL: titleMusic)
+//            } catch _{
+//            }
+//            
+//            titleMusicPlayer.prepareToPlay()
+//            titleMusicPlayer.play()
+//            titleMusicPlayer.numberOfLoops = -1
         }
         
         
@@ -347,6 +347,7 @@ class TitleScene: SKScene {
                     image.removeFromSuperview()
                 }
         })
+        fadeVolumeAndPause()
     }
     
     //If shop button pressed
@@ -372,8 +373,10 @@ class TitleScene: SKScene {
     
     //Fades volume (called when play button pressed)
     func fadeVolumeAndPause(){
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let titleMusicPlayer = appDelegate.musicPlayer
         if titleMusicPlayer.volume > 0.1 {
-            titleMusicPlayer.volume = self.titleMusicPlayer.volume - 0.1
+            titleMusicPlayer.volume = titleMusicPlayer.volume - 0.1
             
             let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
             dispatch_after(dispatchTime, dispatch_get_main_queue(), {

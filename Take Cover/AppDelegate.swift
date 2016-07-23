@@ -7,16 +7,52 @@
 //
 
 import UIKit
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var musicPlayer = AVAudioPlayer()
+    var music = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        if Cloud.sound {
+            play()
+        }
+        
         return true
+
+    }
+    
+    func play() {
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        } catch _ {
+        }
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch _ {
+        }
+        
+        do {
+            musicPlayer = try AVAudioPlayer(contentsOfURL: music)
+        } catch _{
+        }
+        
+        musicPlayer.prepareToPlay()
+        musicPlayer.play()
+        musicPlayer.numberOfLoops = -1
+        
+    }
+    
+    func stop() {
+        if musicPlayer.playing {
+            musicPlayer.stop()
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {

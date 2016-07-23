@@ -136,6 +136,12 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
     func realSoundChange() {
         Cloud.sound = !Cloud.sound
         NSUserDefaults.standardUserDefaults().setBool(Cloud.sound, forKey: DefaultsKeys.musicKey)
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if Cloud.sound {
+            appDelegate.play()
+        }else{
+            appDelegate.stop()
+        }
     }
     
     //Shows UIAlertView
