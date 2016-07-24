@@ -58,7 +58,6 @@ class TitleScene: SKScene {
     var playButton = UIButton()
     var shopButton = UIButton()
     let settingsButton = UIButton()
-//    var titleMusicPlayer = AudioPlayer.sharedInstance
     let titleMusic = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
     let currencyLabel = UILabel()
     var cornerImages = [UIImageView]()
@@ -197,29 +196,6 @@ class TitleScene: SKScene {
         currencyLabel.textAlignment = NSTextAlignment.Right
         currencyLabel.font = currencyLabel.font.fontWithSize(20)
         self.view!.addSubview(currencyLabel)
-        
-        //Title music
-        if Cloud.sound {
-//            
-//            do {
-//                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-//            } catch _ {
-//            }
-//            do {
-//                try AVAudioSession.sharedInstance().setActive(true)
-//            } catch _ {
-//            }
-//            
-//            do {
-//                titleMusicPlayer = try AudioPlayer(contentsOfURL: titleMusic)
-//            } catch _{
-//            }
-//            
-//            titleMusicPlayer.prepareToPlay()
-//            titleMusicPlayer.play()
-//            titleMusicPlayer.numberOfLoops = -1
-        }
-        
         
         var buttonPos: CGFloat = 200
         var buttonSize: CGFloat = 100
