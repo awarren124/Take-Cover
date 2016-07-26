@@ -2,10 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "xlalala.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "xlalala@2x.png",
       "scale" : "2x"
     },
     {

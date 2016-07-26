@@ -90,6 +90,9 @@ class GameScene: SKScene {
                     title: nil,
                     selector: #selector(GameScene.backButtonPressed),
                     superview: nil)
+        if Cloud.model == "iPhone 4s" {
+            backButton.center.x += 40
+        }
         
         //Restart button (in pause menu)
         setupButton(restartButtonInPauseMenu,

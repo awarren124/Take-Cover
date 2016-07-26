@@ -2,10 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Untitledtriangle.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Untitledtriangle@2x.png",
       "scale" : "2x"
     },
     {

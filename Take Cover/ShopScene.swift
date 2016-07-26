@@ -67,11 +67,10 @@ class ShopScene: SKScene {
         //Change color button
         setupButton(changeColorButton,
                     center: nil,
-                    origin: CGPointMake(-50, self.view!.frame.maxY - 50),
-                    size: CGSizeMake(50, 50),
-                    image: UIImage(named: "BUTT")!,
+                    origin: CGPointMake(-100, self.view!.frame.maxY - 50),
+                    size: CGSizeMake(100, 50),
+                    image: UIImage(named: "Change Colors Button")!,
                     selector: #selector(ShopScene.changeColorButtonPressed))
-        changeColorButton.setImage(UIImage(named: "BUTTP"), forState: .Highlighted)
         
         //background
         backgroundImageView.frame = self.view!.frame
