@@ -13,6 +13,7 @@
 		013075121CB9D13D00A94A34 /* ShopScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013075111CB9D13D00A94A34 /* ShopScene.swift */; };
 		013075141CB9D14700A94A34 /* ShopScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 013075131CB9D14700A94A34 /* ShopScene.sks */; };
 		0130751B1CB9F07A00A94A34 /* TitleMusicv3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0130751A1CB9F07A00A94A34 /* TitleMusicv3.mp3 */; };
+		014E35A71D5681B400B1AEE5 /* vaground.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 014E35A61D5681B400B1AEE5 /* vaground.ttf */; };
 		01723AF31CCD0D70004AD218 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01723AF21CCD0D70004AD218 /* SettingsScene.swift */; };
 		01723AF61CCD133B004AD218 /* SettingsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 01723AF51CCD133B004AD218 /* SettingsScene.sks */; };
 		01DD23A21CA592EE0075E139 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DD23A11CA592EE0075E139 /* AppDelegate.swift */; };
@@ -51,6 +52,7 @@
 		013075111CB9D13D00A94A34 /* ShopScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopScene.swift; sourceTree = "<group>"; };
 		013075131CB9D14700A94A34 /* ShopScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ShopScene.sks; sourceTree = "<group>"; };
 		0130751A1CB9F07A00A94A34 /* TitleMusicv3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TitleMusicv3.mp3; sourceTree = "<group>"; };
+		014E35A61D5681B400B1AEE5 /* vaground.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = vaground.ttf; sourceTree = "<group>"; };
 		01723AF21CCD0D70004AD218 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		01723AF51CCD133B004AD218 /* SettingsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SettingsScene.sks; sourceTree = "<group>"; };
 		01DD239E1CA592EE0075E139 /* Take Cover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Take Cover.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,7 @@
 			children = (
 				01EF21581D4852D500E79CF2 /* GameMusic.mp3 */,
 				01DD23B11CA592EE0075E139 /* Info.plist */,
+				014E35A61D5681B400B1AEE5 /* vaground.ttf */,
 				0130751A1CB9F07A00A94A34 /* TitleMusicv3.mp3 */,
 			);
 			name = "Supporting Files";
@@ -292,6 +295,7 @@
 			files = (
 				01DD23A41CA592EE0075E139 /* GameScene.sks in Resources */,
 				01EF21591D4852D500E79CF2 /* GameMusic.mp3 in Resources */,
+				014E35A71D5681B400B1AEE5 /* vaground.ttf in Resources */,
 				01DD23B01CA592EE0075E139 /* LaunchScreen.storyboard in Resources */,
 				01DD23AD1CA592EE0075E139 /* Assets.xcassets in Resources */,
 				013075101CB9BF5900A94A34 /* TitleScene.sks in Resources */,

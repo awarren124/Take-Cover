@@ -65,6 +65,8 @@ class TitleScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
+//        UILabel.appearance().font = UIFont(name: "VAGRound", size: 4)
+        
         //Get NSUserDefaults
         if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
             Cloud.currency = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey)
@@ -193,7 +195,7 @@ class TitleScene: SKScene {
         currencyLabel.frame.size = CGSize(width: 60, height: 15)
         currencyLabel.center = CGPointMake(self.view!.center.x, self.view!.frame.minY + 10)
         currencyLabel.textAlignment = NSTextAlignment.Right
-        currencyLabel.font = currencyLabel.font.fontWithSize(20)
+        currencyLabel.font = UIFont(name: "VAGRound", size: 20)
         self.view!.addSubview(currencyLabel)
         
         var buttonPos: CGFloat = 200

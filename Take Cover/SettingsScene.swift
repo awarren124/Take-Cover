@@ -54,7 +54,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                    origin: nil,
                    size: nil,
                    text: "Show Tutorial",
-                   specialFont: nil)
+                   specialFontSize: nil)
         
         //Back button
         setupButton(backButton,
@@ -81,7 +81,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                    origin: nil,
                    size: nil,
                    text: "SETTINGS",
-                   specialFont: settingsLabel.font.fontWithSize(50))
+                   specialFontSize: 50)
         
         //Sound description
         setupLabel(soundDesc,
@@ -89,7 +89,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                    origin: nil,
                    size: nil,
                    text: "Music",
-                   specialFont: nil)
+                   specialFontSize: nil)
         
         //Feedback description
         setupLabel(feedDesc,
@@ -97,7 +97,7 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
                    origin: nil,
                    size: nil,
                    text: "FeedBack",
-                   specialFont: nil)
+                   specialFontSize: nil)
         
         //Feedback help
         setupButton(feedHelp,
@@ -261,10 +261,11 @@ class SettingsScene: SKScene, MFMailComposeViewControllerDelegate{
         self.view!.addSubview(button)
     }
     
-    func setupLabel(label: UILabel, center: CGPoint?, origin: CGPoint?, size: CGSize?, text: String, specialFont: UIFont?){
+    func setupLabel(label: UILabel, center: CGPoint?, origin: CGPoint?, size: CGSize?, text: String, specialFontSize: CGFloat?){
         label.text = text
-        if specialFont != nil {
-            label.font = specialFont!
+        label.font = UIFont(name: "VAGRound", size: 17)
+        if specialFontSize != nil {
+            label.font = UIFont(name: "VAGRound", size: specialFontSize!)
         }
         if size != nil {
             label.frame.size = size!

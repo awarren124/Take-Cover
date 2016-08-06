@@ -100,7 +100,7 @@ class ShopScene: SKScene {
                    origin: nil,
                    size: CGSizeMake(500, 100),
                    text: "SHOP",
-                   specialFont: shopLabel.font.fontWithSize(50))
+                   specialFontSize: 50)
         if Cloud.model == "iPhone 4s" {
             shopLabel.frame.origin.x = self.view!.frame.origin.x - self.view!.frame.maxX + 45
         }
@@ -122,7 +122,7 @@ class ShopScene: SKScene {
                    origin: nil,
                    size: CGSizeMake(60, 15),
                    text: String(Cloud.currency),
-                   specialFont: currencyLabel.font.fontWithSize(20))
+                   specialFontSize: 20)
         
         //Append lock image to arrays
         for _ in 1...themeStrings.count {
@@ -244,6 +244,7 @@ class ShopScene: SKScene {
                 currencyLabelArray[thisIt].text = ""
             }
             currencyLabelArray[thisIt].textAlignment = NSTextAlignment.Center
+            currencyLabelArray[thisIt].font = UIFont(name: "VAGRound", size: 17)
         }
     }
     
@@ -455,10 +456,11 @@ class ShopScene: SKScene {
         self.view!.addSubview(button)
     }
     
-    func setupLabel(label: UILabel, center: CGPoint?, origin: CGPoint?, size: CGSize?, text: String, specialFont: UIFont?){
+    func setupLabel(label: UILabel, center: CGPoint?, origin: CGPoint?, size: CGSize?, text: String, specialFontSize: CGFloat?){
         label.text = text
-        if specialFont != nil {
-            label.font = specialFont!
+        label.font = UIFont(name: "VAGRound", size: 17)
+        if specialFontSize != nil {
+            label.font = UIFont(name: "VAGRound", size: specialFontSize!)
         }
         if size != nil {
             label.frame.size = size!

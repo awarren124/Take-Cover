@@ -603,6 +603,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate{
                     title: "Restart",
                     selector: #selector(GameScene.reset),
                     superview: panel)
+        restartButton.titleLabel!.font = UIFont(name: "VAGRound", size: 17)
         restartButton.backgroundColor = UIColor.blackColor()
         scoreLabelText.textAlignment = NSTextAlignment.Center
         
@@ -882,6 +883,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate{
     
     func setupLabel(label: UILabel, center: CGPoint?, origin: CGPoint?, size: CGSize?, text: String, superview: UIView, numberOfLines: Int){
         label.text = text
+        label.font = UIFont(name: "VAGRound", size: 17)
         label.numberOfLines = numberOfLines
         if size != nil {
             label.frame.size = size!
