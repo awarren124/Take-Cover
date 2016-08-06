@@ -294,7 +294,7 @@ class ShopScene: SKScene {
                     index.center.x += 1000
                 }
                 self.backWhite.center.x += 1000
-                self.changeColorButton.center.x -= 1000
+                self.changeColorButton.center.x += 1000
             })
             segmentedControlNum = 1
         default:

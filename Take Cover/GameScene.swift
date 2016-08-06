@@ -58,6 +58,18 @@ class GameScene: SKScene, UIGestureRecognizerDelegate{
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        
+        if Cloud.sound {
+            delay(2.1){
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let titleMusicPlayer = appDelegate.musicPlayer
+            titleMusicPlayer.stop()
+            appDelegate.music = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("GameMusic", ofType: "mp3")!)
+            titleMusicPlayer.volume = 1
+            appDelegate.play()
+            }
+        }
+        
         if Cloud.showTutorial {
             makeTutorialView()
             tutorialBeingShown = true

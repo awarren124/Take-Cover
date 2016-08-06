@@ -276,8 +276,16 @@ class TitleScene: SKScene {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let titleMusicPlayer = appDelegate.musicPlayer
         
-        if Cloud.sound && !titleMusicPlayer.playing {
-            titleMusicPlayer.play()
+        if Cloud.sound {
+            if !titleMusicPlayer.playing {
+                titleMusicPlayer.play()
+            }else if appDelegate.music == NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("GameMusic", ofType: "mp3")!){
+                fadeVolumeAndPause()
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                    appDelegate.music = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
+                    appDelegate.play()
+                })
+            }
         }
 
     }
@@ -357,6 +365,7 @@ class TitleScene: SKScene {
     func fadeVolumeAndPause(){
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let titleMusicPlayer = appDelegate.musicPlayer
+        print(titleMusicPlayer.volume)
         if titleMusicPlayer.volume > 0.1 {
             titleMusicPlayer.volume = titleMusicPlayer.volume - 0.1
             
