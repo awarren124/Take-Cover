@@ -24,6 +24,7 @@
 		01DD23B01CA592EE0075E139 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01DD23AE1CA592EE0075E139 /* LaunchScreen.storyboard */; };
 		01DD23BB1CA592EE0075E139 /* Take_CoverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DD23BA1CA592EE0075E139 /* Take_CoverTests.swift */; };
 		01DD23C61CA592EE0075E139 /* Take_CoverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DD23C51CA592EE0075E139 /* Take_CoverUITests.swift */; };
+		01EF21591D4852D500E79CF2 /* GameMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 01EF21581D4852D500E79CF2 /* GameMusic.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		01DD23C11CA592EE0075E139 /* Take CoverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Take CoverUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01DD23C51CA592EE0075E139 /* Take_CoverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Take_CoverUITests.swift; sourceTree = "<group>"; };
 		01DD23C71CA592EE0075E139 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		01EF21581D4852D500E79CF2 /* GameMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = GameMusic.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 		013075171CB9EE3300A94A34 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				01EF21581D4852D500E79CF2 /* GameMusic.mp3 */,
 				01DD23B11CA592EE0075E139 /* Info.plist */,
 				0130751A1CB9F07A00A94A34 /* TitleMusicv3.mp3 */,
 			);
@@ -288,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01DD23A41CA592EE0075E139 /* GameScene.sks in Resources */,
+				01EF21591D4852D500E79CF2 /* GameMusic.mp3 in Resources */,
 				01DD23B01CA592EE0075E139 /* LaunchScreen.storyboard in Resources */,
 				01DD23AD1CA592EE0075E139 /* Assets.xcassets in Resources */,
 				013075101CB9BF5900A94A34 /* TitleScene.sks in Resources */,

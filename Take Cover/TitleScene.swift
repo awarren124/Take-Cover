@@ -58,7 +58,6 @@ class TitleScene: SKScene {
     var playButton = UIButton()
     var shopButton = UIButton()
     let settingsButton = UIButton()
-    let titleMusic = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("TitleMusicv3", ofType: "mp3")!)
     let currencyLabel = UILabel()
     var cornerImages = [UIImageView]()
     let cornerImageStrings = ["ul", "ur", "ll", "lr"]
@@ -82,7 +81,7 @@ class TitleScene: SKScene {
         if let themeString = NSUserDefaults.standardUserDefaults().stringForKey(DefaultsKeys.themeStringKey) {
             Cloud.themeString = themeString
         }
-        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.currencyKey) as Int? != nil {
+        if NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.highScoreKey) as Int? != nil {
             Cloud.highScore = NSUserDefaults.standardUserDefaults().integerForKey(DefaultsKeys.highScoreKey)
         }
         if let soundBool = NSUserDefaults.standardUserDefaults().boolForKey(DefaultsKeys.musicKey) as Bool? {
@@ -272,6 +271,13 @@ class TitleScene: SKScene {
                 }
             })
             Cloud.backFromShop = false
+        }
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let titleMusicPlayer = appDelegate.musicPlayer
+        
+        if Cloud.sound && !titleMusicPlayer.playing {
+            titleMusicPlayer.play()
         }
 
     }
