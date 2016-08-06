@@ -114,6 +114,8 @@ class ShopScene: SKScene {
         controller.layer.cornerRadius = 5.0
         controller.layer.borderWidth = 2
         controller.layer.borderColor = UIColor.blackColor().CGColor
+        let attr = NSDictionary(object: UIFont(name: "VAGRound", size: 17)!, forKey: NSFontAttributeName)
+        controller.setTitleTextAttributes(attr as [NSObject : AnyObject] , forState: .Normal)
         self.view!.addSubview(controller)
         
         //Currency label
