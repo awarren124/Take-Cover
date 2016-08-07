@@ -148,11 +148,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate{
         //Score label
         setupLabel(scoreLabel,
                    center: nil,
-                   origin: CGPointMake(20, 20),
-                   size: CGSizeMake(30, 120),
+                   origin: CGPointMake(self.view!.frame.maxX - 50, 20),
+                   size: nil,
                    text: "0",
                    superview: self.view!,
                    numberOfLines: 1)
+        scoreLabel.font = UIFont(name: "VAGRound", size: 30)
         
         for _ in 1...3 {
             arrayOfRectanglesUnderCovers.append(nil)
@@ -265,6 +266,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate{
     
     override func update(currentTime: CFTimeInterval) {
         scoreLabel.text = String(score)
+        scoreLabel.sizeToFit()
         if !gameOver {                                      //If the game is not over
             if doneFalling {                                //If the shade is done falling
                 if !itIsPaused {                            //If the game is not paused
@@ -647,10 +649,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate{
                 UIView.animateWithDuration(0.5, animations: {
                     self.restartButtonInPauseMenu.alpha = 0.0
                     self.backButton.alpha = 0.0
-                    
-                })
-            }else{
-                UIView.animateWithDuration(0.5, animations: {
                     self.pauseButton.alpha = 1.0
                 })
             }

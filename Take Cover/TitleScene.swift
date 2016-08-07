@@ -343,7 +343,9 @@ class TitleScene: SKScene {
                     image.removeFromSuperview()
                 }
         })
-        fadeVolumeAndPause()
+        if Cloud.sound {
+            fadeVolumeAndPause()
+        }
     }
     
     //If shop button pressed
